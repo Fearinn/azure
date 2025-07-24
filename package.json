@@ -1,0 +1,26 @@
+{
+  "name": "azure",
+  "version": "1.0.0",
+  "description": "",
+  "main": "azure.js",
+  "scripts": {
+    "build:ts": "tsc",
+    "build:scss": "sass --no-source-map src/azure.scss azure.css",
+    "watch:ts": "tsc --watch",
+    "watch:scss": "sass --watch --no-source-map src/azure.scss azure.css",
+    "watch": "pnpm run /^watch:.*/",
+    "build": "pnpm run build:ts && pnpm run build:scss"
+  },
+  "author": "Matheus Gomes",
+  "license": "MIT",
+  "dependencies": {
+    "bga-animations": "thoun/bga-animations#1.1.1",
+    "bga-cards": "thoun/bga-cards#3.1.5",
+    "bga-help": "thoun/bga-help#1.0.0",
+    "bga-zoom": "thoun/bga-zoom#1.0.4"
+  },
+  "devDependencies": {
+    "sass": "^1.32.6",
+    "typescript": "^5"
+  }
+}
