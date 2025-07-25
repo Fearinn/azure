@@ -2006,7 +2006,6 @@ var Azure = /** @class */ (function (_super) {
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {
-        console.log(gamedatas.realm, "TEST");
         this.setupNotifications();
     };
     Azure.prototype.onEnteringState = function (stateName, args) { };

@@ -21,23 +21,27 @@ class SpaceManager extends Subclass
                 $rotated[$size + 1 - $y][$x] = $original[$x][$y];
             }
         }
+
         return $rotated;
     }
 
-    private function rotateGrid(array $grid): array
+    private function rotateGrid(array $grid, int $domain_id): array
     {
         $times = bga_rand(0, 3);
+        $rotations = (array) $this->globals->get(G_DOMAINS_ROTATIONS, []);
 
-        for ($t = 0; $t <= $times; $t++) {
-            $this->rotate90($grid);
+        $rotations[$domain_id] = $times;
+        $this->globals->set(G_DOMAINS_ROTATIONS, $rotations);
+
+        for ($t = 1; $t <= $times; $t++) {
+            $grid = $this->rotate90($grid);
         }
 
         return $grid;
     }
 
-    private function placeGrids(array $grids): void
+    private function placeGrids(array $grids, array $domain_ids): void
     {
-        shuffle($grids);
         $realm = [];
 
         $positions = [
@@ -47,9 +51,11 @@ class SpaceManager extends Subclass
             [4, 4], // D3: bottom-right
         ];
 
-        foreach ($grids as $i => $grid) {
+        foreach ($domain_ids as $domain_id) {
+            $grid = $grids[$domain_id];
+
             $size = count($grid);
-            [$offsetX, $offsetY] = $positions[$i];
+            [$offsetX, $offsetY] = array_shift($positions);
 
             for ($x = 1; $x <= $size; $x++) {
                 for ($y = 1; $y <= $size; $y++) {
@@ -71,9 +77,13 @@ class SpaceManager extends Subclass
         foreach ($this->DOMAINS as $domain_id => $domain) {
             $side = bga_rand(1, 2);
             $grid = (array) $domain["sides"][$side];
-            $grids[] = $this->rotateGrid($grid);
+            $grids[$domain_id] = $this->rotateGrid($grid, $domain_id);
         }
 
-        $this->placeGrids($grids);
+        $domain_ids = array_keys($grids);
+        shuffle($domain_ids);
+        $this->globals->set(G_DOMAINS_ORDER, $domain_ids);
+
+        $this->placeGrids($grids, $domain_ids);
     }
 }
