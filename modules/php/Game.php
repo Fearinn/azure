@@ -22,6 +22,10 @@ namespace Bga\Games\Azure;
 
 class Game extends \Bga\GameFramework\Table
 {
+    public array $COLORS;
+    public array $DOMAINS;
+    public array $BEASTS;
+
     public function __construct()
     {
         parent::__construct();
