@@ -20,6 +20,8 @@ declare(strict_types=1);
 
 namespace Bga\Games\Azure;
 
+use Bga\Games\Azure\components\Spaces\SpaceManager;
+
 class Game extends \Bga\GameFramework\Table
 {
     public array $COLORS;
@@ -30,6 +32,13 @@ class Game extends \Bga\GameFramework\Table
     {
         parent::__construct();
 
+        require "material/material.inc.php";
+        require "material/domains.inc.php";
+        require "material/constants.inc.php";
+
+        $SpaceManager = new SpaceManager($this);
+        $SpaceManager->setup();
+
         $this->initGameStateLabels([]);
     }
 
@@ -37,15 +46,15 @@ class Game extends \Bga\GameFramework\Table
 
     protected function getAllDatas(): array
     {
-        $result = [];
 
         $current_player_id = (int) $this->getCurrentPlayerId();
 
-        $result["players"] = $this->getCollectionFromDb(
-            "SELECT `player_id` `id`, `player_score` `score` FROM `player`"
-        );
+        $gamedatas = [
+            "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
+            "realm" => $this->globals->get(G_REALM, []),
+        ];
 
-        return $result;
+        return $gamedatas;
     }
 
     protected function setupNewGame($players, $options = [])

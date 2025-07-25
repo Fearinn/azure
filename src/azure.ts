@@ -11,6 +11,7 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   constructor() {}
 
   public setup(gamedatas: any) {
+    console.log(gamedatas.realm, "TEST");
     this.setupNotifications();
   }
   public onEnteringState(stateName: string, args: any) {}

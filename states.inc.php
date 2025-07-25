@@ -24,7 +24,6 @@ $machinestates = [
         ->description(clienttranslate('${actplayer} must play a card or pass'))
         ->descriptionmyturn(clienttranslate('${you} must play a card or pass'))
         ->type(StateType::ACTIVE_PLAYER)
-        ->args('argPlayerTurn')
         ->possibleactions([
             'actPlayCard',
             'actPass',
