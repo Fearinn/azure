@@ -36,9 +36,6 @@ class Game extends \Bga\GameFramework\Table
         require "material/domains.inc.php";
         require "material/constants.inc.php";
 
-        $SpaceManager = new SpaceManager($this);
-        $SpaceManager->setup();
-
         $this->initGameStateLabels([]);
     }
 
@@ -46,7 +43,6 @@ class Game extends \Bga\GameFramework\Table
 
     protected function getAllDatas(): array
     {
-
         $current_player_id = (int) $this->getCurrentPlayerId();
 
         $gamedatas = [
@@ -85,6 +81,9 @@ class Game extends \Bga\GameFramework\Table
         $this->reattributeColorsBasedOnPreferences($players, $gameinfos["player_colors"]);
         $this->reloadPlayersBasicInfos();
         $this->activeNextPlayer();
+
+        $SpaceManager = new SpaceManager($this);
+        $SpaceManager->setup();
     }
 
     protected function zombieTurn(array $state, int $active_player): void
