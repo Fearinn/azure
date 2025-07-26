@@ -21,7 +21,7 @@ class AzureTemplate {
   }
 
   setupRealm() {
-    const { realm, domainsOrder, domainsRotations, domainsSides } =
+    const { realm, domainsOrder, domainsRotations, domainsSides, decksCounts } =
       this.gamedatas;
 
     const domainsElement = document.getElementById(`azr_domains`);
@@ -51,6 +51,14 @@ class AzureTemplate {
 
         const spaceElement = document.getElementById(`azr_space-${space_id}`);
       }
+    }
+
+    const decksElement = document.getElementById(`azr_decks`);
+    for (const domain_id in decksCounts) {
+      decksElement.insertAdjacentHTML(
+        `beforeend`,
+        `<div id="azr_deck-${domain_id}" class="azr_deck"></div>`
+      );
     }
   }
 

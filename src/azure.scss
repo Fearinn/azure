@@ -4,12 +4,14 @@
 @use "scss/realm";
 @use "scss/prefs";
 @use "components/Beasts/beasts";
+@use "components/Qi/qi";
 
 .azr_gameArea {
   position: relative;
   display: grid;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   padding: 8px;
   width: 100%;
   user-select: none;

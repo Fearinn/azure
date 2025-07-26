@@ -19,8 +19,6 @@ class Beast extends BeastManager {
         forceToElement: document.getElementById(`azr_space-${this.card.space_id}`),
       }
     );
-
-    console.log(this.card, "test");
   }
 
   getStock(): CardStock<BeastCard> {

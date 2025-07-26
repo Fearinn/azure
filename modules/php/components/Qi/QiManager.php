@@ -41,4 +41,34 @@ class QiManager extends CardManager
     {
         return $this->deck->countCardInLocation("deck-{$domain_id}");
     }
+
+    public function getDecksCounts(): array
+    {
+        $decksCounts = [];
+
+        foreach ($this->QI as $domain_id => $qi) {
+            $decksCounts[$domain_id] = $this->getDeckCount($domain_id);
+        }
+
+        $decksCounts[0] = $this->getDeckCount(0);
+
+        return $decksCounts;
+    }
+
+    public function getDeck(int $domain_id): array
+    {
+        $deck = $this->deck->getCardsInLocation("deck-{$domain_id}");
+        return array_values($deck);
+    }
+
+    public function getDecks(): array
+    {
+        $decks = [];
+
+        foreach ($this->QI as $domain_id => $qi) {
+            $decks[$domain_id] = $this->getDeck($domain_id);
+        }
+
+        return $decks;
+    }
 }

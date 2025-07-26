@@ -408,8 +408,11 @@ body > .card {
   box-shadow: none !important;
 }
 
-.azr_realm {
+:root {
   --domain-width: 500px;
+}
+
+.azr_realm {
   position: relative;
   box-shadow: 0 0 16px 4px #000000;
   aspect-ratio: 1;
@@ -484,11 +487,32 @@ body > .card {
   box-shadow: none !important;
 }
 
+:root {
+  --qi-width: 150px;
+}
+
+.azr_decks {
+  display: grid;
+  grid-template-columns: repeat(5, var(--qi-width));
+  justify-content: center;
+  gap: 16px;
+  width: calc(var(--domain-width) * 2);
+}
+
+.azr_qi {
+  aspect-ratio: 1/1.52;
+  width: var(--qi-width);
+}
+.azr_qi .card-side {
+  background-size: cover;
+}
+
 .azr_gameArea {
   position: relative;
   display: grid;
   align-items: center;
   justify-content: center;
+  gap: 16px;
   padding: 8px;
   width: 100%;
   user-select: none;

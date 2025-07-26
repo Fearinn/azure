@@ -46,7 +46,6 @@ class Game extends \Bga\GameFramework\Table
         $this->qi_cards->init("qi");
 
         $this->initGameStateLabels([]);
-
     }
 
     public function upgradeTableDb($from_version) {}
@@ -56,6 +55,7 @@ class Game extends \Bga\GameFramework\Table
         $current_player_id = (int) $this->getCurrentPlayerId();
 
         $BeastManager = new BeastManager($this);
+        $QiManager = new QiManager($this);
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
@@ -64,6 +64,8 @@ class Game extends \Bga\GameFramework\Table
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),
             "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
             "mountains" => $BeastManager->getMountains(),
+            "decksCounts" => $QiManager->getDecksCounts(),
+            "decks" => $QiManager->getDecks(),
         ];
 
         return $gamedatas;

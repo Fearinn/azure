@@ -20,6 +20,9 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
     const beastManager = new BeastManager(this);
     beastManager.setup();
 
+    const qiManager = new QiManager(this);
+    qiManager.setup();
+
     this.setupNotifications();
   }
   public onEnteringState(stateName: string, args: any) {}

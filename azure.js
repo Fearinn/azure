@@ -1730,6 +1730,83 @@ var Deck = /** @class */ (function (_super) {
     };
     return Deck;
 }(CardStock));
+var AllVisibleDeck = /** @class */ (function (_super) {
+    __extends(AllVisibleDeck, _super);
+    function AllVisibleDeck(manager, element, settings) {
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _this = _super.call(this, manager, element, settings) || this;
+        _this.manager = manager;
+        _this.element = element;
+        element.classList.add('all-visible-deck', (_a = settings.direction) !== null && _a !== void 0 ? _a : 'vertical');
+        var cardWidth = _this.manager.getCardWidth();
+        var cardHeight = _this.manager.getCardHeight();
+        if (cardWidth && cardHeight) {
+            _this.element.style.setProperty('--width', "".concat(cardWidth, "px"));
+            _this.element.style.setProperty('--height', "".concat(cardHeight, "px"));
+        }
+        else {
+            throw new Error("You need to set cardWidth and cardHeight in the card manager to use Deck.");
+        }
+        element.style.setProperty('--vertical-shift', (_c = (_b = settings.verticalShift) !== null && _b !== void 0 ? _b : settings.shift) !== null && _c !== void 0 ? _c : '3px');
+        element.style.setProperty('--horizontal-shift', (_e = (_d = settings.horizontalShift) !== null && _d !== void 0 ? _d : settings.shift) !== null && _e !== void 0 ? _e : '3px');
+        if (settings.counter && ((_f = settings.counter.show) !== null && _f !== void 0 ? _f : true)) {
+            _this.createCounter((_g = settings.counter.position) !== null && _g !== void 0 ? _g : 'bottom', (_h = settings.counter.extraClasses) !== null && _h !== void 0 ? _h : 'round', settings.counter.counterId);
+            if ((_j = settings.counter) === null || _j === void 0 ? void 0 : _j.hideWhenEmpty) {
+                _this.element.querySelector('.bga-cards_deck-counter').classList.add('hide-when-empty');
+                _this.element.dataset.empty = 'true';
+            }
+        }
+        return _this;
+    }
+    AllVisibleDeck.prototype.addCard = function (card, animation, settings) {
+        var promise;
+        var order = this.cards.length;
+        promise = _super.prototype.addCard.call(this, card, animation, settings);
+        var cardId = this.manager.getId(card);
+        var cardDiv = document.getElementById(cardId);
+        cardDiv.style.setProperty('--order', '' + order);
+        this.cardNumberUpdated();
+        return promise;
+    };
+    /**
+     * Set opened state. If true, all cards will be entirely visible.
+     *
+     * @param opened indicate if deck must be always opened. If false, will open only on hover/touch
+     */
+    AllVisibleDeck.prototype.setOpened = function (opened) {
+        this.element.classList.toggle('opened', opened);
+    };
+    AllVisibleDeck.prototype.cardRemoved = function (card) {
+        var _this = this;
+        _super.prototype.cardRemoved.call(this, card);
+        this.cards.forEach(function (c, index) {
+            var cardId = _this.manager.getId(c);
+            var cardDiv = document.getElementById(cardId);
+            cardDiv.style.setProperty('--order', '' + index);
+        });
+        this.cardNumberUpdated();
+    };
+    AllVisibleDeck.prototype.createCounter = function (counterPosition, extraClasses, counterId) {
+        var left = counterPosition.includes('right') ? 100 : (counterPosition.includes('left') ? 0 : 50);
+        var top = counterPosition.includes('bottom') ? 100 : (counterPosition.includes('top') ? 0 : 50);
+        this.element.style.setProperty('--bga-cards-deck-left', "".concat(left, "%"));
+        this.element.style.setProperty('--bga-cards-deck-top', "".concat(top, "%"));
+        this.element.insertAdjacentHTML('beforeend', "\n            <div ".concat(counterId ? "id=\"".concat(counterId, "\"") : '', " class=\"bga-cards_deck-counter ").concat(extraClasses, "\"></div>\n        "));
+    };
+    /**
+     * Updates the cards number, if the counter is visible.
+     */
+    AllVisibleDeck.prototype.cardNumberUpdated = function () {
+        var cardNumber = this.cards.length;
+        this.element.style.setProperty('--tile-count', '' + cardNumber);
+        this.element.dataset.empty = (cardNumber == 0).toString();
+        var counterDiv = this.element.querySelector('.bga-cards_deck-counter');
+        if (counterDiv) {
+            counterDiv.innerHTML = "".concat(cardNumber);
+        }
+    };
+    return AllVisibleDeck;
+}(CardStock));
 /**
  * A basic stock for a list of cards, based on flex.
  */
@@ -2242,6 +2319,8 @@ var Azure = /** @class */ (function (_super) {
         this.gamedatas.stocks = {};
         var beastManager = new BeastManager(this);
         beastManager.setup();
+        var qiManager = new QiManager(this);
+        qiManager.setup();
         this.setupNotifications();
     };
     Azure.prototype.onEnteringState = function (stateName, args) { };
@@ -2277,7 +2356,7 @@ var AzureTemplate = /** @class */ (function () {
         });
     };
     AzureTemplate.prototype.setupRealm = function () {
-        var _a = this.gamedatas, realm = _a.realm, domainsOrder = _a.domainsOrder, domainsRotations = _a.domainsRotations, domainsSides = _a.domainsSides;
+        var _a = this.gamedatas, realm = _a.realm, domainsOrder = _a.domainsOrder, domainsRotations = _a.domainsRotations, domainsSides = _a.domainsSides, decksCounts = _a.decksCounts;
         var domainsElement = document.getElementById("azr_domains");
         domainsOrder.forEach(function (domain_id) {
             var rotation = domainsRotations[domain_id] * 90;
@@ -2291,6 +2370,10 @@ var AzureTemplate = /** @class */ (function () {
                 spacesElement.insertAdjacentHTML("beforeend", "<div id=\"azr_space-".concat(space_id, "\" class=\"azr_space\" style=\"--x: ").concat(x, "; --y: ").concat(y, "\"></div>"));
                 var spaceElement = document.getElementById("azr_space-".concat(space_id));
             }
+        }
+        var decksElement = document.getElementById("azr_decks");
+        for (var domain_id in decksCounts) {
+            decksElement.insertAdjacentHTML("beforeend", "<div id=\"azr_deck-".concat(domain_id, "\" class=\"azr_deck\"></div>"));
         }
     };
     AzureTemplate.prototype.setupStocks = function () {
@@ -2355,10 +2438,93 @@ var Beast = /** @class */ (function (_super) {
         this.stocks.realm.addCard(this.card, {}, {
             forceToElement: document.getElementById("azr_space-".concat(this.card.space_id)),
         });
-        console.log(this.card, "test");
     };
     Beast.prototype.getStock = function () {
         return this.manager.getCardStock(this.card);
     };
     return Beast;
 }(BeastManager));
+var QiManager = /** @class */ (function () {
+    function QiManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.qi;
+        this.stocks = this.gamedatas.stocks.qi;
+    }
+    QiManager.prototype.create = function () {
+        var _a;
+        var manager = new CardManager(this.game, {
+            cardHeight: 228,
+            cardWidth: 150,
+            getId: function (_a) {
+                var type_arg = _a.type_arg;
+                return "azr_qi-".concat(type_arg);
+            },
+            selectedCardClass: "azr_selected",
+            selectableCardClass: "azr_selectable",
+            unselectableCardClass: "azr_unselectable",
+            setupDiv: function (_a, element) {
+                var type_arg = _a.type_arg;
+                element.classList.add("azr_qi");
+            },
+            setupFrontDiv: function (_a, element) {
+                var type_arg = _a.type_arg;
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_").concat(type_arg, ".jpg)");
+            },
+            setupBackDiv: function (_a, element) {
+                var type_arg = _a.type_arg;
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_0.jpg)");
+            },
+        });
+        var decksCounts = this.gamedatas.decksCounts;
+        var decks = {};
+        for (var d_id in decksCounts) {
+            var domain_id = Number(d_id);
+            if (domain_id === 0) {
+                continue;
+            }
+            var deck = new Deck(manager, document.getElementById("azr_deck-".concat(domain_id)), {
+                counter: {
+                    extraClasses: "text-shadow",
+                    position: "bottom",
+                },
+            });
+            decks = __assign(__assign({}, decks), (_a = {}, _a[domain_id] = deck, _a));
+        }
+        this.gamedatas.stocks.qi = {
+            decks: decks,
+        };
+        this.gamedatas.managers.qi = manager;
+    };
+    QiManager.prototype.setupStocks = function () {
+        var _this = this;
+        var decks = this.gamedatas.decks;
+        for (var domain_id in decks) {
+            var deck = decks[domain_id];
+            deck.forEach(function (card) {
+                var qi = new Qi(_this.game, card);
+                qi.setup();
+            });
+        }
+    };
+    QiManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    return QiManager;
+}());
+var Qi = /** @class */ (function (_super) {
+    __extends(Qi, _super);
+    function Qi(game, card) {
+        var _this = _super.call(this, game) || this;
+        _this.card = card;
+        return _this;
+    }
+    Qi.prototype.setup = function () {
+        this.stocks.decks[this.card.type_arg].addCard(this.card);
+    };
+    Qi.prototype.getStock = function () {
+        return this.manager.getCardStock(this.card);
+    };
+    return Qi;
+}(QiManager));

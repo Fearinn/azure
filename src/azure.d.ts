@@ -3,11 +3,13 @@ interface AzurePlayer extends Player {}
 interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   managers: {
     beasts?: CardManager<BeastCard>;
+    qi?: CardManager<QiCard>;
   };
   stocks: {
     beasts?: {
       realm: CardStock<BeastCard>;
     };
+    qi?: QiStocks;
   };
   realm: {
     [x: number]: {
@@ -22,6 +24,10 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     [domain_id: number]: number;
   };
   mountains: BeastCard[];
+  decksCounts: {
+    [domain_id: number]: number;
+  };
+  decks: { [domain_id: number]: QiCard[] };
 }
 
 interface AzureGui extends Game {}
