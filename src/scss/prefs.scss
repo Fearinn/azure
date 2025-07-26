@@ -1,11 +1,20 @@
+.player-name a,
+.playername {
+  text-shadow: 0 0 16px #003a4f;
+}
+
 .azr_pref-thematicBg {
   background-image: url("img/background.jpg");
   background-size: 100%;
 
   .player-board {
-    color: white;
+    color: #ffffff;
     background-image: url("img/background.jpg");
     background-size: cover;
     background-position: bottom;
+  }
+
+  .player-name a {
+    text-shadow: 0 0 16px #ffffff;
   }
 }

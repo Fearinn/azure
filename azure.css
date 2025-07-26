@@ -449,15 +449,23 @@ body > .card {
   justify-content: center;
 }
 
+.player-name a,
+.playername {
+  text-shadow: 0 0 16px #003a4f;
+}
+
 .azr_pref-thematicBg {
   background-image: url("img/background.jpg");
   background-size: 100%;
 }
 .azr_pref-thematicBg .player-board {
-  color: white;
+  color: #ffffff;
   background-image: url("img/background.jpg");
   background-size: cover;
   background-position: bottom;
+}
+.azr_pref-thematicBg .player-name a {
+  text-shadow: 0 0 16px #ffffff;
 }
 
 .azr_beasts {
