@@ -1,6 +1,14 @@
 interface AzurePlayer extends Player {}
 
 interface AzureGamedatas extends Gamedatas<AzurePlayer> {
+  managers: {
+    beasts?: CardManager<BeastCard>;
+  };
+  stocks: {
+    beasts?: {
+      realm: CardStock<BeastCard>;
+    };
+  };
   realm: {
     [x: number]: {
       [y: number]: number;
@@ -13,6 +21,15 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   domainsSides: {
     [domain_id: number]: number;
   };
+  beastCards: BeastCard[];
 }
 
 interface AzureGui extends Game {}
+
+interface AzureCard {
+  id: number;
+  type: string;
+  type_arg?: number;
+  location: string;
+  location_arg: number;
+}

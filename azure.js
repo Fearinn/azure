@@ -2236,8 +2236,12 @@ var Azure = /** @class */ (function (_super) {
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {
-        var template = new AzureTemplate(gamedatas);
+        var template = new AzureTemplate(this, gamedatas);
         template.setup();
+        this.gamedatas.managers = {};
+        this.gamedatas.stocks = {};
+        var beastManager = new BeastManager(this);
+        beastManager.setup();
         this.setupNotifications();
     };
     Azure.prototype.onEnteringState = function (stateName, args) { };
@@ -2256,7 +2260,8 @@ define([
     return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });
 var AzureTemplate = /** @class */ (function () {
-    function AzureTemplate(gamedatas) {
+    function AzureTemplate(game, gamedatas) {
+        this.game = game;
         this.gamedatas = gamedatas;
     }
     AzureTemplate.prototype.setupZoom = function () {
@@ -2285,9 +2290,73 @@ var AzureTemplate = /** @class */ (function () {
             }
         }
     };
+    AzureTemplate.prototype.setupStocks = function () {
+        var beastManager = new BeastManager(this.game);
+        beastManager.setup();
+    };
     AzureTemplate.prototype.setup = function () {
         this.setupZoom();
         this.setupRealm();
     };
     return AzureTemplate;
 }());
+var BeastManager = /** @class */ (function () {
+    function BeastManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.beasts;
+        this.stocks = this.gamedatas.stocks.beasts;
+    }
+    BeastManager.prototype.create = function () {
+        var manager = new CardManager(this.game, {
+            getId: function (_a) {
+                var id = _a.id;
+                return "azr_beast-".concat(id);
+            },
+            selectedCardClass: "azr_selected",
+            selectableCardClass: "azr_selectable",
+            unselectableCardClass: "azr_unselectable",
+            setupDiv: function (_a, element) {
+                var id = _a.id;
+                element.classList.add("azr_beast");
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(id, ".png)");
+            },
+        });
+        this.gamedatas.stocks.beasts = {
+            realm: new CardStock(manager, document.getElementById("azr_beasts"), {}),
+        };
+        this.gamedatas.managers.beasts = manager;
+    };
+    BeastManager.prototype.setupStocks = function () {
+        var _this = this;
+        var beastCards = this.gamedatas.beastCards;
+        beastCards.forEach(function (card) {
+            var beast = new Beast(_this.game, card);
+            beast.setup();
+        });
+        console.log(beastCards);
+    };
+    BeastManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    return BeastManager;
+}());
+var Beast = /** @class */ (function (_super) {
+    __extends(Beast, _super);
+    function Beast(game, card) {
+        var _this = _super.call(this, game) || this;
+        _this.card = card;
+        return _this;
+    }
+    Beast.prototype.setup = function () {
+        this.stocks.realm.addCard(this.card, {}, {
+            forceToElement: document.getElementById("azr_space-".concat(this.card.space_id)),
+        });
+        console.log(this.card, "test");
+    };
+    Beast.prototype.getStock = function () {
+        return this.manager.getCardStock(this.card);
+    };
+    return Beast;
+}(BeastManager));

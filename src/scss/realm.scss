@@ -23,14 +23,18 @@
 }
 
 .azr_spaces {
+  --space-width: calc(var(--domain-width) / 3);
   display: grid;
-  grid-template-columns: repeat(3, calc(var(--domain-width) / 3));
-  grid-template-rows: repeat(3, calc(var(--domain-width) / 3));
+  grid-template-columns: repeat(3, var(--space-width));
+  grid-template-rows: repeat(3, var(--space-width));
 }
 
 .azr_space {
   aspect-ratio: 1;
-  width: calc(var(--domain-width) / 3);
+  width: var(--space-width);
   grid-column: var(--x);
   grid-row: var(--y);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

@@ -1,7 +1,9 @@
 class AzureTemplate {
+  private game: Azure;
   private gamedatas: AzureGamedatas;
 
-  constructor(gamedatas: AzureGamedatas) {
+  constructor(game: Azure, gamedatas: AzureGamedatas) {
+    this.game = game;
     this.gamedatas = gamedatas;
   }
 
@@ -47,6 +49,11 @@ class AzureTemplate {
         const spaceElement = document.getElementById(`azr_space-${space_id}`);
       }
     }
+  }
+
+  setupStocks() {
+    const beastManager = new BeastManager(this.game);
+    beastManager.setup();
   }
 
   setup() {

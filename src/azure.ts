@@ -11,8 +11,14 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   constructor() {}
 
   public setup(gamedatas: AzureGamedatas) {
-    const template = new AzureTemplate(gamedatas);
+    const template = new AzureTemplate(this, gamedatas);
     template.setup();
+
+    this.gamedatas.managers = {};
+    this.gamedatas.stocks = {};
+
+    const beastManager = new BeastManager(this);
+    beastManager.setup();
 
     this.setupNotifications();
   }

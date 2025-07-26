@@ -1,0 +1,16 @@
+.azr_beasts {
+  --beast-width: calc(var(--space-width) * 0.8);
+}
+
+.azr_beast {
+  --beast-width: calc(var(--space-width) * 0.8);
+  position: relative;
+  aspect-ratio: 1;
+  background-size: cover;
+  width: var(--beast-width);
+  filter: drop-shadow(0 0 8px #000000);
+
+  * {
+    box-shadow: none !important;
+  }
+}

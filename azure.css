@@ -433,16 +433,36 @@ body > .card {
 }
 
 .azr_spaces {
+  --space-width: calc(var(--domain-width) / 3);
   display: grid;
-  grid-template-columns: repeat(3, calc(var(--domain-width) / 3));
-  grid-template-rows: repeat(3, calc(var(--domain-width) / 3));
+  grid-template-columns: repeat(3, var(--space-width));
+  grid-template-rows: repeat(3, var(--space-width));
 }
 
 .azr_space {
   aspect-ratio: 1;
-  width: calc(var(--domain-width) / 3);
+  width: var(--space-width);
   grid-column: var(--x);
   grid-row: var(--y);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.azr_beasts {
+  --beast-width: calc(var(--space-width) * 0.8);
+}
+
+.azr_beast {
+  --beast-width: calc(var(--space-width) * 0.8);
+  position: relative;
+  aspect-ratio: 1;
+  background-size: cover;
+  width: var(--beast-width);
+  filter: drop-shadow(0 0 8px #000000);
+}
+.azr_beast * {
+  box-shadow: none !important;
 }
 
 .azr_gameArea {
