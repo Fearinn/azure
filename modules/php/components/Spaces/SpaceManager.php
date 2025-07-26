@@ -28,8 +28,8 @@ class SpaceManager extends Subclass
     private function rotateGrid(array $grid, int $domain_id): array
     {
         $times = bga_rand(0, 3);
-        $rotations = (array) $this->globals->get(G_DOMAINS_ROTATIONS, []);
 
+        $rotations = (array) $this->globals->get(G_DOMAINS_ROTATIONS, []);
         $rotations[$domain_id] = $times;
         $this->globals->set(G_DOMAINS_ROTATIONS, $rotations);
 
@@ -74,11 +74,15 @@ class SpaceManager extends Subclass
     public function setup(): void
     {
         $grids = [];
+        $domainsSides = [];
         foreach ($this->DOMAINS as $domain_id => $domain) {
             $side = bga_rand(1, 2);
+            $domainsSides[$domain_id] = $side;
+
             $grid = (array) $domain["sides"][$side];
             $grids[$domain_id] = $this->rotateGrid($grid, $domain_id);
         }
+        $this->globals->set(G_DOMAINS_SIDES, $domainsSides);
 
         $domain_ids = array_keys($grids);
         shuffle($domain_ids);

@@ -2006,6 +2006,8 @@ var Azure = /** @class */ (function (_super) {
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {
+        var template = new AzureTemplate(gamedatas);
+        template.setup();
         this.setupNotifications();
     };
     Azure.prototype.onEnteringState = function (stateName, args) { };
@@ -2023,3 +2025,26 @@ define([
     window.BgaAutoFit = BgaAutoFit;
     return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });
+var AzureTemplate = /** @class */ (function () {
+    function AzureTemplate(gamedatas) {
+        this.gamedatas = gamedatas;
+    }
+    AzureTemplate.prototype.setup = function () {
+        var _a = this.gamedatas, realm = _a.realm, domainsOrder = _a.domainsOrder, domainsRotations = _a.domainsRotations, domainsSides = _a.domainsSides;
+        var domainsElement = document.getElementById("azr_domains");
+        domainsOrder.forEach(function (domain_id) {
+            var rotation = domainsRotations[domain_id] * 90;
+            var side = domainsSides[domain_id];
+            domainsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_domain-".concat(domain_id, "\" class=\"azr_domain\" \n        style=\"background-image: url(").concat(g_gamethemeurl, "img/domain_").concat(domain_id).concat(side, ".jpg); --rotation: ").concat(rotation, "deg; --side: ").concat(side, "; --domain: ").concat(domain_id, "\"></div>\n      "));
+        });
+        var spacesElement = document.getElementById("azr_spaces");
+        for (var x in realm) {
+            for (var y in realm[x]) {
+                var space_id = realm[x][y];
+                spacesElement.insertAdjacentHTML("beforeend", "<div id=\"azr_space-".concat(space_id, "\" class=\"azr_space\" style=\"--x: ").concat(x, "; --y: ").concat(y, "\"></div>"));
+                var spaceElement = document.getElementById("azr_space-".concat(space_id));
+            }
+        }
+    };
+    return AzureTemplate;
+}());

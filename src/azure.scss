@@ -1,3 +1,14 @@
 @use "scss/bga-zoom";
 @use "scss/bga-help";
 @use "scss/bga-cards";
+@use "scss/realm";
+
+.azr_gameArea {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  width: 100%;
+  user-select: none;
+}

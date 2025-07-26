@@ -10,7 +10,10 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   // @ts-ignore
   constructor() {}
 
-  public setup(gamedatas: any) {
+  public setup(gamedatas: AzureGamedatas) {
+    const template = new AzureTemplate(gamedatas);
+    template.setup();
+
     this.setupNotifications();
   }
   public onEnteringState(stateName: string, args: any) {}

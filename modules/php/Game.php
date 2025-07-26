@@ -54,6 +54,7 @@ class Game extends \Bga\GameFramework\Table
             "realm" => $this->globals->get(G_REALM),
             "domainsOrder" => $this->globals->get(G_DOMAINS_ORDER),
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),
+            "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
         ];
 
         return $gamedatas;

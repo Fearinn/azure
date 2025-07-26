@@ -407,3 +407,50 @@ body > .card {
 .deck .card .card-side {
   box-shadow: none !important;
 }
+
+.azr_realm {
+  --domain-width: 500px;
+  position: relative;
+  box-shadow: 0 0 16px 4px #000000;
+  aspect-ratio: 1;
+  width: calc(var(--domain-width) * 2);
+}
+
+.azr_domains {
+  position: absolute;
+  display: grid;
+  grid-template-columns: repeat(2, var(--domain-width));
+  grid-template-rows: repeat(2, var(--domain-width));
+  z-index: -1;
+}
+
+.azr_domain {
+  background-size: cover;
+  aspect-ratio: 1;
+  width: var(--domain-width);
+  transform: rotate(var(--rotation));
+  pointer-events: none;
+}
+
+.azr_spaces {
+  display: grid;
+  grid-template-columns: repeat(3, calc(var(--domain-width) / 3));
+  grid-template-rows: repeat(3, calc(var(--domain-width) / 3));
+}
+
+.azr_space {
+  aspect-ratio: 1;
+  width: calc(var(--domain-width) / 3);
+  grid-column: var(--x);
+  grid-row: var(--y);
+}
+
+.azr_gameArea {
+  position: relative;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  width: 100%;
+  user-select: none;
+}
