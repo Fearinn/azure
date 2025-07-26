@@ -2329,12 +2329,11 @@ var BeastManager = /** @class */ (function () {
     };
     BeastManager.prototype.setupStocks = function () {
         var _this = this;
-        var beastCards = this.gamedatas.beastCards;
-        beastCards.forEach(function (card) {
+        var mountains = this.gamedatas.mountains;
+        mountains.forEach(function (card) {
             var beast = new Beast(_this.game, card);
             beast.setup();
         });
-        console.log(beastCards);
     };
     BeastManager.prototype.setup = function () {
         this.create();

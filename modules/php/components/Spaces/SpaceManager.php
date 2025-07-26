@@ -62,8 +62,8 @@ class SpaceManager extends Subclass
                     $realmX = $offsetX + $x - 1;
                     $realmY = $offsetY + $y - 1;
 
-                    $cell = $grid[$x][$y];
-                    $realm[$realmX][$realmY] = $cell["id"];
+                    $space_id = (int) $grid[$x][$y];
+                    $realm[$realmX][$realmY] = $space_id;
                 }
             }
         }
@@ -79,7 +79,7 @@ class SpaceManager extends Subclass
             $side = bga_rand(1, 2);
             $domainsSides[$domain_id] = $side;
 
-            $grid = (array) $domain["sides"][$side];
+            $grid = (array) $domain[$side];
             $grids[$domain_id] = $this->rotateGrid($grid, $domain_id);
         }
         $this->globals->set(G_DOMAINS_SIDES, $domainsSides);

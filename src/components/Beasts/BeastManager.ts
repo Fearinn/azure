@@ -44,13 +44,11 @@ class BeastManager {
   }
 
   setupStocks(): void {
-    const { beastCards } = this.gamedatas;
-    beastCards.forEach((card) => {
+    const { mountains } = this.gamedatas;
+    mountains.forEach((card) => {
       const beast = new Beast(this.game, card);
       beast.setup();
     });
-
-    console.log(beastCards);
   }
 
   setup(): void {

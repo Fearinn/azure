@@ -21,7 +21,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   domainsSides: {
     [domain_id: number]: number;
   };
-  beastCards: BeastCard[];
+  mountains: BeastCard[];
 }
 
 interface AzureGui extends Game {}

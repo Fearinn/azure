@@ -28,6 +28,7 @@ class Game extends \Bga\GameFramework\Table
     public array $COLORS;
     public array $DOMAINS;
     public array $BEASTS;
+    public array $SPACES;
 
     public function __construct()
     {
@@ -54,7 +55,7 @@ class Game extends \Bga\GameFramework\Table
             "domainsOrder" => $this->globals->get(G_DOMAINS_ORDER),
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),
             "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
-            "beastCards" => $BeastManager->getBeasts(),
+            "mountains" => $BeastManager->getMountains(),
         ];
 
         return $gamedatas;

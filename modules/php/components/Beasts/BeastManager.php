@@ -12,22 +12,29 @@ class BeastManager extends Subclass
         parent::__construct($game);
     }
 
-    public function getBeasts(): array
+    public function getMountains(): array
     {
         $realm = $this->globals->get(G_REALM);
-        $locations = [];
+        $mountains = [];
 
         foreach ($realm as $x => $column) {
             foreach ($column as $y => $space_id) {
-                [$domain_id, $side, $space_x, $space_y] = str_split((string) $space_id);
-                $space = $this->DOMAINS[$domain_id]["sides"][$side][$space_x][$space_y];
+                $space = (array) $this->SPACES[$space_id];
+                $domain_id = (int) $space["domain"];
+                $qi = (int) $space["qi"];
+                $wisdom = (int) $space["wisdom"];
 
-                if ($space["qi"] + $space["wisdom"] === 0) {
-                    $locations[] = ["id" => (int) $domain_id, "space_id" => $space_id, "x" => $x, "y" => $y];
+                if ($qi + $wisdom === 0) {
+                    $mountains[] = [
+                        "id" => $domain_id,
+                        "space_id" => $space_id,
+                        "x" => $x,
+                        "y" => $y
+                    ];
                 }
             }
         }
 
-        return $locations;
+        return $mountains;
     }
 }
