@@ -1,0 +1,11 @@
+.azr_pref-thematicBg {
+  background-image: url("img/background.jpg");
+  background-size: 100%;
+
+  .player-board {
+    color: white;
+    background-image: url("img/background.jpg");
+    background-size: cover;
+    background-position: bottom;
+  }
+}

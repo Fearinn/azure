@@ -449,6 +449,17 @@ body > .card {
   justify-content: center;
 }
 
+.azr_pref-thematicBg {
+  background-image: url("img/background.jpg");
+  background-size: 100%;
+}
+.azr_pref-thematicBg .player-board {
+  color: white;
+  background-image: url("img/background.jpg");
+  background-size: cover;
+  background-position: bottom;
+}
+
 .azr_beasts {
   --beast-width: calc(var(--space-width) * 0.8);
 }
