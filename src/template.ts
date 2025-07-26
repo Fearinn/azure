@@ -5,7 +5,17 @@ class AzureTemplate {
     this.gamedatas = gamedatas;
   }
 
-  setup() {
+  setupZoom() {
+    new ZoomManager({
+      element: document.getElementById(`azr_gameArea`),
+      localStorageZoomKey: "azr-zoom",
+      zoomLevels: [
+        0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
+      ],
+    });
+  }
+
+  setupRealm() {
     const { realm, domainsOrder, domainsRotations, domainsSides } =
       this.gamedatas;
 
@@ -28,6 +38,7 @@ class AzureTemplate {
     for (const x in realm) {
       for (const y in realm[x]) {
         const space_id = realm[x][y];
+
         spacesElement.insertAdjacentHTML(
           `beforeend`,
           `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
@@ -36,5 +47,10 @@ class AzureTemplate {
         const spaceElement = document.getElementById(`azr_space-${space_id}`);
       }
     }
+  }
+
+  setup() {
+    this.setupZoom();
+    this.setupRealm();
   }
 }

@@ -10,7 +10,7 @@
   "include": ["src/**/*.ts"],
   "files": [
     "bga-framework.d.ts",
-    "bga-zoom.d.ts",
+    "node_modules/bga-zoom/src/zoom-manager.ts",
     "node_modules/bga-help/src/help-manager.ts",
     "node_modules/bga-animations/src/animations.ts",
     "node_modules/bga-animations/src/animations/attach-with-animation.ts",
@@ -23,8 +23,8 @@
     "node_modules/bga-animations/src/animation-manager.ts",
     "node_modules/bga-cards/src/animations.ts",
     "node_modules/bga-cards/src/stocks/card-stock.ts",
+    "node_modules/bga-cards/src/stocks/hand-stock.ts",
     "node_modules/bga-cards/src/stocks/deck.ts",
-    "node_modules/bga-cards/src/stocks/all-visible-deck.ts",
     "node_modules/bga-cards/src/stocks/line-stock.ts",
     "node_modules/bga-cards/src/stocks/slot-stock.ts",
     "node_modules/bga-cards/src/stocks/void-stock.ts",
