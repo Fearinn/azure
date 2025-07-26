@@ -1,16 +1,20 @@
 <?php
 
-$this->COLORS = [
+$this->QI = [
     1 => [
+        "name" => "azure",
         "label" => clienttranslate("Azure"),
     ],
     2 => [
+        "name" => "white",
         "label" => clienttranslate("White"),
     ],
     3 => [
+        "name" => "vermillion",
         "label" => clienttranslate("Vermillion"),
     ],
     4 => [
+        "name" => "black",
         "label" => clienttranslate("Black"),
     ]
 ];

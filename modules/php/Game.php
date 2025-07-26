@@ -20,15 +20,19 @@ declare(strict_types=1);
 
 namespace Bga\Games\Azure;
 
+use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\components\Beasts\BeastManager;
+use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 
 class Game extends \Bga\GameFramework\Table
 {
-    public array $COLORS;
-    public array $DOMAINS;
-    public array $BEASTS;
-    public array $SPACES;
+    public readonly array $QI;
+    public readonly array $DOMAINS;
+    public readonly array $BEASTS;
+    public readonly array $SPACES;
+
+    public Deck $qi_cards;
 
     public function __construct()
     {
@@ -38,7 +42,11 @@ class Game extends \Bga\GameFramework\Table
         require "material/domains.inc.php";
         require "material/constants.inc.php";
 
+        $this->qi_cards = $this->getNew("module.common.deck");
+        $this->qi_cards->init("qi");
+
         $this->initGameStateLabels([]);
+
     }
 
     public function upgradeTableDb($from_version) {}
@@ -88,6 +96,9 @@ class Game extends \Bga\GameFramework\Table
 
         $SpaceManager = new SpaceManager($this);
         $SpaceManager->setup();
+
+        $QiManager = new QiManager($this);
+        $QiManager->setup();
     }
 
     protected function zombieTurn(array $state, int $active_player): void
