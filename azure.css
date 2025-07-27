@@ -507,6 +507,10 @@ body > .card {
   background-size: cover;
 }
 
+.azr_deckCounter {
+  font-size: 32px !important;
+}
+
 .azr_gameArea {
   position: relative;
   display: grid;

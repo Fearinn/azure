@@ -2457,14 +2457,13 @@ var QiManager = /** @class */ (function () {
             cardHeight: 228,
             cardWidth: 150,
             getId: function (_a) {
-                var type_arg = _a.type_arg;
-                return "azr_qi-".concat(type_arg);
+                var id = _a.id;
+                return "azr_qi-".concat(id);
             },
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
-            setupDiv: function (_a, element) {
-                var type_arg = _a.type_arg;
+            setupDiv: function (_, element) {
                 element.classList.add("azr_qi");
             },
             setupFrontDiv: function (_a, element) {
@@ -2480,16 +2479,14 @@ var QiManager = /** @class */ (function () {
         var decks = {};
         for (var d_id in decksCounts) {
             var domain_id = Number(d_id);
-            if (domain_id === 0) {
-                continue;
-            }
             var deck = new Deck(manager, document.getElementById("azr_deck-".concat(domain_id)), {
                 counter: {
-                    extraClasses: "text-shadow",
-                    position: "bottom",
+                    extraClasses: "text-shadow azr_deckCounter",
+                    position: "top",
                 },
             });
-            decks = __assign(__assign({}, decks), (_a = {}, _a[domain_id] = deck, _a));
+            decks = __assign(__assign({}, decks), (_a = {}, _a["deck-".concat(domain_id)] = deck, _a));
+            console.log(decks, "TEST");
         }
         this.gamedatas.stocks.qi = {
             decks: decks,
@@ -2499,6 +2496,7 @@ var QiManager = /** @class */ (function () {
     QiManager.prototype.setupStocks = function () {
         var _this = this;
         var decks = this.gamedatas.decks;
+        console.log(decks, "DECKS");
         for (var domain_id in decks) {
             var deck = decks[domain_id];
             deck.forEach(function (card) {
@@ -2521,7 +2519,7 @@ var Qi = /** @class */ (function (_super) {
         return _this;
     }
     Qi.prototype.setup = function () {
-        this.stocks.decks[this.card.type_arg].addCard(this.card);
+        this.stocks.decks[this.card.location].addCard(this.card);
     };
     Qi.prototype.getStock = function () {
         return this.manager.getCardStock(this.card);

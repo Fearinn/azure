@@ -19,8 +19,7 @@ class QiManager extends CardManager
     public function setupVisibleDecks(): void
     {
         foreach ($this->QI as $domain_id => $qi) {
-            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='deck-{$domain_id}' WHERE card_type_arg={$domain_id} AND card_location='deck' LIMIT 9");
-            $this->deck->shuffle("deck-{$domain_id}");
+            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='deck-{$domain_id}' WHERE card_type_arg={$domain_id} AND card_location='deck-0' LIMIT 9");
         }
     }
 
@@ -29,7 +28,7 @@ class QiManager extends CardManager
         $qiCards = [];
 
         foreach ($this->QI as $domain_id => $qi) {
-            $qiCards[] = ["type" => $qi["name"], "type_arg" => $domain_id, "nbr" => 12];
+            $qiCards[] = ["type" => (string) $qi["name"], "type_arg" => (int) $domain_id, "nbr" => 12];
         }
 
         $this->deck->createCards($qiCards, "deck-0");
@@ -46,11 +45,11 @@ class QiManager extends CardManager
     {
         $decksCounts = [];
 
+        $decksCounts[0] = $this->getDeckCount(0);
+
         foreach ($this->QI as $domain_id => $qi) {
             $decksCounts[$domain_id] = $this->getDeckCount($domain_id);
         }
-
-        $decksCounts[0] = $this->getDeckCount(0);
 
         return $decksCounts;
     }
@@ -58,12 +57,23 @@ class QiManager extends CardManager
     public function getDeck(int $domain_id): array
     {
         $deck = $this->deck->getCardsInLocation("deck-{$domain_id}");
+
+        if ($domain_id === 0) {
+            foreach ($deck as $card_id => $card) {
+                unset($card["type"]);
+                unset($card["type_arg"]);
+                $deck[$card_id] = $card;
+            }
+        }
+
         return array_values($deck);
     }
 
     public function getDecks(): array
     {
         $decks = [];
+
+        $decks[0] = $this->getDeck(0);
 
         foreach ($this->QI as $domain_id => $qi) {
             $decks[$domain_id] = $this->getDeck($domain_id);

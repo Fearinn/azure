@@ -120,4 +120,9 @@ class Game extends \Bga\GameFramework\Table
 
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
     }
+
+    public function debug_setupQi(): void {
+        $QiManager = new QiManager($this);
+        $QiManager->setup();
+    }
 }

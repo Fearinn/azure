@@ -11,7 +11,7 @@ class Qi extends QiManager {
   }
 
   setup(): void {
-    this.stocks.decks[this.card.type_arg].addCard(this.card);
+    this.stocks.decks[this.card.location].addCard(this.card);
   }
 
   getStock(): CardStock<QiCard> {

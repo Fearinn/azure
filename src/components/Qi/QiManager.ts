@@ -21,14 +21,14 @@ class QiManager {
     const manager = new CardManager<QiCard>(this.game, {
       cardHeight: 228,
       cardWidth: 150,
-      getId: ({ type_arg }) => {
-        return `azr_qi-${type_arg}`;
+      getId: ({ id }) => {
+        return `azr_qi-${id}`;
       },
 
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ type_arg }, element) => {
+      setupDiv: (_, element) => {
         element.classList.add(`azr_qi`);
       },
       setupFrontDiv: ({ type_arg }, element) => {
@@ -46,25 +46,23 @@ class QiManager {
     for (const d_id in decksCounts) {
       const domain_id = Number(d_id);
 
-      if (domain_id === 0) {
-        continue;
-      }
-
       const deck = new Deck(
         manager,
         document.getElementById(`azr_deck-${domain_id}`),
         {
           counter: {
-            extraClasses: "text-shadow",
-            position: "bottom",
+            extraClasses: "text-shadow azr_deckCounter",
+            position: "top",
           },
         }
       );
 
       decks = {
         ...decks,
-        [domain_id]: deck,
+        [`deck-${domain_id}`]: deck,
       };
+
+      console.log(decks, "TEST");
     }
 
     this.gamedatas.stocks.qi = {
@@ -76,6 +74,8 @@ class QiManager {
 
   setupStocks(): void {
     const { decks } = this.gamedatas;
+
+    console.log(decks, "DECKS");
 
     for (const domain_id in decks) {
       const deck = decks[domain_id];
