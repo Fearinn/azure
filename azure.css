@@ -408,6 +408,31 @@ body > .card {
   box-shadow: none !important;
 }
 
+.player-board-game-specific-content {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  padding: 2px 0;
+}
+
+.azr_handCounter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+}
+.azr_handCounter-icon {
+  background-image: url("img/qi_0.jpg");
+  aspect-ratio: 1/1.52;
+  background-size: cover;
+  width: calc(var(--qi-width) / 3);
+}
+.azr_handCounter-count {
+  font-weight: bold;
+}
+
 :root {
   --domain-width: 500px;
 }
@@ -538,7 +563,7 @@ body > .card {
   justify-content: center;
   grid-template-areas: "hand hand" "decks empty" "realm wisdom";
   gap: 16px;
-  padding: 16px;
+  padding: 8px;
   width: 100%;
   user-select: none;
 }

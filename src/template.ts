@@ -65,10 +65,42 @@ class AzureTemplate {
   setupStocks() {
     const beastManager = new BeastManager(this.game);
     beastManager.setup();
+
+    const qiManager = new QiManager(this.game);
+    qiManager.setup();
+  }
+
+  setupPanels() {
+    const { handsCounts } = this.gamedatas;
+
+    for (const p_id in this.gamedatas.players) {
+      const player_id = Number(p_id);
+      const playerPanel = this.game.getPlayerPanelElement(player_id);
+      playerPanel.insertAdjacentHTML(
+        `beforeend`,
+        `<div id="azr_handCounter-${player_id}" class="azr_handCounter">
+          <div id="azr_handIcon-${player_id}" class="azr_handCounter-icon"></div>
+          <span id="azr_handCount-${player_id}" class="azr_handCounter-count">0</span>
+        </div>`
+      );
+
+      this.gamedatas.counters = {
+        ...this.gamedatas.counters,
+        [player_id]: {
+          hand: new ebg.counter(),
+        },
+      };
+
+      const { hand } = this.gamedatas.counters[player_id];
+      hand.create(`azr_handCount-${player_id}`);
+      hand.setValue(handsCounts[player_id]);
+    }
   }
 
   setup() {
     this.setupZoom();
     this.setupRealm();
+    this.setupStocks();
+    this.setupPanels();
   }
 }

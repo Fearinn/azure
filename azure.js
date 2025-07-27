@@ -2314,13 +2314,9 @@ var Azure = /** @class */ (function (_super) {
     }
     Azure.prototype.setup = function (gamedatas) {
         var template = new AzureTemplate(this, gamedatas);
-        template.setup();
         this.gamedatas.managers = {};
         this.gamedatas.stocks = {};
-        var beastManager = new BeastManager(this);
-        beastManager.setup();
-        var qiManager = new QiManager(this);
-        qiManager.setup();
+        template.setup();
         this.setupNotifications();
     };
     Azure.prototype.onEnteringState = function (stateName, args) { };
@@ -2379,10 +2375,29 @@ var AzureTemplate = /** @class */ (function () {
     AzureTemplate.prototype.setupStocks = function () {
         var beastManager = new BeastManager(this.game);
         beastManager.setup();
+        var qiManager = new QiManager(this.game);
+        qiManager.setup();
+    };
+    AzureTemplate.prototype.setupPanels = function () {
+        var _a;
+        var handsCounts = this.gamedatas.handsCounts;
+        for (var p_id in this.gamedatas.players) {
+            var player_id = Number(p_id);
+            var playerPanel = this.game.getPlayerPanelElement(player_id);
+            playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_handCounter-".concat(player_id, "\" class=\"azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_handCounter-icon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_handCounter-count\">0</span>\n        </div>"));
+            this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
+                hand: new ebg.counter(),
+            }, _a));
+            var hand = this.gamedatas.counters[player_id].hand;
+            hand.create("azr_handCount-".concat(player_id));
+            hand.setValue(handsCounts[player_id]);
+        }
     };
     AzureTemplate.prototype.setup = function () {
         this.setupZoom();
         this.setupRealm();
+        this.setupStocks();
+        this.setupPanels();
     };
     return AzureTemplate;
 }());

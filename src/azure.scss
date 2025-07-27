@@ -1,6 +1,7 @@
 @use "scss/bga-zoom";
 @use "scss/bga-help";
 @use "scss/bga-cards";
+@use "scss/panels";
 @use "scss/realm";
 @use "scss/prefs";
 @use "components/Beasts/beasts";
@@ -12,11 +13,11 @@
   align-items: center;
   justify-content: center;
   grid-template-areas:
-  "hand hand" 
-  "decks empty"
-  "realm wisdom";
+    "hand hand"
+    "decks empty"
+    "realm wisdom";
   gap: 16px;
-  padding: 16px;
+  padding: 8px;
   width: 100%;
   user-select: none;
 }

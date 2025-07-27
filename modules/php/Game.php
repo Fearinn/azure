@@ -66,7 +66,7 @@ class Game extends \Bga\GameFramework\Table
             "mountains" => $BeastManager->getMountains(),
             "decksCounts" => $QiManager->getDecksCounts(),
             "decks" => $QiManager->getDecks(),
-            "handCounts" => $QiManager->getHandCounts(),
+            "handsCounts" => $QiManager->getHandsCounts(),
         ];
 
         if (!$this->isSpectator()) {

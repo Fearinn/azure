@@ -108,15 +108,15 @@ class QiManager extends CardManager
         return $this->deck->countCardsInLocation("hand", $player_id);
     }
 
-    public function getHandCounts(): array
+    public function getHandsCounts(): array
     {
-        $handCounts = [];
+        $handsCounts = [];
         $players = $this->game->loadPlayersBasicInfos();
 
         foreach ($players as $player_id => $player) {
-            $handCounts[$player_id] = $this->deck->countCardsInLocation("hand", $player_id);
+            $handsCounts[$player_id] = $this->deck->countCardsInLocation("hand", $player_id);
         }
 
-        return $handCounts;
+        return $handsCounts;
     }
 }
