@@ -3,6 +3,7 @@
 }
 
 .azr_decks {
+  grid-area: decks;
   display: grid;
   grid-template-columns: repeat(5, var(--qi-width));
   justify-content: center;
@@ -21,4 +22,8 @@
 
 .azr_deckCounter {
   font-size: 32px !important;
+}
+
+.azr_hand {
+  margin-bottom: 32px;
 }

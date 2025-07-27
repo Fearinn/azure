@@ -414,6 +414,7 @@ body > .card {
 
 .azr_realm {
   position: relative;
+  grid-area: realm;
   box-shadow: 0 0 16px 4px #000000;
   aspect-ratio: 1;
   width: calc(var(--domain-width) * 2);
@@ -459,7 +460,7 @@ body > .card {
 
 .azr_pref-thematicBg {
   background-image: url("img/background.jpg");
-  background-size: 100%;
+  background-size: 100% 100%;
 }
 .azr_pref-thematicBg .player-board {
   color: #ffffff;
@@ -492,6 +493,7 @@ body > .card {
 }
 
 .azr_decks {
+  grid-area: decks;
   display: grid;
   grid-template-columns: repeat(5, var(--qi-width));
   justify-content: center;
@@ -511,13 +513,18 @@ body > .card {
   font-size: 32px !important;
 }
 
+.azr_hand {
+  margin-bottom: 32px;
+}
+
 .azr_gameArea {
   position: relative;
   display: grid;
   align-items: center;
   justify-content: center;
+  grid-template-areas: "hand hand" "decks empty" "realm wisdom";
   gap: 16px;
-  padding: 8px;
+  padding: 16px;
   width: 100%;
   user-select: none;
 }

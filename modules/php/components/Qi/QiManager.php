@@ -23,6 +23,19 @@ class QiManager extends CardManager
         }
     }
 
+
+    public function setupHands(): void
+    {
+        $players = $this->game->loadPlayersBasicInfos();
+
+        $active_player_id = $this->game->getActivePlayerId();
+
+        foreach ($players as $player_id => $player) {
+            $cardsNbr = $active_player_id === $player_id ? 2 : 3;
+            $this->deck->pickCards($cardsNbr, "deck-0", $player_id);
+        }
+    }
+
     public function setup(): void
     {
         $qiCards = [];
@@ -34,6 +47,8 @@ class QiManager extends CardManager
         $this->deck->createCards($qiCards, "deck-0");
         $this->setupVisibleDecks();
         $this->deck->shuffle("deck-0");
+
+        $this->setupHands();
     }
 
     public function getDeckCount(int $domain_id): int
@@ -80,5 +95,28 @@ class QiManager extends CardManager
         }
 
         return $decks;
+    }
+
+    public function getHand(int $player_id): array
+    {
+        $hand = $this->deck->getPlayerHand($player_id);
+        return array_values($hand);
+    }
+
+    public function getHandCount(int $player_id): int
+    {
+        return $this->deck->countCardsInLocation("hand", $player_id);
+    }
+
+    public function getHandCounts(): array
+    {
+        $handCounts = [];
+        $players = $this->game->loadPlayersBasicInfos();
+
+        foreach ($players as $player_id => $player) {
+            $handCounts[$player_id] = $this->deck->countCardsInLocation("hand", $player_id);
+        }
+
+        return $handCounts;
     }
 }

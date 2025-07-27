@@ -66,7 +66,12 @@ class Game extends \Bga\GameFramework\Table
             "mountains" => $BeastManager->getMountains(),
             "decksCounts" => $QiManager->getDecksCounts(),
             "decks" => $QiManager->getDecks(),
+            "handCounts" => $QiManager->getHandCounts(),
         ];
+
+        if (!$this->isSpectator()) {
+            $gamedatas["hand"] = $QiManager->getHand($current_player_id);
+        }
 
         return $gamedatas;
     }
@@ -121,7 +126,8 @@ class Game extends \Bga\GameFramework\Table
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
     }
 
-    public function debug_setupQi(): void {
+    public function debug_setupQi(): void
+    {
         $QiManager = new QiManager($this);
         $QiManager->setup();
     }

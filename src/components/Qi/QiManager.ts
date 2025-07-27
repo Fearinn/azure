@@ -2,6 +2,7 @@ interface QiCard extends AzureCard {}
 
 interface QiStocks {
   decks: { [domain_id: number]: Deck<QiCard> };
+  hand: HandStock<QiCard>;
 }
 
 class QiManager {
@@ -13,8 +14,8 @@ class QiManager {
   constructor(game: Azure) {
     this.game = game;
     this.gamedatas = this.game.gamedatas;
-    this.manager = this.gamedatas.managers.qi;
     this.stocks = this.gamedatas.stocks.qi;
+    this.manager = this.gamedatas.managers.qi;
   }
 
   create(): void {
@@ -24,7 +25,6 @@ class QiManager {
       getId: ({ id }) => {
         return `azr_qi-${id}`;
       },
-
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
@@ -61,21 +61,23 @@ class QiManager {
         ...decks,
         [`deck-${domain_id}`]: deck,
       };
-
-      console.log(decks, "TEST");
     }
 
     this.gamedatas.stocks.qi = {
       decks,
+      hand: new HandStock(manager, document.getElementById(`azr_hand`), {
+        sort: sortFunction("type_arg"),
+      }),
     };
 
     this.gamedatas.managers.qi = manager;
+
+    this.stocks = this.gamedatas.stocks.qi;
+    this.manager = manager;
   }
 
   setupStocks(): void {
-    const { decks } = this.gamedatas;
-
-    console.log(decks, "DECKS");
+    const { decks, hand } = this.gamedatas;
 
     for (const domain_id in decks) {
       const deck = decks[domain_id];
@@ -83,6 +85,10 @@ class QiManager {
         const qi = new Qi(this.game, card);
         qi.setup();
       });
+    }
+
+    if (!this.game.isSpectator) {
+      this.stocks.hand.addCards(hand);
     }
   }
 

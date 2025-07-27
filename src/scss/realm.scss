@@ -4,6 +4,7 @@
 
 .azr_realm {
   position: relative;
+  grid-area: realm;
   box-shadow: 0 0 16px 4px #000000;
   aspect-ratio: 1;
   width: calc(var(--domain-width) * 2);

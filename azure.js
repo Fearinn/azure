@@ -2448,8 +2448,8 @@ var QiManager = /** @class */ (function () {
     function QiManager(game) {
         this.game = game;
         this.gamedatas = this.game.gamedatas;
-        this.manager = this.gamedatas.managers.qi;
         this.stocks = this.gamedatas.stocks.qi;
+        this.manager = this.gamedatas.managers.qi;
     }
     QiManager.prototype.create = function () {
         var _a;
@@ -2486,23 +2486,29 @@ var QiManager = /** @class */ (function () {
                 },
             });
             decks = __assign(__assign({}, decks), (_a = {}, _a["deck-".concat(domain_id)] = deck, _a));
-            console.log(decks, "TEST");
         }
         this.gamedatas.stocks.qi = {
             decks: decks,
+            hand: new HandStock(manager, document.getElementById("azr_hand"), {
+                sort: sortFunction("type_arg"),
+            }),
         };
         this.gamedatas.managers.qi = manager;
+        this.stocks = this.gamedatas.stocks.qi;
+        this.manager = manager;
     };
     QiManager.prototype.setupStocks = function () {
         var _this = this;
-        var decks = this.gamedatas.decks;
-        console.log(decks, "DECKS");
+        var _a = this.gamedatas, decks = _a.decks, hand = _a.hand;
         for (var domain_id in decks) {
             var deck = decks[domain_id];
             deck.forEach(function (card) {
                 var qi = new Qi(_this.game, card);
                 qi.setup();
             });
+        }
+        if (!this.game.isSpectator) {
+            this.stocks.hand.addCards(hand);
         }
     };
     QiManager.prototype.setup = function () {

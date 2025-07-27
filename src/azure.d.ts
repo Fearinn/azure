@@ -28,6 +28,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     [domain_id: number]: number;
   };
   decks: { [domain_id: number]: QiCard[] };
+  hand: QiCard[];
 }
 
 interface AzureGui extends Game {}
