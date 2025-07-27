@@ -10,8 +10,8 @@
 -------
 -->
 
+<div id="azr_hand" class="azr_hand"></div>
 <div id="azr_gameArea" class="azr_gameArea">
-  <div id="azr_hand" class="azr_hand"></div>
   <div id="azr_decks" class="azr_decks"></div>
   <div id="azr_realm" class="azr_realm">
     <div id="azr_domains" class="azr_domains"></div>

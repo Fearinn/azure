@@ -2490,6 +2490,7 @@ var QiManager = /** @class */ (function () {
         this.gamedatas.stocks.qi = {
             decks: decks,
             hand: new HandStock(manager, document.getElementById("azr_hand"), {
+                cardShift: "30px",
                 sort: sortFunction("type_arg"),
             }),
         };
