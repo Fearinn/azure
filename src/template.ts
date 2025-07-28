@@ -71,16 +71,23 @@ class AzureTemplate {
   }
 
   setupPanels() {
-    const { handsCounts } = this.gamedatas;
+    const { handsCounts, stoneCounts } = this.gamedatas;
 
     for (const p_id in this.gamedatas.players) {
       const player_id = Number(p_id);
+      const { color: player_color } = this.gamedatas.players[player_id];
+
       const playerPanel = this.game.getPlayerPanelElement(player_id);
       playerPanel.insertAdjacentHTML(
         `beforeend`,
-        `<div id="azr_handCounter-${player_id}" class="azr_handCounter">
-          <div id="azr_handIcon-${player_id}" class="azr_handCounter-icon"></div>
-          <span id="azr_handCount-${player_id}" class="azr_handCounter-count">0</span>
+        `<div id="azr_stoneCounter-${player_id}" class=" azr_counter azr_stoneCounter">
+          <div id="azr_stoneIcon-${player_id}" class="azr_stone azr_counter-icon azr_stoneCounter-icon" 
+          style="--color: #${player_color};"></div>
+          <span id="azr_stoneCount-${player_id}" class="azr_counter-count">0</span>
+        </div>
+        <div id="azr_handCounter-${player_id}" class="azr_counter azr_handCounter">
+          <div id="azr_handIcon-${player_id}" class="azr_qi azr_counter-icon azr_handCounter-icon"></div>
+          <span id="azr_handCount-${player_id}" class="azr_counter-count">0</span>
         </div>`
       );
 
@@ -88,12 +95,16 @@ class AzureTemplate {
         ...this.gamedatas.counters,
         [player_id]: {
           hand: new ebg.counter(),
+          stones: new ebg.counter(),
         },
       };
 
-      const { hand } = this.gamedatas.counters[player_id];
+      const { hand, stones } = this.gamedatas.counters[player_id];
       hand.create(`azr_handCount-${player_id}`);
       hand.setValue(handsCounts[player_id]);
+
+      stones.create(`azr_stoneCount-${player_id}`);
+      stones.setValue(stoneCounts[player_id]);
     }
   }
 

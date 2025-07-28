@@ -410,12 +410,13 @@ body > .card {
 
 .player-board-game-specific-content {
   display: flex;
-  gap: 4px;
+  gap: 16px;
+  align-items: end;
   flex-wrap: wrap;
-  padding: 2px 0;
+  padding: 8px 2px 0 2px;
 }
 
-.azr_handCounter {
+.azr_counter {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -423,18 +424,26 @@ body > .card {
   gap: 4px;
   width: fit-content;
 }
+.azr_counter-icon {
+  background-size: cover;
+}
+.azr_counter-count {
+  font-weight: bold;
+}
+
 .azr_handCounter-icon {
   background-image: url("img/qi_0.jpg");
-  aspect-ratio: 1/1.52;
-  background-size: cover;
-  width: calc(var(--qi-width) / 3);
+  width: calc(var(--qi-width) / 3) !important;
 }
-.azr_handCounter-count {
-  font-weight: bold;
+
+.azr_stoneCounter-icon {
+  box-shadow: 0 0 4px 0 #003a4f !important;
+  width: calc(var(--stone-width) / 3) !important;
 }
 
 :root {
   --domain-width: 500px;
+  --space-width: calc(var(--domain-width) / 3);
 }
 
 .azr_realm {
@@ -462,7 +471,6 @@ body > .card {
 }
 
 .azr_spaces {
-  --space-width: calc(var(--domain-width) / 3);
   display: grid;
   grid-template-columns: repeat(3, var(--space-width));
   grid-template-rows: repeat(3, var(--space-width));
@@ -495,6 +503,9 @@ body > .card {
 }
 .azr_pref-thematicBg .player-name a {
   text-shadow: 0 0 16px #ffffff;
+}
+.azr_pref-thematicBg .azr_stoneCounter-icon {
+  box-shadow: 0 0 4px 0 #c1e8fb;
 }
 
 .azr_pref-floatingHand .azr_hand {
@@ -554,6 +565,18 @@ body > .card {
 
 .azr_hand {
   margin-bottom: 32px;
+}
+
+:root {
+  --stone-width: var(--space-width);
+}
+
+.azr_stone {
+  background-color: var(--color);
+  border-radius: 100%;
+  box-shadow: 0 0 8px 2px #000000;
+  aspect-ratio: 1;
+  width: var(--stone-width);
 }
 
 .azr_gameArea {

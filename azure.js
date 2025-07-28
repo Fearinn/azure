@@ -2380,17 +2380,21 @@ var AzureTemplate = /** @class */ (function () {
     };
     AzureTemplate.prototype.setupPanels = function () {
         var _a;
-        var handsCounts = this.gamedatas.handsCounts;
+        var _b = this.gamedatas, handsCounts = _b.handsCounts, stoneCounts = _b.stoneCounts;
         for (var p_id in this.gamedatas.players) {
             var player_id = Number(p_id);
+            var player_color = this.gamedatas.players[player_id].color;
             var playerPanel = this.game.getPlayerPanelElement(player_id);
-            playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_handCounter-".concat(player_id, "\" class=\"azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_handCounter-icon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_handCounter-count\">0</span>\n        </div>"));
+            playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_stoneCounter-".concat(player_id, "\" class=\" azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\"azr_stone azr_counter-icon azr_stoneCounter-icon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_counter-count\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counter-icon azr_handCounter-icon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_counter-count\">0</span>\n        </div>"));
             this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
                 hand: new ebg.counter(),
+                stones: new ebg.counter(),
             }, _a));
-            var hand = this.gamedatas.counters[player_id].hand;
+            var _c = this.gamedatas.counters[player_id], hand = _c.hand, stones = _c.stones;
             hand.create("azr_handCount-".concat(player_id));
             hand.setValue(handsCounts[player_id]);
+            stones.create("azr_stoneCount-".concat(player_id));
+            stones.setValue(stoneCounts[player_id]);
         }
     };
     AzureTemplate.prototype.setup = function () {

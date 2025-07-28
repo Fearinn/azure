@@ -14,6 +14,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   counters: {
     [player_id: number]: {
       hand: Counter;
+      stones: Counter;
     };
   };
   realm: {
@@ -35,6 +36,9 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   decks: { [domain_id: number]: QiCard[] };
   hand: QiCard[];
   handsCounts: {
+    [player_id: number]: number;
+  };
+  stoneCounts: {
     [player_id: number]: number;
   };
 }

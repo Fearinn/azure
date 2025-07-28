@@ -1,0 +1,11 @@
+:root {
+  --stone-width: var(--space-width);
+}
+
+.azr_stone {
+  background-color: var(--color);
+  border-radius: 100%;
+  box-shadow: 0 0 8px 2px #000000;
+  aspect-ratio: 1;
+  width: var(--stone-width);
+}

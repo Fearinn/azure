@@ -24,6 +24,7 @@ use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
+use Bga\Games\Azure\components\Stones\StoneManager;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -33,6 +34,7 @@ class Game extends \Bga\GameFramework\Table
     public readonly array $SPACES;
 
     public Deck $qi_cards;
+    public Deck $stone_cards;
 
     public function __construct()
     {
@@ -45,6 +47,9 @@ class Game extends \Bga\GameFramework\Table
         $this->qi_cards = $this->getNew("module.common.deck");
         $this->qi_cards->init("qi");
 
+        $this->stone_cards = $this->getNew("module.common.deck");
+        $this->stone_cards->init("stone");
+
         $this->initGameStateLabels([]);
     }
 
@@ -56,6 +61,7 @@ class Game extends \Bga\GameFramework\Table
 
         $BeastManager = new BeastManager($this);
         $QiManager = new QiManager($this);
+        $StoneManager = new StoneManager($this);
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
@@ -67,6 +73,7 @@ class Game extends \Bga\GameFramework\Table
             "decksCounts" => $QiManager->getDecksCounts(),
             "decks" => $QiManager->getDecks(),
             "handsCounts" => $QiManager->getHandsCounts(),
+            "stoneCounts" => $StoneManager->getHandsCounts(),
         ];
 
         if (!$this->isSpectator()) {
@@ -106,6 +113,9 @@ class Game extends \Bga\GameFramework\Table
 
         $QiManager = new QiManager($this);
         $QiManager->setup();
+
+        $StoneManager = new StoneManager($this);
+        $StoneManager->setup();
     }
 
     protected function zombieTurn(array $state, int $active_player): void

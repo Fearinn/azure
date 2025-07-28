@@ -1,5 +1,6 @@
 :root {
   --domain-width: 500px;
+  --space-width: calc(var(--domain-width) / 3);
 }
 
 .azr_realm {
@@ -27,7 +28,6 @@
 }
 
 .azr_spaces {
-  --space-width: calc(var(--domain-width) / 3);
   display: grid;
   grid-template-columns: repeat(3, var(--space-width));
   grid-template-rows: repeat(3, var(--space-width));
