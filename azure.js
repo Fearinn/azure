@@ -2310,6 +2310,22 @@ var Azure = /** @class */ (function (_super) {
     // @ts-ignore
     function Azure() {
         var _this = this;
+        _this.onGameUserPreferenceChanged = function (pref_id, pref_value) {
+            switch (pref_id) {
+                case 101:
+                    var handElement = document.getElementById("azr_hand");
+                    if (pref_value === 1) {
+                        document
+                            .getElementById("bga-zoom-wrapper")
+                            .insertAdjacentElement("beforebegin", handElement);
+                        break;
+                    }
+                    document
+                        .getElementById("azr_gameArea")
+                        .insertAdjacentElement("afterbegin", handElement);
+                    break;
+            }
+        };
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {

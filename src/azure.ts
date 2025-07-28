@@ -23,4 +23,23 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   public onLeavingState(stateName: string) {}
   public onUpdateActionButtons(stateName: string, args: any) {}
   public setupNotifications() {}
+
+  onGameUserPreferenceChanged = (pref_id: number, pref_value: number) => {
+    switch (pref_id) {
+      case 101:
+        const handElement = document.getElementById(`azr_hand`);
+
+        if (pref_value === 1) {
+          document
+            .getElementById(`bga-zoom-wrapper`)
+            .insertAdjacentElement("beforebegin", handElement);
+          break;
+        }
+
+        document
+          .getElementById(`azr_gameArea`)
+          .insertAdjacentElement("afterbegin", handElement);
+        break;
+    }
+  };
 }
