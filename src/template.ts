@@ -48,8 +48,6 @@ class AzureTemplate {
           `beforeend`,
           `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
         );
-
-        const spaceElement = document.getElementById(`azr_space-${space_id}`);
       }
     }
 
@@ -65,6 +63,9 @@ class AzureTemplate {
   setupStocks() {
     const beastManager = new BeastManager(this.game);
     beastManager.setup();
+
+    const spacetManager = new SpaceManager(this.game);
+    spacetManager.setup();
 
     const qiManager = new QiManager(this.game);
     qiManager.setup();

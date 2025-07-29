@@ -1,0 +1,65 @@
+interface SpaceCard {
+  id: number;
+  x: number;
+  y: number;
+}
+
+class SpaceManager {
+  private game: Azure;
+  private gamedatas: AzureGamedatas;
+  public manager: CardManager<SpaceCard>;
+  public stocks: { realm: CardStock<SpaceCard> };
+
+  constructor(game: Azure) {
+    this.game = game;
+    this.gamedatas = this.game.gamedatas;
+    this.manager = this.gamedatas.managers.spaces;
+    this.stocks = this.gamedatas.stocks.spaces;
+  }
+
+  private create(): void {
+    const manager = new CardManager<SpaceCard>(this.game, {
+      getId: ({ id }) => {
+        return `azr_spaceCard-${id}`;
+      },
+      selectedCardClass: `azr_selected`,
+      selectableCardClass: `azr_selectable`,
+      unselectableCardClass: `azr_unselectable`,
+      setupDiv: ({ id }, element) => {
+        element.classList.add(`azr_spaceCard`);
+      },
+    });
+
+    this.gamedatas.stocks.spaces = {
+      realm: new CardStock<SpaceCard>(
+        manager,
+        document.getElementById(`azr_spacesStock`),
+        {}
+      ),
+    };
+
+    this.gamedatas.managers.spaces = manager;
+  }
+
+  private setupStocks(): void {
+    const { realm } = this.gamedatas;
+    for (const x in realm) {
+      for (const y in realm[x]) {
+        const space_id = realm[x][y];
+        const spaceCard: SpaceCard = {
+          id: space_id,
+          x: Number(x),
+          y: Number(y),
+        };
+
+        const space = new Space(this.game, spaceCard);
+        space.setup();
+      }
+    }
+  }
+
+  setup(): void {
+    this.create();
+    this.setupStocks();
+  }
+}

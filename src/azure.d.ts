@@ -4,10 +4,14 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   managers: {
     beasts?: CardManager<BeastCard>;
     qi?: CardManager<QiCard>;
+    spaces?: CardManager<SpaceCard>;
   };
   stocks: {
     beasts?: {
       realm: CardStock<BeastCard>;
+    };
+    spaces?: {
+      realm: CardStock<SpaceCard>;
     };
     qi?: QiStocks;
   };

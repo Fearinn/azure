@@ -427,9 +427,6 @@ body > .card {
 .azr_counter-icon {
   background-size: cover;
 }
-.azr_counter-count {
-  font-weight: bold;
-}
 
 .azr_handCounter-icon {
   background-image: url("img/qi_0.jpg");
@@ -477,13 +474,14 @@ body > .card {
 }
 
 .azr_space {
-  aspect-ratio: 1;
-  width: var(--space-width);
+  position: relative;
   grid-column: var(--x);
   grid-row: var(--y);
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1;
+  width: var(--space-width);
 }
 
 .player-name a,
@@ -577,6 +575,17 @@ body > .card {
   box-shadow: 0 0 8px 2px #000000;
   aspect-ratio: 1;
   width: var(--stone-width);
+}
+
+.azr_spaceCard {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.azr_spaceCard * {
+  box-shadow: none !important;
 }
 
 .azr_gameArea {

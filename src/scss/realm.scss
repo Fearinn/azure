@@ -34,11 +34,12 @@
 }
 
 .azr_space {
-  aspect-ratio: 1;
-  width: var(--space-width);
+  position: relative;
   grid-column: var(--x);
   grid-row: var(--y);
   display: flex;
   align-items: center;
   justify-content: center;
+  aspect-ratio: 1;
+  width: var(--space-width);
 }

@@ -2380,7 +2380,6 @@ var AzureTemplate = /** @class */ (function () {
             for (var y in realm[x]) {
                 var space_id = realm[x][y];
                 spacesElement.insertAdjacentHTML("beforeend", "<div id=\"azr_space-".concat(space_id, "\" class=\"azr_space\" style=\"--x: ").concat(x, "; --y: ").concat(y, "\"></div>"));
-                var spaceElement = document.getElementById("azr_space-".concat(space_id));
             }
         }
         var decksElement = document.getElementById("azr_decks");
@@ -2391,6 +2390,8 @@ var AzureTemplate = /** @class */ (function () {
     AzureTemplate.prototype.setupStocks = function () {
         var beastManager = new BeastManager(this.game);
         beastManager.setup();
+        var spacetManager = new SpaceManager(this.game);
+        spacetManager.setup();
         var qiManager = new QiManager(this.game);
         qiManager.setup();
     };
@@ -2568,3 +2569,69 @@ var Qi = /** @class */ (function (_super) {
     };
     return Qi;
 }(QiManager));
+var SpaceManager = /** @class */ (function () {
+    function SpaceManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.spaces;
+        this.stocks = this.gamedatas.stocks.spaces;
+    }
+    SpaceManager.prototype.create = function () {
+        var manager = new CardManager(this.game, {
+            getId: function (_a) {
+                var id = _a.id;
+                return "azr_spaceCard-".concat(id);
+            },
+            selectedCardClass: "azr_selected",
+            selectableCardClass: "azr_selectable",
+            unselectableCardClass: "azr_unselectable",
+            setupDiv: function (_a, element) {
+                var id = _a.id;
+                element.classList.add("azr_spaceCard");
+            },
+        });
+        this.gamedatas.stocks.spaces = {
+            realm: new CardStock(manager, document.getElementById("azr_spacesStock"), {}),
+        };
+        this.gamedatas.managers.spaces = manager;
+    };
+    SpaceManager.prototype.setupStocks = function () {
+        var realm = this.gamedatas.realm;
+        for (var x in realm) {
+            for (var y in realm[x]) {
+                var space_id = realm[x][y];
+                var spaceCard = {
+                    id: space_id,
+                    x: Number(x),
+                    y: Number(y),
+                };
+                var space = new Space(this.game, spaceCard);
+                space.setup();
+            }
+        }
+    };
+    SpaceManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    return SpaceManager;
+}());
+var Space = /** @class */ (function (_super) {
+    __extends(Space, _super);
+    function Space(game, card) {
+        var _this = _super.call(this, game) || this;
+        _this.card = card;
+        _this.id = _this.card.id;
+        return _this;
+    }
+    Space.prototype.setup = function () {
+        console.log(this.id, "TEST");
+        this.stocks.realm.addCard(this.card, {}, {
+            forceToElement: document.getElementById("azr_space-".concat(this.id)),
+        });
+    };
+    Space.prototype.getStock = function () {
+        return this.manager.getCardStock(this.card);
+    };
+    return Space;
+}(SpaceManager));
