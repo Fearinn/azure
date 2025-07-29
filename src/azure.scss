@@ -1,24 +1,30 @@
 @use "scss/bga-zoom";
 @use "scss/bga-help";
 @use "scss/bga-cards";
-@use "scss/panels";
 @use "scss/realm";
-@use "scss/prefs";
+@use "scss/wisdom";
 @use "components/Beasts/beasts";
 @use "components/Qi/qi";
 @use "components/Stones/stone";
 @use "components/Spaces/space";
+@use "scss/panels";
+@use "scss/prefs";
+
+#bga-zoom-wrapper {
+  direction: ltr;
+}
 
 .azr_gameArea {
+  direction: ltr;
   position: relative;
   display: grid;
   align-items: center;
   justify-content: center;
   grid-template-areas:
-    "hand hand"
     "decks empty"
+    "realm hand"
     "realm wisdom";
-  gap: 16px;
+  gap: 24px;
   padding: 8px;
   width: 100%;
   user-select: none;

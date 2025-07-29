@@ -408,36 +408,6 @@ body > .card {
   box-shadow: none !important;
 }
 
-.player-board-game-specific-content {
-  display: flex;
-  gap: 16px;
-  align-items: end;
-  flex-wrap: wrap;
-  padding: 8px 2px 0 2px;
-}
-
-.azr_counter {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  width: fit-content;
-}
-.azr_counter-icon {
-  background-size: cover;
-}
-
-.azr_handCounter-icon {
-  background-image: url("img/qi_0.jpg");
-  width: calc(var(--qi-width) / 3) !important;
-}
-
-.azr_stoneCounter-icon {
-  box-shadow: 0 0 4px 0 #003a4f !important;
-  width: calc(var(--stone-width) / 3) !important;
-}
-
 :root {
   --domain-width: 500px;
   --space-width: calc(var(--domain-width) / 3);
@@ -484,40 +454,121 @@ body > .card {
   width: var(--space-width);
 }
 
-.player-name a,
-.playername {
-  text-shadow: 0 0 16px #003a4f;
-}
-
-.azr_pref-thematicBg {
-  background-image: url("img/background.jpg");
-  background-size: 100% 100%;
-}
-.azr_pref-thematicBg .player-board {
-  color: #ffffff;
-  background-image: url("img/background.jpg");
+.azr_wisdomTrack {
+  grid-area: wisdom;
+  position: relative;
+  background-image: url("img/wisdom.jpg");
   background-size: cover;
-  background-position: bottom;
+  box-shadow: 0 0 8px 2px #000000;
+  aspect-ratio: 1;
+  width: var(--domain-width);
 }
-.azr_pref-thematicBg .player-name a {
-  text-shadow: 0 0 16px #ffffff;
+.azr_wisdomTrack-number {
+  position: absolute;
+  border-radius: 100%;
+  aspect-ratio: 1;
+  width: calc(var(--stone-width) / 2.5);
+  transform: translate(-50%, -50%);
 }
-.azr_pref-thematicBg .azr_stoneCounter-icon {
-  box-shadow: 0 0 4px 0 #c1e8fb;
+.azr_wisdomTrack-number:nth-child(1) {
+  top: 87%;
+  left: 88%;
 }
-
-.azr_pref-floatingHand .azr_hand {
-  position: fixed;
-  left: 50%;
-  bottom: -30%;
-  margin: 0;
-  transform: translateX(-50%) translateY(-50%);
-  transition: 1s;
-  z-index: 2;
+.azr_wisdomTrack-number:nth-child(2) {
+  top: 93%;
+  left: 60%;
 }
-.azr_pref-floatingHand .azr_hand:hover {
-  bottom: -13%;
-  z-index: 1052;
+.azr_wisdomTrack-number:nth-child(3) {
+  top: 91%;
+  left: 37%;
+}
+.azr_wisdomTrack-number:nth-child(4) {
+  top: 79%;
+  left: 14%;
+}
+.azr_wisdomTrack-number:nth-child(5) {
+  top: 58%;
+  left: 10%;
+}
+.azr_wisdomTrack-number:nth-child(6) {
+  top: 38%;
+  left: 10%;
+}
+.azr_wisdomTrack-number:nth-child(7) {
+  top: 18%;
+  left: 15%;
+}
+.azr_wisdomTrack-number:nth-child(8) {
+  top: 13%;
+  left: 33%;
+}
+.azr_wisdomTrack-number:nth-child(9) {
+  top: 8%;
+  left: 51%;
+}
+.azr_wisdomTrack-number:nth-child(10) {
+  top: 7%;
+  left: 72%;
+}
+.azr_wisdomTrack-number:nth-child(11) {
+  top: 17%;
+  left: 84%;
+}
+.azr_wisdomTrack-number:nth-child(12) {
+  top: 30%;
+  left: 90%;
+}
+.azr_wisdomTrack-number:nth-child(13) {
+  top: 44%;
+  left: 90%;
+}
+.azr_wisdomTrack-number:nth-child(14) {
+  top: 60%;
+  left: 88%;
+}
+.azr_wisdomTrack-number:nth-child(15) {
+  top: 70%;
+  left: 75%;
+}
+.azr_wisdomTrack-number:nth-child(16) {
+  top: 73%;
+  left: 58%;
+}
+.azr_wisdomTrack-number:nth-child(17) {
+  top: 72%;
+  left: 42%;
+}
+.azr_wisdomTrack-number:nth-child(18) {
+  top: 62%;
+  left: 29%;
+}
+.azr_wisdomTrack-number:nth-child(19) {
+  top: 45%;
+  left: 27%;
+}
+.azr_wisdomTrack-number:nth-child(20) {
+  top: 33%;
+  left: 34%;
+}
+.azr_wisdomTrack-number:nth-child(21) {
+  top: 27%;
+  left: 48%;
+}
+.azr_wisdomTrack-number:nth-child(22) {
+  top: 28%;
+  left: 63%;
+}
+.azr_wisdomTrack-number:nth-child(23) {
+  top: 40%;
+  left: 72%;
+}
+.azr_wisdomTrack-number:nth-child(24) {
+  top: 55%;
+  left: 69%;
+}
+.azr_wisdomTrack-number:nth-child(25) {
+  top: 50%;
+  left: 52%;
 }
 
 .azr_beasts {
@@ -562,7 +613,8 @@ body > .card {
 }
 
 .azr_hand {
-  margin-bottom: 32px;
+  grid-area: hand;
+  margin-bottom: 0 8px 32px 8px;
 }
 
 :root {
@@ -588,13 +640,84 @@ body > .card {
   box-shadow: none !important;
 }
 
+.player-board-game-specific-content {
+  display: flex;
+  gap: 16px;
+  align-items: end;
+  flex-wrap: wrap;
+  padding: 8px 2px 0 2px;
+}
+
+.azr_counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  width: fit-content;
+}
+.azr_counter-icon {
+  background-size: cover;
+}
+
+.azr_handCounter-icon {
+  background-image: url("img/qi_0.jpg");
+  width: calc(var(--qi-width) / 3) !important;
+}
+
+.azr_stoneCounter-icon {
+  box-shadow: 0 0 4px 0 #003a4f !important;
+  width: calc(var(--stone-width) / 3) !important;
+}
+
+.player-name a,
+.playername {
+  text-shadow: 0 0 16px #003a4f;
+}
+
+.azr_pref-thematicBg {
+  background-image: url("img/background.jpg");
+  background-size: 100% 100%;
+}
+.azr_pref-thematicBg .player-board {
+  color: #ffffff;
+  background-image: url("img/background.jpg");
+  background-size: cover;
+  background-position: bottom;
+}
+.azr_pref-thematicBg .player-name a {
+  text-shadow: 0 0 16px #ffffff;
+}
+.azr_pref-thematicBg .azr_stoneCounter-icon {
+  box-shadow: 0 0 4px 0 #c1e8fb !important;
+}
+
+.azr_pref-floatingHand .azr_hand {
+  position: fixed;
+  left: 50%;
+  bottom: -30%;
+  margin: 0;
+  transform: translateX(-50%) translateY(-50%);
+  transition: 1s;
+  z-index: 2;
+}
+.azr_pref-floatingHand .azr_hand:hover {
+  bottom: -13%;
+  z-index: 1052;
+}
+
+#bga-zoom-wrapper {
+  direction: ltr;
+}
+
 .azr_gameArea {
+  direction: ltr;
   position: relative;
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-areas: "hand hand" "decks empty" "realm wisdom";
-  gap: 16px;
+  grid-template-areas: "decks empty" "realm hand" "realm wisdom";
+  gap: 24px;
   padding: 8px;
   width: 100%;
   user-select: none;

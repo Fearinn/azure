@@ -60,6 +60,17 @@ class AzureTemplate {
     }
   }
 
+  setupWisdomTrack() {
+    const wisdomTrack = document.getElementById(`azr_wisdomTrack`);
+
+    for (let i = 1; i <= 25; i++) {
+      wisdomTrack.insertAdjacentHTML(
+        `beforeend`,
+        `<div id="azr_wisdomTrack-${i}" class="azr_wisdomTrack-number"></div>`
+      );
+    }
+  }
+
   setupStocks() {
     const beastManager = new BeastManager(this.game);
     beastManager.setup();
@@ -112,6 +123,7 @@ class AzureTemplate {
   setup() {
     this.setupZoom();
     this.setupRealm();
+    this.setupWisdomTrack();
     this.setupStocks();
     this.setupPanels();
   }

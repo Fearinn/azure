@@ -2387,6 +2387,12 @@ var AzureTemplate = /** @class */ (function () {
             decksElement.insertAdjacentHTML("beforeend", "<div id=\"azr_deck-".concat(domain_id, "\" class=\"azr_deck\"></div>"));
         }
     };
+    AzureTemplate.prototype.setupWisdomTrack = function () {
+        var wisdomTrack = document.getElementById("azr_wisdomTrack");
+        for (var i = 1; i <= 25; i++) {
+            wisdomTrack.insertAdjacentHTML("beforeend", "<div id=\"azr_wisdomTrack-".concat(i, "\" class=\"azr_wisdomTrack-number\"></div>"));
+        }
+    };
     AzureTemplate.prototype.setupStocks = function () {
         var beastManager = new BeastManager(this.game);
         beastManager.setup();
@@ -2417,6 +2423,7 @@ var AzureTemplate = /** @class */ (function () {
     AzureTemplate.prototype.setup = function () {
         this.setupZoom();
         this.setupRealm();
+        this.setupWisdomTrack();
         this.setupStocks();
         this.setupPanels();
     };
@@ -2526,7 +2533,8 @@ var QiManager = /** @class */ (function () {
         this.gamedatas.stocks.qi = {
             decks: decks,
             hand: new HandStock(manager, document.getElementById("azr_hand"), {
-                cardShift: "30px",
+                cardShift: "8px",
+                cardOverlap: "80px",
                 sort: sortFunction("type_arg"),
             }),
         };

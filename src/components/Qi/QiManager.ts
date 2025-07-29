@@ -66,7 +66,8 @@ class QiManager {
     this.gamedatas.stocks.qi = {
       decks,
       hand: new HandStock(manager, document.getElementById(`azr_hand`), {
-        cardShift: "30px",
+        cardShift: "8px",
+        cardOverlap: "80px",
         sort: sortFunction("type_arg"),
       }),
     };
