@@ -2,13 +2,55 @@
 
 namespace Bga\Games\Azure\components\Spaces;
 
+use Bga\Games\Azure\components\Qi\QiManager;
+use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\Subclass;
 
 class Space extends Subclass
 {
-    public function __construct(Game $game)
+    public readonly int $x;
+    public readonly int $y;
+    public readonly int $id;
+    public readonly int $qi;
+    public readonly int $qi_color;
+    public readonly int $wisdom;
+    public readonly bool $isMountain;
+    public readonly int $domain_id;
+    public readonly int $cost;
+
+    public function __construct(Game $game, int $x, int $y)
     {
         parent::__construct($game);
+
+        $realm = $this->globals->get(G_REALM);
+        $this->x = $x;
+        $this->y = $y;
+        $this->id = $realm[$x][$y];
+
+        $space = $this->SPACES[$this->id];
+        $this->qi = $space["qi"];
+        $this->qi_color = $space["qi_color"];
+        $this->wisdom = $space["wisdom"];
+        $this->domain_id = $space["domain"];
+        $this->cost = $this->qi + $this->wisdom;
+        $this->isMountain = $this->cost === 0;
+    }
+
+    private function isOccupied(): bool
+    {
+        $StoneManager = new StoneManager($this->game);
+        return $StoneManager->countBySpace($this->x, $this->y);
+    }
+
+    private function canPayCost(int $player_id): bool
+    {
+        $QiManager = new QiManager($this->game);
+        return $this->cost <= $QiManager->countByDomain($player_id, $this->domain_id);
+    }
+
+    public function isAvailable(int $player_id): bool
+    {
+        return !$this->isMountain && !$this->isOccupied() && $this->canPayCost($player_id);
     }
 }

@@ -4,6 +4,7 @@ namespace Bga\Games\Azure\components\Qi;
 
 use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\Game;
+use Bga\Games\Azure\notifications\NotifManager;
 
 class QiManager extends CardManager
 {
@@ -95,5 +96,27 @@ class QiManager extends CardManager
         }
 
         return $decks;
+    }
+
+    public function countByDomain(int $player_id, int $domain_id): int
+    {
+        return $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} WHERE card_location='hand' AND card_location_arg={$player_id}");
+    }
+
+    public function discard(int $player_id, int $domain_id): void
+    {
+        $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable}  
+        WHERE card_location='hand' AND card_location_arg={$player_id} LIMIT 1");
+
+        $this->deck->insertCardOnExtremePosition($card_id, "deck-{$domain_id}", false);
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "discardQi",
+            "",
+            [
+                "card_id" => $card_id,
+            ]
+        );
     }
 }

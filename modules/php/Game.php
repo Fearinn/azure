@@ -21,10 +21,12 @@ declare(strict_types=1);
 namespace Bga\Games\Azure;
 
 use Bga\GameFramework\Components\Deck;
+use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
+use Bga\Games\Azure\notifications\NotifManager;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -49,6 +51,9 @@ class Game extends \Bga\GameFramework\Table
 
         $this->stone_cards = $this->getNew("module.common.deck");
         $this->stone_cards->init("stone");
+
+        $Notify = new NotifManager($this);
+        $Notify->addDecorators();
 
         $this->initGameStateLabels([]);
     }
@@ -140,5 +145,11 @@ class Game extends \Bga\GameFramework\Table
     {
         $QiManager = new QiManager($this);
         $QiManager->setup();
+    }
+
+    public function debug_placeStone(int $x = 5, int $y = 6): void
+    {
+        $ActPlaceStone = new ActPlaceStone($this);
+        $ActPlaceStone->act($x, $y);
     }
 }

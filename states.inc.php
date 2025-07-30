@@ -18,31 +18,33 @@
 use Bga\GameFramework\GameStateBuilder;
 use Bga\GameFramework\StateType;
 
+if (!defined("ST_PLAYER_TURN")) {
+    define("ST_PLAYER_TURN", 2);
+}
+
 $machinestates = [
-    2 => GameStateBuilder::create()
-        ->name('playerTurn')
-        ->description(clienttranslate('${actplayer} must play a card or pass'))
-        ->descriptionmyturn(clienttranslate('${you} must play a card or pass'))
+    ST_PLAYER_TURN => GameStateBuilder::create()
+        ->name("playerTurn")
+        ->description(clienttranslate('${actplayer} must place a stone'))
+        ->descriptionmyturn(clienttranslate('${you} must place a stone'))
         ->type(StateType::ACTIVE_PLAYER)
         ->possibleactions([
-            'actPlayCard',
-            'actPass',
+            "act_placeStone",
         ])
         ->transitions([
-            'playCard' => 3,
-            'pass' => 3,
+            "placeStone" => 3,
         ])
         ->build(),
 
     3 => GameStateBuilder::create()
-        ->name('nextPlayer')
-        ->description('')
+        ->name("nextPlayer")
+        ->description("")
         ->type(StateType::GAME)
-        ->action('stNextPlayer')
+        ->action("stNextPlayer")
         ->updateGameProgression(true)
         ->transitions([
-            'endScore' => 98,
-            'nextPlayer' => 2,
+            "endScore" => 98,
+            "nextPlayer" => 2,
         ])
         ->build(),
 
