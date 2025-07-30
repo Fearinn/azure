@@ -92,8 +92,8 @@ class AzureTemplate {
       const playerPanel = this.game.getPlayerPanelElement(player_id);
       playerPanel.insertAdjacentHTML(
         `beforeend`,
-        `<div id="azr_stoneCounter-${player_id}" class=" azr_counter azr_stoneCounter">
-          <div id="azr_stoneIcon-${player_id}" class="azr_stone azr_counter-icon azr_stoneCounter-icon" 
+        `<div id="azr_stoneCounter-${player_id}" class="azr_counter azr_stoneCounter">
+          <div id="azr_stoneIcon-${player_id}" class=" azr_counter-icon azr_stone azr_stone-${player_color} azr_stoneCounter-icon" 
           style="--color: #${player_color};"></div>
           <span id="azr_stoneCount-${player_id}" class="azr_counter-count">0</span>
         </div>
