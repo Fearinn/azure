@@ -5,6 +5,7 @@ namespace Bga\Games\Azure\components\Spaces;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
+use Bga\Games\Azure\score\ScoreManager;
 use Bga\Games\Azure\Subclass;
 
 class Space extends Subclass
@@ -52,5 +53,18 @@ class Space extends Subclass
     public function isAvailable(int $player_id): bool
     {
         return !$this->isMountain && !$this->isOccupied() && $this->canPayCost($player_id);
+    }
+
+    public function gatherBoons(int $player_id): void
+    {
+        $QiManager = new QiManager($this->game);
+        $QiManager->gather(
+            $player_id,
+            $this->qi_color,
+            $this->qi
+        );
+
+        $ScoreManager = new ScoreManager($this->game);
+        $ScoreManager->incScore($this->wisdom, $player_id);
     }
 }

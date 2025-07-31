@@ -27,6 +27,8 @@ class ActPlaceStone extends ActionManager
 
         $QiManager = new QiManager($this->game);
         $QiManager->discard($this->player_id, $domain_id);
+
+        $Space->gatherBoons($this->player_id);
     }
 
     public function validate(Space $Space): void

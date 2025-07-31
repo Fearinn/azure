@@ -20,6 +20,7 @@ declare(strict_types=1);
 
 namespace Bga\Games\Azure;
 
+use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
@@ -56,6 +57,14 @@ class Game extends \Bga\GameFramework\Table
         $Notify->addDecorators();
 
         $this->initGameStateLabels([]);
+    }
+
+    public function act_placeStone(
+        #[IntParam(min: 1, max: 6)] int $x,
+        #[IntParam(min: 1, max: 6)] int $y
+    ): void {
+        $ActPlaceStone = new ActPlaceStone($this);
+        $ActPlaceStone->act($x, $y);
     }
 
     public function upgradeTableDb($from_version) {}
@@ -141,15 +150,8 @@ class Game extends \Bga\GameFramework\Table
         throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
     }
 
-    public function debug_setupQi(): void
-    {
-        $QiManager = new QiManager($this);
-        $QiManager->setup();
-    }
-
     public function debug_placeStone(int $x = 5, int $y = 6): void
     {
-        $ActPlaceStone = new ActPlaceStone($this);
-        $ActPlaceStone->act($x, $y);
+        $this->act_placeStone($x, $y);
     }
 }

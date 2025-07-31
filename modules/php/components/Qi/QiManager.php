@@ -100,7 +100,8 @@ class QiManager extends CardManager
 
     public function countByDomain(int $player_id, int $domain_id): int
     {
-        return $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} WHERE card_location='hand' AND card_location_arg={$player_id}");
+        return $this->game->getUniqueValueFromDB("SELECT COUNT(card_id) FROM {$this->dbTable} 
+        WHERE card_location='hand' AND card_type_arg={$domain_id} AND card_location_arg={$player_id}");
     }
 
     public function discard(int $player_id, int $domain_id): void
@@ -117,6 +118,27 @@ class QiManager extends CardManager
             [
                 "card_id" => $card_id,
             ]
+        );
+    }
+
+    public function gather(
+        int $player_id,
+        int $domain_id,
+        int $nbr
+    ): void {
+        $cards = $this->deck->pickCards($nbr, "deck-{$domain_id}", $player_id);
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "gatherQi",
+            clienttranslate('${player_name} gathers ${nbr} ${qi_label} qi'),
+            [
+                "i18n" => ["qi_label"],
+                "cards" => $cards,
+                "qi_label" => $this->QI[$domain_id]["label"],
+                "nbr" => $nbr,
+            ],
+            $player_id,
         );
     }
 }
