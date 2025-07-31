@@ -640,6 +640,7 @@ body > .card {
   cursor: pointer;
 }
 .azr_space.azr_unselectable {
+  cursor: not-allowed;
   background-color: rgba(0, 0, 0, 0.4);
 }
 .azr_space.azr_selected {

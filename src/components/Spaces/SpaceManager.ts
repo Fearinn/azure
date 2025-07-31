@@ -69,17 +69,19 @@ class SpaceManager {
     this.stocks.realm.setSelectionMode("single");
     this.stocks.realm.setSelectableCards(selectableSpaces);
 
-    // this.stocks.realm.onSelectionChange = (selection, card) => {
-    //   this.game.statusBar.addActionButton(
-    //     _("confirm"),
-    //     () => {
-    //       const { x, y } = card;
-    //       this.game.bgaPerformAction("act_placeStone", { x, y });
-    //     },
-    //     {
-    //       autoclick: true,
-    //     }
-    //   );
-    // };
+    this.stocks.realm.onSelectionChange = (selection, card) => {
+      const utils = new Utils(this.game);
+
+      utils.removeConfirmationButton();
+
+      if (selection.length === 0) {
+        return;
+      }
+
+      utils.addConfirmationButton(_("confirm space"), () => {
+        const { x, y } = card;
+        utils.performAction("act_placeStone", { x, y });
+      });
+    };
   }
 }

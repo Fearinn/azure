@@ -2435,6 +2435,24 @@ var AzureTemplate = /** @class */ (function () {
     };
     return AzureTemplate;
 }());
+var Utils = /** @class */ (function () {
+    function Utils(game) {
+        this.game = game;
+    }
+    Utils.prototype.performAction = function (actionName, args, params) {
+        this.game.bgaPerformAction(actionName, args, params);
+    };
+    Utils.prototype.addConfirmationButton = function (label, callback, params) {
+        this.game.statusBar.addActionButton(label, function () {
+            callback();
+        }, __assign({ id: "azr_confirmationBtn", autoclick: true }, params));
+    };
+    Utils.prototype.removeConfirmationButton = function () {
+        var _a;
+        (_a = document.getElementById("azr_confirmationBtn")) === null || _a === void 0 ? void 0 : _a.remove();
+    };
+    return Utils;
+}());
 var BeastManager = /** @class */ (function () {
     function BeastManager(game) {
         this.game = game;
@@ -2631,20 +2649,20 @@ var SpaceManager = /** @class */ (function () {
         this.setupStocks();
     };
     SpaceManager.prototype.makeSelectable = function (selectableSpaces) {
+        var _this = this;
         this.stocks.realm.setSelectionMode("single");
         this.stocks.realm.setSelectableCards(selectableSpaces);
-        // this.stocks.realm.onSelectionChange = (selection, card) => {
-        //   this.game.statusBar.addActionButton(
-        //     _("confirm"),
-        //     () => {
-        //       const { x, y } = card;
-        //       this.game.bgaPerformAction("act_placeStone", { x, y });
-        //     },
-        //     {
-        //       autoclick: true,
-        //     }
-        //   );
-        // };
+        this.stocks.realm.onSelectionChange = function (selection, card) {
+            var utils = new Utils(_this.game);
+            utils.removeConfirmationButton();
+            if (selection.length === 0) {
+                return;
+            }
+            utils.addConfirmationButton(_("confirm space"), function () {
+                var x = card.x, y = card.y;
+                utils.performAction("act_placeStone", { x: x, y: y });
+            });
+        };
     };
     return SpaceManager;
 }());
