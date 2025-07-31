@@ -7,8 +7,8 @@ interface SpaceCard {
 class SpaceManager {
   private game: Azure;
   private gamedatas: AzureGamedatas;
-  public manager: CardManager<SpaceCard>;
-  public stocks: { realm: CardStock<SpaceCard> };
+  public readonly manager: CardManager<SpaceCard>;
+  public readonly stocks: { realm: CardStock<SpaceCard> };
 
   constructor(game: Azure) {
     this.game = game;
@@ -20,20 +20,22 @@ class SpaceManager {
   private create(): void {
     const manager = new CardManager<SpaceCard>(this.game, {
       getId: ({ id }) => {
-        return `azr_spaceCard-${id}`;
+        return `azr_space-${id}`;
       },
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ id }, element) => {
-        element.classList.add(`azr_spaceCard`);
+      setupDiv: ({ x, y }, element) => {
+        element.classList.add(`azr_space`);
+        element.style.setProperty("--x", x.toString());
+        element.style.setProperty("--y", y.toString());
       },
     });
 
     this.gamedatas.stocks.spaces = {
       realm: new CardStock<SpaceCard>(
         manager,
-        document.getElementById(`azr_spacesStock`),
+        document.getElementById(`azr_spaces`),
         {}
       ),
     };
@@ -61,5 +63,23 @@ class SpaceManager {
   setup(): void {
     this.create();
     this.setupStocks();
+  }
+
+  makeSelectable(selectableSpaces?: SpaceCard[]): void {
+    this.stocks.realm.setSelectionMode("single");
+    this.stocks.realm.setSelectableCards(selectableSpaces);
+
+    // this.stocks.realm.onSelectionChange = (selection, card) => {
+    //   this.game.statusBar.addActionButton(
+    //     _("confirm"),
+    //     () => {
+    //       const { x, y } = card;
+    //       this.game.bgaPerformAction("act_placeStone", { x, y });
+    //     },
+    //     {
+    //       autoclick: true,
+    //     }
+    //   );
+    // };
   }
 }

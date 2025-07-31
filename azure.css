@@ -437,23 +437,6 @@ body > .card {
   pointer-events: none;
 }
 
-.azr_spaces {
-  display: grid;
-  grid-template-columns: repeat(3, var(--space-width));
-  grid-template-rows: repeat(3, var(--space-width));
-}
-
-.azr_space {
-  position: relative;
-  grid-column: var(--x);
-  grid-row: var(--y);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  width: var(--space-width);
-}
-
 .azr_wisdomTrack {
   grid-area: wisdom;
   position: relative;
@@ -634,15 +617,33 @@ body > .card {
   background: radial-gradient(circle at 80% 20%, #ffffff 0%, #c1e8fb 60%, #91cde5 70%, #5ca9c6 100%);
 }
 
-.azr_spaceCard {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.azr_spaces {
+  display: grid;
+  grid-template-columns: repeat(6, var(--space-width));
+  grid-template-rows: repeat(6, var(--space-width));
 }
-.azr_spaceCard * {
+
+.azr_space {
+  position: relative;
+  display: flex;
+  grid-column: var(--x);
+  grid-row: var(--y);
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: var(--space-width);
+}
+.azr_space * {
   box-shadow: none !important;
+}
+.azr_space.azr_selectable {
+  cursor: pointer;
+}
+.azr_space.azr_unselectable {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.azr_space.azr_selected {
+  background-color: rgba(0, 100, 0, 0.4);
 }
 
 .player-board-game-specific-content {

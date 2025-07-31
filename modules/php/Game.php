@@ -28,6 +28,7 @@ use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\states\StPlayerTurn;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -57,6 +58,12 @@ class Game extends \Bga\GameFramework\Table
         $Notify->addDecorators();
 
         $this->initGameStateLabels([]);
+    }
+
+    public function arg_playerTurn(): array
+    {
+        $StPlayerTurn = new StPlayerTurn($this);
+        return $StPlayerTurn->getArgs();
     }
 
     public function act_placeStone(

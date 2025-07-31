@@ -50,7 +50,7 @@ class Space extends Subclass
         return $this->cost <= $QiManager->countByDomain($player_id, $this->domain_id);
     }
 
-    public function isAvailable(int $player_id): bool
+    public function isSelectable(int $player_id): bool
     {
         return !$this->isMountain && !$this->isOccupied() && $this->canPayCost($player_id);
     }

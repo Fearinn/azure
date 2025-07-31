@@ -1,11 +1,32 @@
-.azr_spaceCard {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+.azr_spaces {
+  display: grid;
+  grid-template-columns: repeat(6, var(--space-width));
+  grid-template-rows: repeat(6, var(--space-width));
+}
+
+.azr_space {
+  position: relative;
+  display: flex;
+  grid-column: var(--x);
+  grid-row: var(--y);
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: var(--space-width);
 
   * {
     box-shadow: none !important;
+  }
+
+  &.azr_selectable {
+    cursor: pointer;
+  }
+
+  &.azr_unselectable {
+    background-color: #00000066;
+  }
+
+  &.azr_selected {
+    background-color: #00640066;
   }
 }

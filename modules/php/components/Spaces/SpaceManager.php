@@ -90,4 +90,22 @@ class SpaceManager extends Subclass
 
         $this->placeGrids($grids, $domain_ids);
     }
+
+    public function getSelectable(int $player_id): array
+    {
+        $selectableSpaces = [];
+
+        $realm = $this->globals->get(G_REALM);
+        foreach ($realm as $x => $column) {
+            foreach ($column as $y => $space_id) {
+                $Space = new Space($this->game, $x, $y);
+
+                if ($Space->isSelectable($player_id)) {
+                    $selectableSpaces[] = ["id" => $space_id, "x" => $x, "y" => $y];
+                }
+            }
+        }
+
+        return $selectableSpaces;
+    }
 }

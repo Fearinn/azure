@@ -26,20 +26,3 @@
   transform: rotate(var(--rotation));
   pointer-events: none;
 }
-
-.azr_spaces {
-  display: grid;
-  grid-template-columns: repeat(3, var(--space-width));
-  grid-template-rows: repeat(3, var(--space-width));
-}
-
-.azr_space {
-  position: relative;
-  grid-column: var(--x);
-  grid-row: var(--y);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  width: var(--space-width);
-}

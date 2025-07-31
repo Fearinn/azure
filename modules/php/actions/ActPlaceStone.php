@@ -33,7 +33,7 @@ class ActPlaceStone extends ActionManager
 
     public function validate(Space $Space): void
     {
-        if (!$Space->isAvailable($this->player_id)) {
+        if (!$Space->isSelectable($this->player_id)) {
             throw new \BgaVisibleSystemException("space unavailable");
         }
     }

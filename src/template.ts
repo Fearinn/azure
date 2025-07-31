@@ -38,18 +38,18 @@ class AzureTemplate {
       );
     });
 
-    const spacesElement = document.getElementById(`azr_spaces`);
+    // const spacesElement = document.getElementById(`azr_spaces`);
 
-    for (const x in realm) {
-      for (const y in realm[x]) {
-        const space_id = realm[x][y];
+    // for (const x in realm) {
+    //   for (const y in realm[x]) {
+    //     const space_id = realm[x][y];
 
-        spacesElement.insertAdjacentHTML(
-          `beforeend`,
-          `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
-        );
-      }
-    }
+    //     spacesElement.insertAdjacentHTML(
+    //       `beforeend`,
+    //       `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
+    //     );
+    //   }
+    // }
 
     const decksElement = document.getElementById(`azr_decks`);
     for (const domain_id in decksCounts) {
@@ -72,11 +72,11 @@ class AzureTemplate {
   }
 
   setupStocks() {
-    const beastManager = new BeastManager(this.game);
-    beastManager.setup();
-
     const spacetManager = new SpaceManager(this.game);
     spacetManager.setup();
+
+    const beastManager = new BeastManager(this.game);
+    beastManager.setup();
 
     const qiManager = new QiManager(this.game);
     qiManager.setup();

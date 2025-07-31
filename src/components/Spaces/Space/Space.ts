@@ -11,14 +11,7 @@ class Space extends SpaceManager implements Space {
   }
 
   setup(): void {
-    console.log(this.id, "TEST");
-    this.stocks.realm.addCard(
-      this.card,
-      {},
-      {
-        forceToElement: document.getElementById(`azr_space-${this.id}`),
-      }
-    );
+    this.stocks.realm.addCard(this.card, {}, {});
   }
 
   getStock(): CardStock<SpaceCard> {

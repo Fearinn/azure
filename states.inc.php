@@ -25,9 +25,10 @@ if (!defined("ST_PLAYER_TURN")) {
 $machinestates = [
     ST_PLAYER_TURN => GameStateBuilder::create()
         ->name("playerTurn")
-        ->description(clienttranslate('${actplayer} must place a stone'))
-        ->descriptionmyturn(clienttranslate('${you} must place a stone'))
+        ->description(clienttranslate('${actplayer} must place a stone on a space'))
+        ->descriptionmyturn(clienttranslate('${you} must place a stone on a space'))
         ->type(StateType::ACTIVE_PLAYER)
+        ->args("arg_playerTurn")
         ->possibleactions([
             "act_placeStone",
         ])

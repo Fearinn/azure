@@ -19,7 +19,10 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
     template.setup();
     this.setupNotifications();
   }
-  public onEnteringState(stateName: string, args: any) {}
+  public onEnteringState(stateName: StateName, args: { args: any }) {
+    const stateManager = new StateManager(this);
+    stateManager.onEntering(stateName, args.args);
+  }
   public onLeavingState(stateName: string) {}
   public onUpdateActionButtons(stateName: string, args: any) {}
   public setupNotifications() {}
