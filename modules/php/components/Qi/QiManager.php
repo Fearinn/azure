@@ -107,7 +107,7 @@ class QiManager extends CardManager
     public function discard(int $player_id, int $domain_id): void
     {
         $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable}  
-        WHERE card_location='hand' AND card_location_arg={$player_id} LIMIT 1");
+        WHERE card_location='hand' AND card_location_arg={$player_id} AND card_type_arg={$domain_id} LIMIT 1");
 
         $this->deck->insertCardOnExtremePosition($card_id, "deck-{$domain_id}", false);
 
@@ -116,7 +116,7 @@ class QiManager extends CardManager
             "discardQi",
             "",
             [
-                "card_id" => $card_id,
+                "card" => $this->deck->getCard($card_id),
             ]
         );
     }

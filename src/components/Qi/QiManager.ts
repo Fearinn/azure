@@ -1,13 +1,13 @@
 interface QiCard extends AzureCard {}
 
 interface QiStocks {
-  decks: { [domain_id: number]: Deck<QiCard> };
+  decks: { [deck_id: string]: Deck<QiCard> };
   hand: HandStock<QiCard>;
 }
 
 class QiManager {
-  private game: Azure;
-  private gamedatas: AzureGamedatas;
+  public readonly game: Azure;
+  public readonly gamedatas: AzureGamedatas;
   public manager: CardManager<QiCard>;
   public stocks: QiStocks;
 
@@ -97,5 +97,15 @@ class QiManager {
   setup(): void {
     this.create();
     this.setupStocks();
+  }
+
+  async gather(player_id: number, cards: QiCard[]): Promise<void> {
+    const promises = [];
+    cards.forEach((card) => {
+      const qi = new Qi(this.game, card);
+      qi.gather(player_id);
+    });
+
+    await Promise.all(promises);
   }
 }

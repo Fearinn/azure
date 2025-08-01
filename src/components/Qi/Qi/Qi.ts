@@ -1,20 +1,40 @@
-interface Qi {
-  id: number;
-}
-
 class Qi extends QiManager {
-  card: QiCard;
+  readonly card: QiCard;
+  readonly id: number;
+  readonly type_arg: number;
+  readonly domain_id: number;
+  private readonly deck_id: string;
 
   constructor(game: Azure, card: QiCard) {
     super(game);
-    this.card = card;
+    this.card = new AzureCard(card);
+    this.domain_id = this.card.type_arg;
+    this.deck_id = `deck-${this.domain_id}`;
   }
 
   setup(): void {
     this.stocks.decks[this.card.location].addCard(this.card);
   }
 
-  getStock(): CardStock<QiCard> {
-    return this.manager.getCardStock(this.card);
+  async discard(player_id: number): Promise<void> {
+    const fromElement =
+      player_id === this.game.player_id
+        ? undefined
+        : document.getElementById(`azr_handIcon-${player_id}`);
+
+    await this.stocks.decks[this.deck_id].addCard(this.card, {
+      fromElement: fromElement,
+    });
+  }
+
+  async gather(player_id: number): Promise<void> {
+    if (player_id === this.game.player_id) {
+      await this.stocks.hand.addCard(this.card, {
+        fromStock: this.stocks.decks[this.deck_id],
+      });
+      return;
+    }
+
+    await this.stocks.decks[this.deck_id].removeCard(this.card);
   }
 }

@@ -2341,7 +2341,9 @@ var Azure = /** @class */ (function (_super) {
     };
     Azure.prototype.onLeavingState = function (stateName) { };
     Azure.prototype.onUpdateActionButtons = function (stateName, args) { };
-    Azure.prototype.setupNotifications = function () { };
+    Azure.prototype.setupNotifications = function () {
+        this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
+    };
     return Azure;
 }(Game));
 define([
@@ -2353,6 +2355,54 @@ define([
     window.BgaAutoFit = BgaAutoFit;
     return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });
+var NotifManager = /** @class */ (function () {
+    function NotifManager(game) {
+        this.game = game;
+    }
+    NotifManager.prototype.notif_discardQi = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, card, qi;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, card = args.card;
+                        qi = new Qi(this.game, card);
+                        return [4 /*yield*/, qi.discard(player_id)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NotifManager.prototype.notif_gatherQi = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, cards, qiManager;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, cards = args.cards;
+                        qiManager = new QiManager(this.game);
+                        return [4 /*yield*/, qiManager.gather(player_id, cards)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    NotifManager.prototype.notif_incScore = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var score, player_id;
+            return __generator(this, function (_a) {
+                score = args.score, player_id = args.player_id;
+                this.game.scoreCtrl[player_id].incValue(score);
+                return [2 /*return*/];
+            });
+        });
+    };
+    return NotifManager;
+}());
 var AzureTemplate = /** @class */ (function () {
     function AzureTemplate(game, gamedatas) {
         this.game = game;
@@ -2445,13 +2495,23 @@ var Utils = /** @class */ (function () {
     Utils.prototype.addConfirmationButton = function (label, callback, params) {
         this.game.statusBar.addActionButton(label, function () {
             callback();
-        }, __assign({ id: "azr_confirmationBtn", autoclick: true }, params));
+        }, __assign({ id: "azr_confirmationBtn" }, params));
     };
     Utils.prototype.removeConfirmationButton = function () {
         var _a;
         (_a = document.getElementById("azr_confirmationBtn")) === null || _a === void 0 ? void 0 : _a.remove();
     };
     return Utils;
+}());
+var AzureCard = /** @class */ (function () {
+    function AzureCard(card) {
+        this.id = card.id;
+        this.type = card.type;
+        this.type_arg = Number(card.type_arg);
+        this.location = card.location;
+        this.location_arg = Number(card.location_arg);
+    }
+    return AzureCard;
 }());
 var BeastManager = /** @class */ (function () {
     function BeastManager(game) {
@@ -2505,9 +2565,6 @@ var Beast = /** @class */ (function (_super) {
         this.stocks.realm.addCard(this.card, {}, {
             forceToElement: document.getElementById("azr_space-".concat(this.card.space_id)),
         });
-    };
-    Beast.prototype.getStock = function () {
-        return this.manager.getCardStock(this.card);
     };
     return Beast;
 }(BeastManager));
@@ -2584,20 +2641,78 @@ var QiManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
+    QiManager.prototype.gather = function (player_id, cards) {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        cards.forEach(function (card) {
+                            var qi = new Qi(_this.game, card);
+                            qi.gather(player_id);
+                        });
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return QiManager;
 }());
 var Qi = /** @class */ (function (_super) {
     __extends(Qi, _super);
     function Qi(game, card) {
         var _this = _super.call(this, game) || this;
-        _this.card = card;
+        _this.card = new AzureCard(card);
+        _this.domain_id = _this.card.type_arg;
+        _this.deck_id = "deck-".concat(_this.domain_id);
         return _this;
     }
     Qi.prototype.setup = function () {
         this.stocks.decks[this.card.location].addCard(this.card);
     };
-    Qi.prototype.getStock = function () {
-        return this.manager.getCardStock(this.card);
+    Qi.prototype.discard = function (player_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            var fromElement;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        fromElement = player_id === this.game.player_id
+                            ? undefined
+                            : document.getElementById("azr_handIcon-".concat(player_id));
+                        return [4 /*yield*/, this.stocks.decks[this.deck_id].addCard(this.card, {
+                                fromElement: fromElement,
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Qi.prototype.gather = function (player_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        if (!(player_id === this.game.player_id)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.stocks.hand.addCard(this.card, {
+                                fromStock: this.stocks.decks[this.deck_id],
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                    case 2: return [4 /*yield*/, this.stocks.decks[this.deck_id].removeCard(this.card)];
+                    case 3:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return Qi;
 }(QiManager));
@@ -2676,9 +2791,6 @@ var Space = /** @class */ (function (_super) {
     }
     Space.prototype.setup = function () {
         this.stocks.realm.addCard(this.card, {}, {});
-    };
-    Space.prototype.getStock = function () {
-        return this.manager.getCardStock(this.card);
     };
     return Space;
 }(SpaceManager));

@@ -174,7 +174,7 @@ $this->SPACES = [
         "id" => 1121,
         "qi" => 1,
         "qi_color" => 2,
-        "wisdom" => 0,
+        "wisdom" => 1,
         "domain" => 1
     ],
     1122 => [

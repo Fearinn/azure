@@ -13,8 +13,4 @@ class Space extends SpaceManager implements Space {
   setup(): void {
     this.stocks.realm.addCard(this.card, {}, {});
   }
-
-  getStock(): CardStock<SpaceCard> {
-    return this.manager.getCardStock(this.card);
-  }
 }

@@ -20,8 +20,4 @@ class Beast extends BeastManager {
       }
     );
   }
-
-  getStock(): CardStock<BeastCard> {
-    return this.manager.getCardStock(this.card);
-  }
 }

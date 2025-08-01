@@ -25,7 +25,9 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   }
   public onLeavingState(stateName: string) {}
   public onUpdateActionButtons(stateName: string, args: any) {}
-  public setupNotifications() {}
+  public setupNotifications() {
+    this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
+  }
 
   onGameUserPreferenceChanged = (pref_id: number, pref_value: number) => {
     switch (pref_id) {

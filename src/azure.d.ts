@@ -48,11 +48,3 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
 }
 
 interface AzureGui extends Game {}
-
-interface AzureCard {
-  id: number;
-  type: string;
-  type_arg?: number;
-  location: string;
-  location_arg: number;
-}
