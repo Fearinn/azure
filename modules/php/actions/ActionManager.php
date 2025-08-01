@@ -4,6 +4,7 @@ namespace Bga\Games\Azure\actions;
 
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\Subclass;
+use GameState;
 
 class ActionManager extends Subclass
 {

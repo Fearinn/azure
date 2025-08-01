@@ -28,6 +28,7 @@ use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\states\StBetweenPlayers;
 use Bga\Games\Azure\states\StPlayerTurn;
 
 class Game extends \Bga\GameFramework\Table
@@ -60,11 +61,21 @@ class Game extends \Bga\GameFramework\Table
         $this->initGameStateLabels([]);
     }
 
+    // States
+
     public function arg_playerTurn(): array
     {
         $StPlayerTurn = new StPlayerTurn($this);
         return $StPlayerTurn->getArgs();
     }
+
+    public function st_betweenPlayers(): void
+    {
+        $StBetweenPlayers = new StBetweenPlayers($this);
+        $StBetweenPlayers->act();
+    }
+
+    // Player Actions
 
     public function act_placeStone(
         #[IntParam(min: 1, max: 6)] int $x,
@@ -72,6 +83,12 @@ class Game extends \Bga\GameFramework\Table
     ): void {
         $ActPlaceStone = new ActPlaceStone($this);
         $ActPlaceStone->act($x, $y);
+    }
+
+    // Utils 
+
+    public function azr_activeNextPlayer(): void {
+        $this->activeNextPlayer();
     }
 
     public function upgradeTableDb($from_version) {}

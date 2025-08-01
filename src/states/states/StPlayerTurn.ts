@@ -8,6 +8,11 @@ class StPlayerTurn extends StateManager {
     const spaceManager = new SpaceManager(this.game);
     spaceManager.makeSelectable(_private.selectableSpaces);
   }
+
+  leave() {
+    const spaceManager = new SpaceManager(this.game);
+    spaceManager.makeUnselectable();
+  }
 }
 
 interface arg_playerTurn {

@@ -2339,7 +2339,10 @@ var Azure = /** @class */ (function (_super) {
         var stateManager = new StateManager(this);
         stateManager.onEntering(stateName, args.args);
     };
-    Azure.prototype.onLeavingState = function (stateName) { };
+    Azure.prototype.onLeavingState = function (stateName) {
+        var stateManager = new StateManager(this);
+        stateManager.onLeaving(stateName);
+    };
     Azure.prototype.onUpdateActionButtons = function (stateName, args) { };
     Azure.prototype.setupNotifications = function () {
         this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
@@ -2797,6 +2800,9 @@ var SpaceManager = /** @class */ (function () {
             });
         };
     };
+    SpaceManager.prototype.makeUnselectable = function () {
+        this.stocks.realm.setSelectionMode("none");
+    };
     return SpaceManager;
 }());
 var Space = /** @class */ (function (_super) {
@@ -2898,6 +2904,16 @@ var StateManager = /** @class */ (function () {
                 break;
         }
     };
+    StateManager.prototype.onLeaving = function (stateName) {
+        if (!this.game.isCurrentPlayerActive()) {
+            return;
+        }
+        switch (stateName) {
+            case "playerTurn":
+                new StPlayerTurn(this.game).leave();
+                break;
+        }
+    };
     return StateManager;
 }());
 var StPlayerTurn = /** @class */ (function (_super) {
@@ -2909,6 +2925,10 @@ var StPlayerTurn = /** @class */ (function (_super) {
         var _private = args._private;
         var spaceManager = new SpaceManager(this.game);
         spaceManager.makeSelectable(_private.selectableSpaces);
+    };
+    StPlayerTurn.prototype.leave = function () {
+        var spaceManager = new SpaceManager(this.game);
+        spaceManager.makeUnselectable();
     };
     return StPlayerTurn;
 }(StateManager));

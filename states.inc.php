@@ -20,6 +20,10 @@ use Bga\GameFramework\StateType;
 
 if (!defined("ST_PLAYER_TURN")) {
     define("ST_PLAYER_TURN", 2);
+    define("ST_CHECK_BEASTS", 3);
+    define("ST_BETWEEN_PLAYERS", 4);
+
+    define("TR_NEXT_PLAYER", "nextPlayer");
 }
 
 $machinestates = [
@@ -33,19 +37,19 @@ $machinestates = [
             "act_placeStone",
         ])
         ->transitions([
-            "placeStone" => 3,
+            TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
         ])
         ->build(),
 
-    3 => GameStateBuilder::create()
-        ->name("nextPlayer")
-        ->description("")
+    ST_BETWEEN_PLAYERS => GameStateBuilder::create()
+        ->name("betweenPlayers")
+        ->description(clienttranslate("Finishing turn..."))
         ->type(StateType::GAME)
-        ->action("stNextPlayer")
+        ->action("st_betweenPlayers")
         ->updateGameProgression(true)
         ->transitions([
+            TR_NEXT_PLAYER => ST_PLAYER_TURN,
             "endScore" => 98,
-            "nextPlayer" => 2,
         ])
         ->build(),
 

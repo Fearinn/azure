@@ -84,4 +84,8 @@ class SpaceManager {
       });
     };
   }
+
+  makeUnselectable(): void {
+    this.stocks.realm.setSelectionMode("none");
+  }
 }
