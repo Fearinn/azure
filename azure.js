@@ -2391,6 +2391,22 @@ var NotifManager = /** @class */ (function () {
             });
         });
     };
+    NotifManager.prototype.notif_placeStone = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, space_id, card, stone;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, space_id = args.space_id, card = args.card;
+                        stone = new Stone(this.game, card);
+                        return [4 /*yield*/, stone.place(player_id, space_id)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     NotifManager.prototype.notif_incScore = function (args) {
         return __awaiter(this, void 0, void 0, function () {
             var score, player_id;
@@ -2450,10 +2466,12 @@ var AzureTemplate = /** @class */ (function () {
         }
     };
     AzureTemplate.prototype.setupStocks = function () {
-        var spacetManager = new SpaceManager(this.game);
-        spacetManager.setup();
+        var spaceManager = new SpaceManager(this.game);
+        spaceManager.setup();
         var beastManager = new BeastManager(this.game);
         beastManager.setup();
+        var stoneManager = new StoneManager(this.game);
+        stoneManager.setup();
         var qiManager = new QiManager(this.game);
         qiManager.setup();
     };
@@ -2794,6 +2812,78 @@ var Space = /** @class */ (function (_super) {
     };
     return Space;
 }(SpaceManager));
+var StoneManager = /** @class */ (function () {
+    function StoneManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.stones;
+        this.stocks = this.gamedatas.stocks.stones;
+    }
+    StoneManager.prototype.create = function () {
+        var _this = this;
+        var manager = new CardManager(this.game, {
+            getId: function (_a) {
+                var id = _a.id;
+                return "azr_stone-".concat(id);
+            },
+            selectedCardClass: "azr_selected",
+            selectableCardClass: "azr_selectable",
+            unselectableCardClass: "azr_unselectable",
+            setupDiv: function (_a, element) {
+                var player_id = _a.type_arg;
+                element.classList.add("azr_stone");
+                var color = _this.gamedatas.players[player_id].color;
+                element.classList.add("azr_stone-".concat(color));
+            },
+        });
+        this.gamedatas.stocks.stones = {
+            realm: new CardStock(manager, document.getElementById("azr_stones"), {}),
+        };
+        this.gamedatas.managers.stones = manager;
+    };
+    StoneManager.prototype.setupStocks = function () {
+        var _this = this;
+        var placedStones = this.gamedatas.placedStones;
+        placedStones.forEach(function (stoneCard) {
+            var stone = new Stone(_this.game, stoneCard);
+            stone.setup();
+        });
+    };
+    StoneManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    return StoneManager;
+}());
+var Stone = /** @class */ (function (_super) {
+    __extends(Stone, _super);
+    function Stone(game, card) {
+        var _this = _super.call(this, game) || this;
+        _this.card = new AzureCard(card);
+        return _this;
+    }
+    Stone.prototype.setup = function () {
+        var space_id = this.card.location_arg;
+        this.stocks.realm.addCard(this.card, {}, {
+            forceToElement: document.getElementById("azr_space-".concat(space_id)),
+        });
+    };
+    Stone.prototype.place = function (player_id, space_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.gamedatas.counters[player_id].stones.incValue(-1);
+                        return [4 /*yield*/, this.stocks.realm.addCard(this.card, { fromElement: document.getElementById("azr_stoneIcon-".concat(player_id)) }, { forceToElement: document.getElementById("azr_space-".concat(space_id)) })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return Stone;
+}(StoneManager));
 var StateManager = /** @class */ (function () {
     function StateManager(game) {
         this.game = game;

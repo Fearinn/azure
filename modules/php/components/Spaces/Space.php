@@ -41,7 +41,7 @@ class Space extends Subclass
     private function isOccupied(): bool
     {
         $StoneManager = new StoneManager($this->game);
-        return $StoneManager->countBySpace($this->x, $this->y);
+        return $StoneManager->countBySpace($this->id);
     }
 
     private function canPayCost(int $player_id): bool

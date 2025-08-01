@@ -1,7 +1,6 @@
 class Qi extends QiManager {
   readonly card: QiCard;
   readonly id: number;
-  readonly type_arg: number;
   readonly domain_id: number;
   private readonly deck_id: string;
 

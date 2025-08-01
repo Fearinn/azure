@@ -3,6 +3,7 @@
 namespace Bga\Games\Azure\components\Stones;
 
 use Bga\Games\Azure\components\CardManager;
+use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
 
@@ -34,27 +35,36 @@ class StoneManager extends CardManager
         }
     }
 
-    public function countBySpace(int $x, int $y): int
+    public function countBySpace(int $space_id): int
     {
-        return $this->deck->countCardsInLocation("space", "{$x}{$y}");
+        return $this->deck->countCardsInLocation("realm", $space_id);
     }
 
     public function place(int $player_id, int $x, int $y): void
     {
-        $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='space', card_location_arg='{$x}{$y}' 
-        WHERE card_location='hand' AND card_type_arg={$player_id} LIMIT 1");
+        $Space = new Space($this->game, $x, $y);
+        $space_id = $Space->id;
+
+        $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable} WHERE card_location='hand' AND card_type_arg={$player_id} LIMIT 1");
+        $this->deck->moveCard($card_id, "realm", $space_id);
 
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "placeStone",
             clienttranslate('${player_name} places a stone at (${x}, ${y})'),
             [
-                "log_x" => $x,
-                "log_y" => $y,
                 "x" => $x,
-                "y" => $y
+                "y" => $y,
+                "space_id" => $space_id,
+                "card" => $this->deck->getCard($card_id),
             ],
             $player_id
         );
+    }
+
+    public function getPlaced(): array
+    {
+        $placedStones = $this->deck->getCardsInLocation("realm");
+        return array_values($placedStones);
     }
 }

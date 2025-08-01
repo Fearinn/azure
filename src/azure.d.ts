@@ -5,6 +5,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     beasts?: CardManager<BeastCard>;
     qi?: CardManager<QiCard>;
     spaces?: CardManager<SpaceCard>;
+    stones?: CardManager<StoneCard>;
   };
   stocks: {
     beasts?: {
@@ -14,6 +15,9 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
       realm: CardStock<SpaceCard>;
     };
     qi?: QiStocks;
+    stones?: {
+      realm: CardStock<StoneCard>;
+    };
   };
   counters: {
     [player_id: number]: {
@@ -45,6 +49,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   stoneCounts: {
     [player_id: number]: number;
   };
+  placedStones: StoneCard[];
 }
 
 interface AzureGui extends Game {}

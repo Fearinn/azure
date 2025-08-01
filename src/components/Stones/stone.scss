@@ -1,5 +1,5 @@
 :root {
-  --stone-width: var(--space-width);
+  --stone-width: calc(var(--space-width) * 0.9);
 }
 
 .azr_stone {

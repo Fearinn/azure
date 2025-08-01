@@ -72,11 +72,14 @@ class AzureTemplate {
   }
 
   setupStocks() {
-    const spacetManager = new SpaceManager(this.game);
-    spacetManager.setup();
+    const spaceManager = new SpaceManager(this.game);
+    spaceManager.setup();
 
     const beastManager = new BeastManager(this.game);
     beastManager.setup();
+
+    const stoneManager = new StoneManager(this.game);
+    stoneManager.setup();
 
     const qiManager = new QiManager(this.game);
     qiManager.setup();

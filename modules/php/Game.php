@@ -94,6 +94,7 @@ class Game extends \Bga\GameFramework\Table
             "decksCounts" => $QiManager->getDecksCounts(),
             "decks" => $QiManager->getDecks(),
             "handsCounts" => $QiManager->getHandsCounts(),
+            "placedStones" => $StoneManager->getPlaced(),
             "stoneCounts" => $StoneManager->getHandsCounts(),
         ];
 

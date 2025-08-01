@@ -16,8 +16,8 @@
   <div id="azr_realm" class="azr_realm">
     <div id="azr_domains" class="azr_domains"></div>
     <div id="azr_spaces" class="azr_spaces"></div>
-    <div id="azr_spacesStock" class="azr_spacesStock"></div>
     <div id="azr_beasts" class="azr_beasts"></div>
+    <div id="azr_stones" class="azr_stones"></div>
   </div>
   <div id="azr_wisdomTrack" class="azr_wisdomTrack"></div>
 </div>
