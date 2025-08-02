@@ -2,7 +2,7 @@ interface QiCard extends AzureCard {}
 
 interface QiStocks {
   decks: { [deck_id: string]: Deck<QiCard> };
-  hand: HandStock<QiCard>;
+  hand: LineStock<QiCard>;
 }
 
 class QiManager {
@@ -54,8 +54,6 @@ class QiManager {
         document.getElementById(`azr_deck-${domain_id}`),
         {
           fakeCardGenerator: (deck_id) => {
-            console.log(deck_id, domain_id, "TEST");
-
             return {
               id: domain_id,
               type_arg: domain_id,
@@ -80,9 +78,7 @@ class QiManager {
 
     this.gamedatas.stocks.qi = {
       decks,
-      hand: new HandStock(manager, document.getElementById(`azr_hand`), {
-        cardShift: "8px",
-        cardOverlap: "80px",
+      hand: new LineStock(manager, document.getElementById(`azr_hand`), {
         sort: sortFunction("type_arg"),
       }),
     };

@@ -584,6 +584,7 @@ body > .card {
 }
 
 .azr_qi {
+  position: relative;
   aspect-ratio: 1/1.52;
   width: var(--qi-width);
 }
@@ -595,9 +596,28 @@ body > .card {
   font-size: 32px !important;
 }
 
-.azr_hand {
+.azr_handContainer {
   grid-area: hand;
-  margin-bottom: 0 8px 32px 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.azr_handTitle {
+  color: var(--color);
+  border-radius: 8px;
+  font-size: 32px;
+  align-self: start;
+  background-color: var(--opp-color);
+  margin: 0;
+  padding: 4px;
+}
+
+.azr_hand {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 :root {
@@ -633,7 +653,7 @@ body > .card {
   aspect-ratio: 1;
   width: var(--space-width);
 }
-.azr_space * {
+.azr_space .card-side {
   box-shadow: none !important;
 }
 .azr_space.azr_selectable {
@@ -696,20 +716,6 @@ body > .card {
   text-shadow: 0 0 16px #ffffff;
 }
 
-.azr_pref-floatingHand .azr_hand {
-  position: fixed;
-  left: 50%;
-  bottom: -30%;
-  margin: 0;
-  transform: translateX(-50%) translateY(-50%);
-  transition: 1s;
-  z-index: 2;
-}
-.azr_pref-floatingHand .azr_hand:hover {
-  bottom: -13%;
-  z-index: 1052;
-}
-
 #bga-zoom-wrapper {
   direction: ltr;
 }
@@ -720,7 +726,7 @@ body > .card {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-areas: "decks empty" "realm hand" "realm wisdom";
+  grid-template-areas: "decks empty" "realm empty" "realm wisdom" "hand hand";
   gap: 24px;
   padding: 8px;
   width: 100%;

@@ -10,7 +10,6 @@
 -------
 -->
 
-<div id="azr_hand" class="azr_hand"></div>
 <div id="azr_gameArea" class="azr_gameArea">
   <div id="azr_decks" class="azr_decks"></div>
   <div id="azr_realm" class="azr_realm">
@@ -20,6 +19,10 @@
     <div id="azr_stones" class="azr_stones"></div>
   </div>
   <div id="azr_wisdomTrack" class="azr_wisdomTrack"></div>
+  <div id="azr_handContainer" class="whiteblock azr_handContainer">
+    <h4 id="azr_handTitle" class="azr_handTitle"></h4>
+    <div id="azr_hand" class="azr_hand"></div>
+  </div>
 </div>
 
 {OVERALL_GAME_FOOTER}

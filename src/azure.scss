@@ -22,8 +22,9 @@
   justify-content: center;
   grid-template-areas:
     "decks empty"
-    "realm hand"
-    "realm wisdom";
+    "realm empty"
+    "realm wisdom"
+    "hand hand";
   gap: 24px;
   padding: 8px;
   width: 100%;

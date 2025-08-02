@@ -18,18 +18,3 @@
     text-shadow: 0 0 16px #ffffff;
   }
 }
-
-.azr_pref-floatingHand .azr_hand {
-  position: fixed;
-  left: 50%;
-  bottom: -30%;
-  margin: 0;
-  transform: translateX(-50%) translateY(-50%);
-  transition: 1s;
-  z-index: 2;
-
-  &:hover {
-    bottom: -13%;
-    z-index: 1052;
-  }
-}

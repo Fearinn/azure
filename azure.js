@@ -2310,22 +2310,6 @@ var Azure = /** @class */ (function (_super) {
     // @ts-ignore
     function Azure() {
         var _this = this;
-        _this.onGameUserPreferenceChanged = function (pref_id, pref_value) {
-            switch (pref_id) {
-                case 101:
-                    var handElement = document.getElementById("azr_hand");
-                    if (pref_value === 1) {
-                        document
-                            .getElementById("bga-zoom-wrapper")
-                            .insertAdjacentElement("beforebegin", handElement);
-                        break;
-                    }
-                    document
-                        .getElementById("azr_gameArea")
-                        .insertAdjacentElement("afterbegin", handElement);
-                    break;
-            }
-        };
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {
@@ -2440,23 +2424,13 @@ var AzureTemplate = /** @class */ (function () {
         });
     };
     AzureTemplate.prototype.setupRealm = function () {
-        var _a = this.gamedatas, realm = _a.realm, domainsOrder = _a.domainsOrder, domainsRotations = _a.domainsRotations, domainsSides = _a.domainsSides, decksCounts = _a.decksCounts;
+        var _a = this.gamedatas, domainsOrder = _a.domainsOrder, domainsRotations = _a.domainsRotations, domainsSides = _a.domainsSides, decksCounts = _a.decksCounts;
         var domainsElement = document.getElementById("azr_domains");
         domainsOrder.forEach(function (domain_id) {
             var rotation = domainsRotations[domain_id] * 90;
             var side = domainsSides[domain_id];
             domainsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_domain-".concat(domain_id, "\" class=\"azr_domain\" \n        style=\"background-image: url(").concat(g_gamethemeurl, "img/domain_").concat(domain_id).concat(side, ".jpg); --rotation: ").concat(rotation, "deg; --side: ").concat(side, "; --domain: ").concat(domain_id, "\"></div>\n      "));
         });
-        // const spacesElement = document.getElementById(`azr_spaces`);
-        // for (const x in realm) {
-        //   for (const y in realm[x]) {
-        //     const space_id = realm[x][y];
-        //     spacesElement.insertAdjacentHTML(
-        //       `beforeend`,
-        //       `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
-        //     );
-        //   }
-        // }
         var decksElement = document.getElementById("azr_decks");
         for (var domain_id in decksCounts) {
             decksElement.insertAdjacentHTML("beforeend", "<div id=\"azr_deck-".concat(domain_id, "\" class=\"azr_deck\"></div>"));
@@ -2497,9 +2471,18 @@ var AzureTemplate = /** @class */ (function () {
             stones.setValue(stoneCounts[player_id]);
         }
     };
+    AzureTemplate.prototype.setupHand = function () {
+        var color = this.gamedatas.players[this.game.player_id].color;
+        var opp_color = color === "003a4f" ? "c1e8fb" : "003a4f";
+        var handTitle = document.getElementById("azr_handTitle");
+        handTitle.style.setProperty("--color", "#".concat(color));
+        handTitle.style.setProperty("--opp-color", "#".concat(opp_color));
+        handTitle.textContent = _("Your hand");
+    };
     AzureTemplate.prototype.setup = function () {
         this.setupZoom();
         this.setupRealm();
+        this.setupHand();
         this.setupWisdomTrack();
         this.setupStocks();
         this.setupPanels();
@@ -2629,7 +2612,6 @@ var QiManager = /** @class */ (function () {
             var domain_id = Number(d_id);
             var deck = new Deck(manager, document.getElementById("azr_deck-".concat(domain_id)), {
                 fakeCardGenerator: function (deck_id) {
-                    console.log(deck_id, domain_id, "TEST");
                     return {
                         id: domain_id,
                         type_arg: domain_id,
@@ -2651,9 +2633,7 @@ var QiManager = /** @class */ (function () {
         }
         this.gamedatas.stocks.qi = {
             decks: decks,
-            hand: new HandStock(manager, document.getElementById("azr_hand"), {
-                cardShift: "8px",
-                cardOverlap: "80px",
+            hand: new LineStock(manager, document.getElementById("azr_hand"), {
                 sort: sortFunction("type_arg"),
             }),
         };

@@ -11,18 +11,5 @@
       }
     },
     "default": 1
-  },
-  "101": {
-    "name": "Hand display",
-    "values": {
-      "0": {
-        "name": "Static"
-      },
-      "1": {
-        "name": "Floating",
-        "cssPref": "azr_pref-floatingHand"
-      }
-    },
-    "default": 1
   }
 }

@@ -21,7 +21,7 @@ class AzureTemplate {
   }
 
   setupRealm() {
-    const { realm, domainsOrder, domainsRotations, domainsSides, decksCounts } =
+    const { domainsOrder, domainsRotations, domainsSides, decksCounts } =
       this.gamedatas;
 
     const domainsElement = document.getElementById(`azr_domains`);
@@ -37,19 +37,6 @@ class AzureTemplate {
       `
       );
     });
-
-    // const spacesElement = document.getElementById(`azr_spaces`);
-
-    // for (const x in realm) {
-    //   for (const y in realm[x]) {
-    //     const space_id = realm[x][y];
-
-    //     spacesElement.insertAdjacentHTML(
-    //       `beforeend`,
-    //       `<div id="azr_space-${space_id}" class="azr_space" style="--x: ${x}; --y: ${y}"></div>`
-    //     );
-    //   }
-    // }
 
     const decksElement = document.getElementById(`azr_decks`);
     for (const domain_id in decksCounts) {
@@ -123,9 +110,20 @@ class AzureTemplate {
     }
   }
 
+  setupHand(): void {
+    const { color } = this.gamedatas.players[this.game.player_id];
+    const opp_color = color === "003a4f" ? "c1e8fb" : "003a4f";
+
+    const handTitle = document.getElementById(`azr_handTitle`);
+    handTitle.style.setProperty("--color", `#${color}`);
+    handTitle.style.setProperty("--opp-color", `#${opp_color}`);
+    handTitle.textContent = _("Your hand");
+  }
+
   setup() {
     this.setupZoom();
     this.setupRealm();
+    this.setupHand();
     this.setupWisdomTrack();
     this.setupStocks();
     this.setupPanels();
