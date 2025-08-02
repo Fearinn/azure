@@ -2469,15 +2469,50 @@ var AzureTemplate = /** @class */ (function () {
             hand.setValue(handsCounts[player_id]);
             stones.create("azr_stoneCount-".concat(player_id));
             stones.setValue(stoneCounts[player_id]);
+            var playerNameElement = document
+                .getElementById("player_name_".concat(player_id))
+                .querySelector("a");
+            new Utils(this.game).stylePlayerName(playerNameElement);
         }
     };
     AzureTemplate.prototype.setupHand = function () {
         var color = this.gamedatas.players[this.game.player_id].color;
-        var opp_color = color === "003a4f" ? "c1e8fb" : "003a4f";
+        var opp_color = new Utils(this.game).getOppColor(color);
         var handTitle = document.getElementById("azr_handTitle");
         handTitle.style.setProperty("--color", "#".concat(color));
         handTitle.style.setProperty("--opp-color", "#".concat(opp_color));
         handTitle.textContent = _("Your hand");
+    };
+    AzureTemplate.prototype.initObserver = function () {
+        var _this = this;
+        var observer = new MutationObserver(function (mutations) {
+            mutations.forEach(function (mutation) {
+                var addedNodes = mutation.addedNodes;
+                addedNodes.forEach(function (target) {
+                    if (target.nodeType !== 1) {
+                        return;
+                    }
+                    var utils = new Utils(_this.game);
+                    if (target.classList.contains("playername")) {
+                        utils.stylePlayerName(target);
+                        return;
+                    }
+                    target
+                        .querySelectorAll(".playername")
+                        .forEach(function (child) {
+                        utils.stylePlayerName(child);
+                    });
+                });
+            });
+        });
+        var observable = ["logs", "maintitlebar_content", "chatbardock"];
+        observable.forEach(function (observable) {
+            var observableElement = document.getElementById(observable);
+            observer.observe(observableElement, {
+                childList: true,
+                subtree: true,
+            });
+        });
     };
     AzureTemplate.prototype.setup = function () {
         this.setupZoom();
@@ -2486,12 +2521,14 @@ var AzureTemplate = /** @class */ (function () {
         this.setupWisdomTrack();
         this.setupStocks();
         this.setupPanels();
+        this.initObserver();
     };
     return AzureTemplate;
 }());
 var Utils = /** @class */ (function () {
     function Utils(game) {
         this.game = game;
+        this.gamedatas = this.game.gamedatas;
     }
     Utils.prototype.performAction = function (actionName, args, params) {
         this.game.bgaPerformAction(actionName, args, params);
@@ -2504,6 +2541,21 @@ var Utils = /** @class */ (function () {
     Utils.prototype.removeConfirmationButton = function () {
         var _a;
         (_a = document.getElementById("azr_confirmationBtn")) === null || _a === void 0 ? void 0 : _a.remove();
+    };
+    Utils.prototype.rgbToHex = function (color) {
+        if (color.includes("rbg")) {
+            return color;
+        }
+        return color === "rgb(0, 58, 79)" ? "003a4f" : "c1e8fb";
+    };
+    Utils.prototype.getOppColor = function (color) {
+        return color === "003a4f" ? "c1e8fb" : "003a4f";
+    };
+    Utils.prototype.stylePlayerName = function (element) {
+        var color = this.rgbToHex(element.style.color);
+        var opp_color = this.getOppColor(color);
+        element.style.setProperty("--color", "#".concat(color));
+        element.style.setProperty("--opp-color", "#".concat(opp_color));
     };
     return Utils;
 }());

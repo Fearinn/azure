@@ -697,11 +697,6 @@ body > .card {
   width: calc(var(--stone-width) / 3) !important;
 }
 
-.player-name a,
-.playername {
-  text-shadow: 0 0 16px #003a4f;
-}
-
 .azr_pref-thematicBg {
   background-image: url("img/background.jpg");
   background-size: 100% 100%;
@@ -711,9 +706,6 @@ body > .card {
   background-image: url("img/background.jpg");
   background-size: cover;
   background-position: bottom;
-}
-.azr_pref-thematicBg .player-name a {
-  text-shadow: 0 0 16px #ffffff;
 }
 
 #bga-zoom-wrapper {
@@ -731,4 +723,12 @@ body > .card {
   padding: 8px;
   width: 100%;
   user-select: none;
+}
+
+.player-name a:first-of-type, .playername {
+  color: var(--color);
+  background-color: var(--opp-color);
+  border-radius: 4px;
+  box-shadow: 0 0 2px #000000;
+  padding: 2px;
 }

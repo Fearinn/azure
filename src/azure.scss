@@ -30,3 +30,11 @@
   width: 100%;
   user-select: none;
 }
+
+.player-name a:first-of-type, .playername {
+  color: var(--color);
+  background-color: var(--opp-color);
+  border-radius: 4px;
+  box-shadow: 0 0 2px #000000;
+  padding: 2px;
+}

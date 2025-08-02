@@ -107,17 +107,60 @@ class AzureTemplate {
 
       stones.create(`azr_stoneCount-${player_id}`);
       stones.setValue(stoneCounts[player_id]);
+
+      const playerNameElement = document
+        .getElementById(`player_name_${player_id}`)
+        .querySelector("a") as HTMLElement;
+      new Utils(this.game).stylePlayerName(playerNameElement);
     }
   }
 
   setupHand(): void {
     const { color } = this.gamedatas.players[this.game.player_id];
-    const opp_color = color === "003a4f" ? "c1e8fb" : "003a4f";
+    const opp_color = new Utils(this.game).getOppColor(color);
 
     const handTitle = document.getElementById(`azr_handTitle`);
     handTitle.style.setProperty("--color", `#${color}`);
     handTitle.style.setProperty("--opp-color", `#${opp_color}`);
     handTitle.textContent = _("Your hand");
+  }
+
+  initObserver(): void {
+    const observer = new MutationObserver((mutations: MutationRecord[]) => {
+      mutations.forEach((mutation) => {
+        const { addedNodes } = mutation;
+
+        addedNodes.forEach((target: HTMLElement) => {
+          if (target.nodeType !== 1) {
+            return;
+          }
+
+          const utils = new Utils(this.game);
+
+          if (target.classList.contains("playername")) {
+            utils.stylePlayerName(target);
+            return;
+          }
+
+          target
+            .querySelectorAll(".playername")
+            .forEach((child: HTMLElement) => {
+              utils.stylePlayerName(child);
+            });
+        });
+      });
+    });
+
+    const observable = ["logs", "maintitlebar_content", "chatbardock"];
+
+    observable.forEach((observable) => {
+      const observableElement = document.getElementById(observable);
+
+      observer.observe(observableElement, {
+        childList: true,
+        subtree: true,
+      });
+    });
   }
 
   setup() {
@@ -127,5 +170,6 @@ class AzureTemplate {
     this.setupWisdomTrack();
     this.setupStocks();
     this.setupPanels();
+    this.initObserver();
   }
 }
