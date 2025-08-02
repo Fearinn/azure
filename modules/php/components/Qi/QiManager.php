@@ -73,15 +73,6 @@ class QiManager extends CardManager
     public function getDeck(int $domain_id): array
     {
         $deck = $this->deck->getCardsInLocation("deck-{$domain_id}");
-
-        if ($domain_id === 0) {
-            foreach ($deck as $card_id => $card) {
-                unset($card["type"]);
-                unset($card["type_arg"]);
-                $deck[$card_id] = $card;
-            }
-        }
-
         return array_values($deck);
     }
 

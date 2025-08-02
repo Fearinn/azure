@@ -109,7 +109,6 @@ class Game extends \Bga\GameFramework\Table
             "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
             "mountains" => $BeastManager->getMountains(),
             "decksCounts" => $QiManager->getDecksCounts(),
-            "decks" => $QiManager->getDecks(),
             "handsCounts" => $QiManager->getHandsCounts(),
             "placedStones" => $StoneManager->getPlaced(),
             "stoneCounts" => $StoneManager->getHandsCounts(),

@@ -35,7 +35,10 @@ class QiManager {
         element.style.backgroundImage = `url(${g_gamethemeurl}img/qi_${type_arg}.jpg)`;
       },
       setupBackDiv: ({ type_arg }, element) => {
-        element.style.backgroundImage = `url(${g_gamethemeurl}img/qi_0.jpg)`;
+        if (!type_arg) {
+          type_arg = 0;
+        }
+        element.style.backgroundImage = `url(${g_gamethemeurl}img/qi_${type_arg}.jpg)`;
       },
     });
 
@@ -50,6 +53,18 @@ class QiManager {
         manager,
         document.getElementById(`azr_deck-${domain_id}`),
         {
+          fakeCardGenerator: (deck_id) => {
+            console.log(deck_id, domain_id, "TEST");
+
+            return {
+              id: domain_id,
+              type_arg: domain_id,
+              type: "",
+              location: deck_id,
+              location_arg: 0,
+            };
+          },
+          cardNumber: decksCounts[domain_id],
           counter: {
             extraClasses: "text-shadow azr_deckCounter",
             position: "top",
@@ -79,15 +94,7 @@ class QiManager {
   }
 
   setupStocks(): void {
-    const { decks, hand } = this.gamedatas;
-
-    for (const domain_id in decks) {
-      const deck = decks[domain_id];
-      deck.forEach((card) => {
-        const qi = new Qi(this.game, card);
-        qi.setup();
-      });
-    }
+    const { decksCounts, hand } = this.gamedatas;
 
     if (!this.game.isSpectator) {
       this.stocks.hand.addCards(hand);

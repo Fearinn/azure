@@ -41,7 +41,6 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   decksCounts: {
     [domain_id: number]: number;
   };
-  decks: { [domain_id: number]: QiCard[] };
   hand: QiCard[];
   handsCounts: {
     [player_id: number]: number;

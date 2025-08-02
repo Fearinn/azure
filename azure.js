@@ -2597,7 +2597,6 @@ var QiManager = /** @class */ (function () {
         this.manager = this.gamedatas.managers.qi;
     }
     QiManager.prototype.create = function () {
-        var _a;
         var manager = new CardManager(this.game, {
             cardHeight: 228,
             cardWidth: 150,
@@ -2617,20 +2616,38 @@ var QiManager = /** @class */ (function () {
             },
             setupBackDiv: function (_a, element) {
                 var type_arg = _a.type_arg;
-                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_0.jpg)");
+                if (!type_arg) {
+                    type_arg = 0;
+                }
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_").concat(type_arg, ".jpg)");
             },
         });
         var decksCounts = this.gamedatas.decksCounts;
         var decks = {};
-        for (var d_id in decksCounts) {
+        var _loop_3 = function (d_id) {
+            var _a;
             var domain_id = Number(d_id);
             var deck = new Deck(manager, document.getElementById("azr_deck-".concat(domain_id)), {
+                fakeCardGenerator: function (deck_id) {
+                    console.log(deck_id, domain_id, "TEST");
+                    return {
+                        id: domain_id,
+                        type_arg: domain_id,
+                        type: "",
+                        location: deck_id,
+                        location_arg: 0,
+                    };
+                },
+                cardNumber: decksCounts[domain_id],
                 counter: {
                     extraClasses: "text-shadow azr_deckCounter",
                     position: "top",
                 },
             });
             decks = __assign(__assign({}, decks), (_a = {}, _a["deck-".concat(domain_id)] = deck, _a));
+        };
+        for (var d_id in decksCounts) {
+            _loop_3(d_id);
         }
         this.gamedatas.stocks.qi = {
             decks: decks,
@@ -2645,15 +2662,7 @@ var QiManager = /** @class */ (function () {
         this.manager = manager;
     };
     QiManager.prototype.setupStocks = function () {
-        var _this = this;
-        var _a = this.gamedatas, decks = _a.decks, hand = _a.hand;
-        for (var domain_id in decks) {
-            var deck = decks[domain_id];
-            deck.forEach(function (card) {
-                var qi = new Qi(_this.game, card);
-                qi.setup();
-            });
-        }
+        var _a = this.gamedatas, decksCounts = _a.decksCounts, hand = _a.hand;
         if (!this.game.isSpectator) {
             this.stocks.hand.addCards(hand);
         }
