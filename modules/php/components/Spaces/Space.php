@@ -64,7 +64,9 @@ class Space extends Subclass
             $this->qi
         );
 
-        $ScoreManager = new ScoreManager($this->game);
-        $ScoreManager->incScore($this->wisdom, $player_id);
+        if ($this->wisdom > 0) {
+            $ScoreManager = new ScoreManager($this->game);
+            $ScoreManager->incScore($this->wisdom, $player_id);
+        }
     }
 }

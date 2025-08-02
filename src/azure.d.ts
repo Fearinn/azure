@@ -6,6 +6,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     qi?: CardManager<QiCard>;
     spaces?: CardManager<SpaceCard>;
     stones?: CardManager<StoneCard>;
+    wisdom?: CardManager<WisdomCard>;
   };
   stocks: {
     beasts?: {
@@ -17,6 +18,9 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     qi?: QiStocks;
     stones?: {
       realm: CardStock<StoneCard>;
+    };
+    wisdom?: {
+      [score: number]: CardStock<WisdomCard>;
     };
   };
   counters: {

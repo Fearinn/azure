@@ -11,8 +11,12 @@
     position: absolute;
     border-radius: 100%;
     aspect-ratio: 1;
-    width: calc(var(--stone-width) / 2.5);
+    width: calc(var(--stone-width) / 2);
     transform: translate(-50%, -50%);
+
+    .azr_stone {
+      width: 100%;
+    }
 
     &:nth-child(1) {
       top: 87%;

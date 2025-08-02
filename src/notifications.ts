@@ -1,8 +1,10 @@
 class NotifManager {
-  game: Azure;
+  private readonly game: Azure;
+  private readonly gamedatas: AzureGamedatas;
 
   constructor(game: Azure) {
     this.game = game;
+    this.gamedatas = this.game.gamedatas;
   }
 
   async notif_discardQi(
@@ -35,11 +37,15 @@ class NotifManager {
 
   async notif_incScore(
     args: NotifArgs & {
-      score: number;
+      initialScore: number;
+      finalScore: number;
     }
   ): Promise<void> {
-    const { score, player_id } = args;
-    this.game.scoreCtrl[player_id].incValue(score);
+    const { initialScore, finalScore, player_id } = args;
+    this.game.scoreCtrl[player_id].toValue(finalScore);
+
+    const wisdomManager = new WisdomManager(this.game);
+    await wisdomManager.setScore(player_id, initialScore, finalScore);
   }
 }
 

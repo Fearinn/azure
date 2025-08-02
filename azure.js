@@ -2345,6 +2345,7 @@ define([
 var NotifManager = /** @class */ (function () {
     function NotifManager(game) {
         this.game = game;
+        this.gamedatas = this.game.gamedatas;
     }
     NotifManager.prototype.notif_discardQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
@@ -2396,11 +2397,18 @@ var NotifManager = /** @class */ (function () {
     };
     NotifManager.prototype.notif_incScore = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var score, player_id;
+            var initialScore, finalScore, player_id, wisdomManager;
             return __generator(this, function (_a) {
-                score = args.score, player_id = args.player_id;
-                this.game.scoreCtrl[player_id].incValue(score);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        initialScore = args.initialScore, finalScore = args.finalScore, player_id = args.player_id;
+                        this.game.scoreCtrl[player_id].toValue(finalScore);
+                        wisdomManager = new WisdomManager(this.game);
+                        return [4 /*yield*/, wisdomManager.setScore(player_id, initialScore, finalScore)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -2451,6 +2459,8 @@ var AzureTemplate = /** @class */ (function () {
         stoneManager.setup();
         var qiManager = new QiManager(this.game);
         qiManager.setup();
+        var wisdomManager = new WisdomManager(this.game);
+        wisdomManager.setup();
     };
     AzureTemplate.prototype.setupPanels = function () {
         var _a;
@@ -2931,6 +2941,67 @@ var Stone = /** @class */ (function (_super) {
     };
     return Stone;
 }(StoneManager));
+var WisdomManager = /** @class */ (function () {
+    function WisdomManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.wisdom;
+        this.stocks = this.gamedatas.stocks.wisdom;
+    }
+    WisdomManager.prototype.create = function () {
+        var _this = this;
+        var manager = new CardManager(this.game, {
+            getId: function (_a) {
+                var id = _a.id;
+                return "azr_wisdom-".concat(id);
+            },
+            setupDiv: function (_a, element) {
+                var id = _a.id;
+                var color = _this.gamedatas.players[id].color;
+                element.classList.add("azr_stone", "azr_stone-".concat(color), "azr_wisdom");
+            },
+        });
+        this.gamedatas.stocks.wisdom = {};
+        for (var i = 1; i <= 25; i++) {
+            this.gamedatas.stocks.wisdom[i] = new CardStock(manager, document.getElementById("azr_wisdomTrack-".concat(i)), {});
+        }
+        this.gamedatas.managers.wisdom = manager;
+    };
+    WisdomManager.prototype.setupStocks = function () {
+        for (var p_id in this.gamedatas.players) {
+            var player_id = Number(p_id);
+            var scr = this.gamedatas.players[player_id].score;
+            var score = Number(scr);
+            if (!score) {
+                continue;
+            }
+            this.gamedatas.stocks.wisdom[score].addCard({ id: player_id });
+        }
+    };
+    WisdomManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    WisdomManager.prototype.setScore = function (player_id, initialScore, finalScore) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        console.log(document.getElementById("azr_stoneIcon-".concat(player_id)), "TEST");
+                        return [4 /*yield*/, this.stocks[finalScore].addCard({ id: player_id }, {
+                                fromElement: initialScore === 0
+                                    ? document.getElementById("azr_stoneIcon-".concat(player_id))
+                                    : undefined,
+                            })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    return WisdomManager;
+}());
 var StateManager = /** @class */ (function () {
     function StateManager(game) {
         this.game = game;

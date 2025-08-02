@@ -437,6 +437,125 @@ body > .card {
   pointer-events: none;
 }
 
+.azr_beasts {
+  --beast-width: calc(var(--space-width) * 0.8);
+}
+
+.azr_beast {
+  --beast-width: calc(var(--space-width) * 0.8);
+  position: relative;
+  aspect-ratio: 1;
+  background-size: cover;
+  width: var(--beast-width);
+  filter: drop-shadow(0 0 8px #000000);
+}
+.azr_beast * {
+  box-shadow: none !important;
+}
+
+:root {
+  --qi-width: 150px;
+}
+
+.azr_decks {
+  grid-area: decks;
+  display: grid;
+  grid-template-columns: repeat(5, var(--qi-width));
+  justify-content: center;
+  gap: 16px;
+  width: calc(var(--domain-width) * 2);
+}
+
+.azr_qi {
+  position: relative;
+  aspect-ratio: 1/1.52;
+  width: var(--qi-width);
+}
+.azr_qi .card-side {
+  background-size: cover;
+}
+
+.azr_deckCounter {
+  font-size: 32px !important;
+}
+
+.azr_handContainer {
+  grid-area: hand;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.azr_handTitle {
+  color: var(--color);
+  border-radius: 8px;
+  font-size: 32px;
+  align-self: start;
+  background-color: var(--opp-color);
+  margin: 0;
+  padding: 4px;
+}
+
+.azr_hand {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+:root {
+  --stone-width: calc(var(--space-width) * 0.9);
+}
+
+.azr_stone {
+  border-radius: 100%;
+  box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.2);
+  aspect-ratio: 1;
+  width: var(--stone-width);
+}
+.azr_stone:hover {
+  opacity: 0.7;
+}
+.azr_stone-003a4f {
+  background: radial-gradient(circle at 80% 20%, rgb(0, 109, 138) 0%, rgb(0, 58, 79) 60%, rgb(0, 30, 42) 70%, rgb(0, 0, 0) 100%);
+}
+.azr_stone-c1e8fb {
+  background: radial-gradient(circle at 80% 20%, #ffffff 0%, #c1e8fb 60%, #91cde5 70%, #5ca9c6 100%);
+}
+.azr_stone .card-side {
+  box-shadow: none !important;
+}
+
+.azr_spaces {
+  display: grid;
+  grid-template-columns: repeat(6, var(--space-width));
+  grid-template-rows: repeat(6, var(--space-width));
+}
+
+.azr_space {
+  position: relative;
+  display: flex;
+  grid-column: var(--x);
+  grid-row: var(--y);
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  width: var(--space-width);
+}
+.azr_space .card-side {
+  box-shadow: none !important;
+}
+.azr_space.azr_selectable {
+  cursor: pointer;
+}
+.azr_space.azr_unselectable {
+  cursor: not-allowed;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+.azr_space.azr_selected {
+  background-color: rgba(0, 100, 0, 0.4);
+}
+
 .azr_wisdomTrack {
   grid-area: wisdom;
   position: relative;
@@ -450,8 +569,11 @@ body > .card {
   position: absolute;
   border-radius: 100%;
   aspect-ratio: 1;
-  width: calc(var(--stone-width) / 2.5);
+  width: calc(var(--stone-width) / 2);
   transform: translate(-50%, -50%);
+}
+.azr_wisdomTrack-number .azr_stone {
+  width: 100%;
 }
 .azr_wisdomTrack-number:nth-child(1) {
   top: 87%;
@@ -552,119 +674,6 @@ body > .card {
 .azr_wisdomTrack-number:nth-child(25) {
   top: 50%;
   left: 52%;
-}
-
-.azr_beasts {
-  --beast-width: calc(var(--space-width) * 0.8);
-}
-
-.azr_beast {
-  --beast-width: calc(var(--space-width) * 0.8);
-  position: relative;
-  aspect-ratio: 1;
-  background-size: cover;
-  width: var(--beast-width);
-  filter: drop-shadow(0 0 8px #000000);
-}
-.azr_beast * {
-  box-shadow: none !important;
-}
-
-:root {
-  --qi-width: 150px;
-}
-
-.azr_decks {
-  grid-area: decks;
-  display: grid;
-  grid-template-columns: repeat(5, var(--qi-width));
-  justify-content: center;
-  gap: 16px;
-  width: calc(var(--domain-width) * 2);
-}
-
-.azr_qi {
-  position: relative;
-  aspect-ratio: 1/1.52;
-  width: var(--qi-width);
-}
-.azr_qi .card-side {
-  background-size: cover;
-}
-
-.azr_deckCounter {
-  font-size: 32px !important;
-}
-
-.azr_handContainer {
-  grid-area: hand;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  margin: 0;
-}
-
-.azr_handTitle {
-  color: var(--color);
-  border-radius: 8px;
-  font-size: 32px;
-  align-self: start;
-  background-color: var(--opp-color);
-  margin: 0;
-  padding: 4px;
-}
-
-.azr_hand {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-:root {
-  --stone-width: calc(var(--space-width) * 0.9);
-}
-
-.azr_stone {
-  border-radius: 100%;
-  box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.2);
-  aspect-ratio: 1;
-  width: var(--stone-width);
-}
-.azr_stone-003a4f {
-  background: radial-gradient(circle at 80% 20%, rgb(0, 109, 138) 0%, rgb(0, 58, 79) 60%, rgb(0, 30, 42) 70%, rgb(0, 0, 0) 100%);
-}
-.azr_stone-c1e8fb {
-  background: radial-gradient(circle at 80% 20%, #ffffff 0%, #c1e8fb 60%, #91cde5 70%, #5ca9c6 100%);
-}
-
-.azr_spaces {
-  display: grid;
-  grid-template-columns: repeat(6, var(--space-width));
-  grid-template-rows: repeat(6, var(--space-width));
-}
-
-.azr_space {
-  position: relative;
-  display: flex;
-  grid-column: var(--x);
-  grid-row: var(--y);
-  align-items: center;
-  justify-content: center;
-  aspect-ratio: 1;
-  width: var(--space-width);
-}
-.azr_space .card-side {
-  box-shadow: none !important;
-}
-.azr_space.azr_selectable {
-  cursor: pointer;
-}
-.azr_space.azr_unselectable {
-  cursor: not-allowed;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-.azr_space.azr_selected {
-  background-color: rgba(0, 100, 0, 0.4);
 }
 
 .player-board-game-specific-content {

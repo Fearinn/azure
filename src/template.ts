@@ -70,6 +70,9 @@ class AzureTemplate {
 
     const qiManager = new QiManager(this.game);
     qiManager.setup();
+
+    const wisdomManager = new WisdomManager(this.game);
+    wisdomManager.setup();
   }
 
   setupPanels() {

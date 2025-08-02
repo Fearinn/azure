@@ -3,8 +3,8 @@ interface StoneCard extends AzureCard {
 }
 
 class StoneManager {
-  private game: Azure;
-  public gamedatas: AzureGamedatas;
+  public readonly game: Azure;
+  public readonly gamedatas: AzureGamedatas;
   public readonly manager: CardManager<StoneCard>;
   public readonly stocks: { realm: CardStock<StoneCard> };
 
@@ -25,7 +25,7 @@ class StoneManager {
       unselectableCardClass: `azr_unselectable`,
       setupDiv: ({ type_arg: player_id }, element) => {
         element.classList.add(`azr_stone`);
-        
+
         const { color } = this.gamedatas.players[player_id];
         element.classList.add(`azr_stone-${color}`);
       },
