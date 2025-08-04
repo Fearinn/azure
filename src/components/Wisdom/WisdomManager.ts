@@ -63,8 +63,6 @@ class WisdomManager {
     initialScore: number,
     finalScore: number
   ): Promise<void> {
-    console.log(document.getElementById(`azr_stoneIcon-${player_id}`), "TEST");
-
     await this.stocks[finalScore].addCard(
       { id: player_id },
       {

@@ -2991,13 +2991,11 @@ var WisdomManager = /** @class */ (function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        console.log(document.getElementById("azr_stoneIcon-".concat(player_id)), "TEST");
-                        return [4 /*yield*/, this.stocks[finalScore].addCard({ id: player_id }, {
-                                fromElement: initialScore === 0
-                                    ? document.getElementById("azr_stoneIcon-".concat(player_id))
-                                    : undefined,
-                            })];
+                    case 0: return [4 /*yield*/, this.stocks[finalScore].addCard({ id: player_id }, {
+                            fromElement: initialScore === 0
+                                ? document.getElementById("azr_stoneIcon-".concat(player_id))
+                                : undefined,
+                        })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

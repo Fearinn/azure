@@ -33,11 +33,12 @@ class ScoreManager extends Subclass
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "incScore",
-            "",
+            clienttranslate('${player_name} gathers ${log_score} of wisdom'),
             [
                 "initialScore" => $initialScore,
                 "score" => $score,
                 "finalScore" => $finalScore,
+                "log_score" => $score,
             ],
             $player_id,
         );
