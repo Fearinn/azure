@@ -18,7 +18,7 @@ class Space extends Subclass
     public readonly int $wisdom;
     public readonly bool $isMountain;
     public readonly int $domain_id;
-    public readonly int $cost;
+    public readonly int $baseCost;
 
     public function __construct(Game $game, int $x, int $y)
     {
@@ -34,20 +34,64 @@ class Space extends Subclass
         $this->qi_color = $space["qi_color"];
         $this->wisdom = $space["wisdom"];
         $this->domain_id = $space["domain"];
-        $this->cost = $this->qi + $this->wisdom;
-        $this->isMountain = $this->cost === 0;
+        $this->baseCost = $this->qi + $this->wisdom;
+        $this->isMountain = $this->baseCost === 0;
     }
 
-    private function isOccupied(): bool
+    private function isOccupied(int $player_id = null): bool
     {
         $StoneManager = new StoneManager($this->game);
-        return $StoneManager->countBySpace($this->id);
+        return $StoneManager->checkBySpace($this->id, $player_id);
+    }
+
+    private function countNeighbors(int $player_id, int $x, int $y): int
+    {
+        $neighborCount = 0;
+
+        for ($neighbor_x = 1; $neighbor_x <= 6; $neighbor_x++) {
+            if ($neighbor_x === $x) {
+                continue;
+            }
+
+            $Space = new Space($this->game, $neighbor_x, $y);
+
+            if ($Space->isOccupied($player_id)) {
+                $neighborCount++;
+            }
+        }
+
+        for ($neighbor_y = 1; $neighbor_y <= 6; $neighbor_y++) {
+            if ($neighbor_y === $y) {
+                continue;
+            }
+
+            $Space = new Space($this->game, $x, $neighbor_y);
+
+            if ($Space->isOccupied($player_id)) {
+                $neighborCount++;
+            }
+        }
+
+        return $neighborCount;
+    }
+
+    public function getCost(int $player_id): int
+    {
+        $neighborCount = $this->countNeighbors($player_id, $this->x, $this->y);
+        $cost = $this->baseCost - $neighborCount;
+
+        if ($cost < 0) {
+            $cost = 0;
+        }
+
+        return $cost;
     }
 
     private function canPayCost(int $player_id): bool
     {
         $QiManager = new QiManager($this->game);
-        return $this->cost <= $QiManager->countByDomain($player_id, $this->domain_id);
+        $qiCount = $QiManager->countByDomain($player_id, $this->domain_id);
+        return $this->getCost($player_id) <= $qiCount;
     }
 
     public function isSelectable(int $player_id): bool

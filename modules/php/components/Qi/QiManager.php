@@ -95,19 +95,26 @@ class QiManager extends CardManager
         WHERE card_location='hand' AND card_type_arg={$domain_id} AND card_location_arg={$player_id}");
     }
 
-    public function discard(int $player_id, int $domain_id): void
+    public function discard(int $player_id, int $nbr, int $domain_id): void
     {
-        $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable}  
-        WHERE card_location='hand' AND card_location_arg={$player_id} AND card_type_arg={$domain_id} LIMIT 1");
+        if ($nbr === 0) {
+            return;
+        }
 
-        $this->deck->insertCardOnExtremePosition($card_id, "deck-{$domain_id}", false);
+        $sql = "SELECT card_id id FROM {$this->dbTable} WHERE card_location='hand' 
+        AND card_location_arg={$player_id} AND card_type_arg={$domain_id} LIMIT $nbr";
+
+        $card_ids = $this->game->azr_getObjectListFromDB($sql, true);
+        $this->deck->moveCards($card_ids, "deck-{$domain_id}");
+
+        $cards = $this->deck->getCards($card_ids);
 
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "discardQi",
             "",
             [
-                "card" => $this->deck->getCard($card_id),
+                "cards" => array_values($cards),
             ]
         );
     }

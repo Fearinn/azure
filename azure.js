@@ -2349,13 +2349,18 @@ var NotifManager = /** @class */ (function () {
     }
     NotifManager.prototype.notif_discardQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, card, qi;
+            var player_id, cards, promises;
+            var _this = this;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        player_id = args.player_id, card = args.card;
-                        qi = new Qi(this.game, card);
-                        return [4 /*yield*/, qi.discard(player_id)];
+                        player_id = args.player_id, cards = args.cards;
+                        promises = [];
+                        cards.forEach(function (card) {
+                            var qi = new Qi(_this.game, card);
+                            promises.push(qi.discard(player_id));
+                        });
+                        return [4 /*yield*/, Promise.all(promises)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

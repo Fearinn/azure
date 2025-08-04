@@ -25,8 +25,9 @@ class ActPlaceStone extends ActionManager
         $StoneManager = new StoneManager($this->game);
         $StoneManager->place($this->player_id, $x, $y);
 
+        $cost = $Space->getCost($this->player_id);
         $QiManager = new QiManager($this->game);
-        $QiManager->discard($this->player_id, $domain_id);
+        $QiManager->discard($this->player_id, $cost, $domain_id);
 
         $Space->gatherBoons($this->player_id);
 

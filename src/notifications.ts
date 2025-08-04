@@ -9,12 +9,18 @@ class NotifManager {
 
   async notif_discardQi(
     args: NotifArgs & {
-      card: QiCard;
+      cards: QiCard[];
     }
   ): Promise<void> {
-    const { player_id, card } = args;
-    const qi = new Qi(this.game, card);
-    await qi.discard(player_id);
+    const { player_id, cards } = args;
+
+    const promises = [];
+    cards.forEach((card) => {
+      const qi = new Qi(this.game, card);
+      promises.push(qi.discard(player_id));
+    });
+
+    await Promise.all(promises);
   }
 
   async notif_gatherQi(
