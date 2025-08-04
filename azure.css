@@ -508,6 +508,7 @@ body > .card {
 }
 
 .azr_stone {
+  position: relative;
   border-radius: 100%;
   box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.2);
   aspect-ratio: 1;
@@ -556,6 +557,10 @@ body > .card {
   background-color: rgba(0, 100, 0, 0.4);
 }
 
+:root {
+  --wisdom-width: calc(var(--stone-width) / 2);
+}
+
 .azr_wisdomTrack {
   grid-area: wisdom;
   position: relative;
@@ -568,12 +573,9 @@ body > .card {
 .azr_wisdomTrack-number {
   position: absolute;
   border-radius: 100%;
-  aspect-ratio: 1;
-  width: calc(var(--stone-width) / 2);
+  height: var(--wisdom-width);
+  width: var(--wisdom-width);
   transform: translate(-50%, -50%);
-}
-.azr_wisdomTrack-number .azr_stone {
-  width: 100%;
 }
 .azr_wisdomTrack-number:nth-child(1) {
   top: 87%;
@@ -674,6 +676,14 @@ body > .card {
 .azr_wisdomTrack-number:nth-child(25) {
   top: 50%;
   left: 52%;
+}
+
+.azr_wisdom {
+  width: var(--wisdom-width);
+}
+.azr_wisdom:nth-child(2) {
+  top: -75%;
+  z-index: 1;
 }
 
 .player-board-game-specific-content {

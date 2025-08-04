@@ -1,3 +1,7 @@
+:root {
+  --wisdom-width: calc(var(--stone-width) / 2);
+}
+
 .azr_wisdomTrack {
   grid-area: wisdom;
   position: relative;
@@ -10,13 +14,9 @@
   &-number {
     position: absolute;
     border-radius: 100%;
-    aspect-ratio: 1;
-    width: calc(var(--stone-width) / 2);
+    height: var(--wisdom-width);
+    width: var(--wisdom-width);
     transform: translate(-50%, -50%);
-
-    .azr_stone {
-      width: 100%;
-    }
 
     &:nth-child(1) {
       top: 87%;
@@ -115,10 +115,18 @@
       left: 69%;
     }
 
-    // Center stone
     &:nth-child(25) {
       top: 50%;
       left: 52%;
     }
+  }
+}
+
+.azr_wisdom {
+  width: var(--wisdom-width);
+
+  &:nth-child(2) {
+    top: -75%;
+    z-index: 1;
   }
 }

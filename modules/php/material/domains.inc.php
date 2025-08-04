@@ -243,15 +243,15 @@ $this->SPACES = [
     1222 => [
         "id" => 1222,
         "qi" => 2,
-        "qi_color" => 1,
+        "qi_color" => 3,
         "wisdom" => 1,
         "domain" => 1
     ],
     1223 => [
         "id" => 1223,
-        "qi" => 2,
-        "qi_color" => 3,
-        "wisdom" => 1,
+        "qi" => 0,
+        "qi_color" => 0,
+        "wisdom" => 6,
         "domain" => 1
     ],
     1231 => [
