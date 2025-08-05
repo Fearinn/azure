@@ -727,6 +727,14 @@ body > .card {
   background-position: bottom;
 }
 
+.azr_spaceIcon {
+  background-size: cover;
+  box-shadow: 0 0 4px #000000;
+  margin: 4px auto 0 auto;
+  aspect-ratio: 1;
+  width: 50px;
+}
+
 #bga-zoom-wrapper {
   direction: ltr;
 }

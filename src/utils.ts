@@ -59,6 +59,21 @@ class Utils {
     element.style.setProperty("--color", `#${color}`);
     element.style.setProperty("--opp-color", `#${opp_color}`);
   }
+
+  bgaFormatText(log: string, args: any): { log: string; args: any } {
+    try {
+      if (log && args && !args.processed) {
+        if (args.space_icon !== undefined && args.space_id !== undefined) {
+          const backgroundImage = `url(${g_gamethemeurl}img/spaces/space_${args.space_id}.jpg)`;
+          args.space_icon = `<div class="azr_logIcon azr_spaceIcon" style="background-image: ${backgroundImage};"></div>`;
+        }
+      }
+    } catch (e) {
+      console.error(log, args, "Exception thrown", e.stack);
+    }
+
+    return { log, args };
+  }
 }
 
 type ActionName = "act_placeStone";

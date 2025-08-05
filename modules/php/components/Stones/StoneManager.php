@@ -54,18 +54,21 @@ class StoneManager extends CardManager
 
         $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable} 
         WHERE card_location='hand' AND card_type_arg={$player_id} LIMIT 1");
-        
+
         $this->deck->moveCard($card_id, "realm", $space_id);
 
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "placeStone",
-            clienttranslate('${player_name} places a stone at (${x}, ${y})'),
+            clienttranslate('${player_name} places a stone at (${x}, ${y}) ${space_icon}'),
             [
+                "preserve" => ["space_id"],
+                "space_icon" => "",
                 "x" => $x,
                 "y" => $y,
                 "space_id" => $space_id,
                 "card" => $this->deck->getCard($card_id),
+
             ],
             $player_id
         );

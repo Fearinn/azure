@@ -2331,6 +2331,10 @@ var Azure = /** @class */ (function (_super) {
     Azure.prototype.setupNotifications = function () {
         this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
     };
+    Azure.prototype.bgaFormatText = function (log, args) {
+        var utils = new Utils(this);
+        return utils.bgaFormatText(log, args);
+    };
     return Azure;
 }(Game));
 define([
@@ -2571,6 +2575,20 @@ var Utils = /** @class */ (function () {
         var opp_color = this.getOppColor(color);
         element.style.setProperty("--color", "#".concat(color));
         element.style.setProperty("--opp-color", "#".concat(opp_color));
+    };
+    Utils.prototype.bgaFormatText = function (log, args) {
+        try {
+            if (log && args && !args.processed) {
+                if (args.space_icon !== undefined && args.space_id !== undefined) {
+                    var backgroundImage = "url(".concat(g_gamethemeurl, "img/spaces/space_").concat(args.space_id, ".jpg)");
+                    args.space_icon = "<div class=\"azr_logIcon azr_spaceIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
+                }
+            }
+        }
+        catch (e) {
+            console.error(log, args, "Exception thrown", e.stack);
+        }
+        return { log: log, args: args };
     };
     return Utils;
 }());

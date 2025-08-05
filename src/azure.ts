@@ -31,4 +31,9 @@ class Azure extends Game<AzureGamedatas> implements AzureGui {
   public setupNotifications() {
     this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
   }
+
+  public bgaFormatText(log: string, args: any): { log: string; args: any } {
+    const utils = new Utils(this);
+    return utils.bgaFormatText(log, args);
+  }
 }
