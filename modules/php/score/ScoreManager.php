@@ -26,6 +26,10 @@ class ScoreManager extends Subclass
 
     public function incScore(int $score, int $player_id): void
     {
+        if ($score === 0) {
+            return;
+        }
+
         $initialScore = $this->getScore($player_id);
         $this->game->DbQuery("UPDATE player SET player_score=player_score+{$score} WHERE player_id={$player_id}");
         $finalScore = $this->getScore($player_id);

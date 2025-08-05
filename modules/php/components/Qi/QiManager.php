@@ -124,6 +124,10 @@ class QiManager extends CardManager
         int $domain_id,
         int $nbr
     ): void {
+        if ($nbr === 0) {
+            return;
+        }
+
         $cards = $this->deck->pickCards($nbr, "deck-{$domain_id}", $player_id);
 
         $Notify = new NotifManager($this->game);

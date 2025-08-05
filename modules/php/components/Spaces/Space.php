@@ -48,24 +48,48 @@ class Space extends Subclass
     {
         $neighborCount = 0;
 
-        for ($neighbor_x = 1; $neighbor_x <= 6; $neighbor_x++) {
-            if ($neighbor_x === $x) {
-                continue;
-            }
-
+        for ($neighbor_x = $x - 1; $neighbor_x >= 1; $neighbor_x--) {
             $Space = new Space($this->game, $neighbor_x, $y);
+
+            if ($Space->isMountain) {
+                break;
+            }
 
             if ($Space->isOccupied($player_id)) {
                 $neighborCount++;
             }
         }
 
-        for ($neighbor_y = 1; $neighbor_y <= 6; $neighbor_y++) {
-            if ($neighbor_y === $y) {
-                continue;
+        for ($neighbor_x = $x + 1; $neighbor_x <= 6; $neighbor_x++) {
+            $Space = new Space($this->game, $neighbor_x, $y);
+
+            if ($Space->isMountain) {
+                break;
             }
 
+            if ($Space->isOccupied($player_id)) {
+                $neighborCount++;
+            }
+        }
+
+        for ($neighbor_y = $y - 1; $neighbor_y >= 1; $neighbor_y--) {
             $Space = new Space($this->game, $x, $neighbor_y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            if ($Space->isOccupied($player_id)) {
+                $neighborCount++;
+            }
+        }
+
+        for ($neighbor_y = $y + 1; $neighbor_y <= 6; $neighbor_y++) {
+            $Space = new Space($this->game, $x, $neighbor_y);
+
+            if ($Space->isMountain) {
+                break;
+            }
 
             if ($Space->isOccupied($player_id)) {
                 $neighborCount++;
@@ -102,15 +126,14 @@ class Space extends Subclass
     public function gatherBoons(int $player_id): void
     {
         $QiManager = new QiManager($this->game);
+
         $QiManager->gather(
             $player_id,
             $this->qi_color,
             $this->qi
         );
 
-        if ($this->wisdom > 0) {
-            $ScoreManager = new ScoreManager($this->game);
-            $ScoreManager->incScore($this->wisdom, $player_id);
-        }
+        $ScoreManager = new ScoreManager($this->game);
+        $ScoreManager->incScore($this->wisdom, $player_id);
     }
 }
