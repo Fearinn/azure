@@ -748,6 +748,6 @@ body > .card {
   color: var(--color);
   background-color: var(--opp-color);
   border-radius: 4px;
-  box-shadow: 0 0 2px #000000;
+  box-shadow: 0 0 4px var(--color);
   padding: 2px;
 }
