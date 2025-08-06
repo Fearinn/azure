@@ -36,10 +36,12 @@ class Game extends \Bga\GameFramework\Table
     public readonly array $QI;
     public readonly array $DOMAINS;
     public readonly array $BEASTS;
+    public readonly array $MOUNTAINS;
     public readonly array $SPACES;
 
     public Deck $qi_cards;
     public Deck $stone_cards;
+    public Deck $beast_cards;
 
     public function __construct()
     {
@@ -54,6 +56,9 @@ class Game extends \Bga\GameFramework\Table
 
         $this->stone_cards = $this->getNew("module.common.deck");
         $this->stone_cards->init("stone");
+
+        $this->beast_cards = $this->getNew("module.common.deck");
+        $this->beast_cards->init("beast");
 
         $Notify = new NotifManager($this);
         $Notify->addDecorators();
@@ -119,7 +124,7 @@ class Game extends \Bga\GameFramework\Table
             "domainsOrder" => $this->globals->get(G_DOMAINS_ORDER),
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),
             "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
-            "mountains" => $BeastManager->getMountains(),
+            "placedBeasts" => $BeastManager->getPlaced(),
             "decksCounts" => $QiManager->getDecksCounts(),
             "handsCounts" => $QiManager->getHandsCounts(),
             "placedStones" => $StoneManager->getPlaced(),
@@ -166,6 +171,9 @@ class Game extends \Bga\GameFramework\Table
 
         $StoneManager = new StoneManager($this);
         $StoneManager->setup();
+
+        $BeastManager = new BeastManager($this);
+        $BeastManager->setup();
     }
 
     protected function zombieTurn(array $state, int $active_player): void

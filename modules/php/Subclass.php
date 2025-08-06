@@ -13,6 +13,7 @@ class Subclass
     public readonly array $QI;
     public readonly array $DOMAINS;
     public readonly array $BEASTS;
+    public readonly array $MOUNTAINS;
     public readonly array $SPACES;
 
     public function __construct(Game $game)
@@ -21,6 +22,7 @@ class Subclass
         $this->globals = $this->game->globals;
         $this->DOMAINS = $this->game->DOMAINS;
         $this->BEASTS = $this->game->BEASTS;
+        $this->MOUNTAINS = $this->game->MOUNTAINS;
         $this->SPACES = $this->game->SPACES;
         $this->QI = $this->game->QI;
     }

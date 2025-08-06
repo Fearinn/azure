@@ -2612,16 +2612,16 @@ var BeastManager = /** @class */ (function () {
     BeastManager.prototype.create = function () {
         var manager = new CardManager(this.game, {
             getId: function (_a) {
-                var id = _a.id;
-                return "azr_beast-".concat(id);
+                var type_arg = _a.type_arg;
+                return "azr_beast-".concat(type_arg);
             },
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
             setupDiv: function (_a, element) {
-                var id = _a.id;
+                var type_arg = _a.type_arg;
                 element.classList.add("azr_beast");
-                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(id, ".png)");
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(type_arg, ".png)");
             },
         });
         this.gamedatas.stocks.beasts = {
@@ -2631,8 +2631,8 @@ var BeastManager = /** @class */ (function () {
     };
     BeastManager.prototype.setupStocks = function () {
         var _this = this;
-        var mountains = this.gamedatas.mountains;
-        mountains.forEach(function (card) {
+        var placedBeasts = this.gamedatas.placedBeasts;
+        placedBeasts.forEach(function (card) {
             var beast = new Beast(_this.game, card);
             beast.setup();
         });
@@ -2647,12 +2647,14 @@ var Beast = /** @class */ (function (_super) {
     __extends(Beast, _super);
     function Beast(game, card) {
         var _this = _super.call(this, game) || this;
-        _this.card = card;
+        _this.card = new AzureCard(card);
+        _this.space_id = _this.card.location_arg;
+        _this.id = _this.card.type_arg;
         return _this;
     }
     Beast.prototype.setup = function () {
         this.stocks.realm.addCard(this.card, {}, {
-            forceToElement: document.getElementById("azr_space-".concat(this.card.space_id)),
+            forceToElement: document.getElementById("azr_space-".concat(this.space_id)),
         });
     };
     return Beast;

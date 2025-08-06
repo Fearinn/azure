@@ -1,8 +1,5 @@
-interface BeastCard {
-  id: number;
-  x: number;
-  y: number;
-  space_id: number;
+interface BeastCard extends AzureCard {
+  type_arg: number;
 }
 
 class BeastManager {
@@ -20,15 +17,15 @@ class BeastManager {
 
   create(): void {
     const manager = new CardManager<BeastCard>(this.game, {
-      getId: ({ id }) => {
-        return `azr_beast-${id}`;
+      getId: ({ type_arg }) => {
+        return `azr_beast-${type_arg}`;
       },
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ id }, element) => {
+      setupDiv: ({ type_arg }, element) => {
         element.classList.add(`azr_beast`);
-        element.style.backgroundImage = `url(${g_gamethemeurl}img/beast_${id}.png)`;
+        element.style.backgroundImage = `url(${g_gamethemeurl}img/beast_${type_arg}.png)`;
       },
     });
 
@@ -44,8 +41,8 @@ class BeastManager {
   }
 
   setupStocks(): void {
-    const { mountains } = this.gamedatas;
-    mountains.forEach((card) => {
+    const { placedBeasts } = this.gamedatas;
+    placedBeasts.forEach((card) => {
       const beast = new Beast(this.game, card);
       beast.setup();
     });

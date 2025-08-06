@@ -41,7 +41,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   domainsSides: {
     [domain_id: number]: number;
   };
-  mountains: BeastCard[];
+  placedBeasts: BeastCard[];
   decksCounts: {
     [domain_id: number]: number;
   };

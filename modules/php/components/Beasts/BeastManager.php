@@ -2,39 +2,43 @@
 
 namespace Bga\Games\Azure\components\Beasts;
 
+use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\Subclass;
 
-class BeastManager extends Subclass
+class BeastManager extends CardManager
 {
     public function __construct(Game $game)
     {
-        parent::__construct($game);
+        parent::__construct(
+            $game,
+            $game->beast_cards,
+            "beast"
+        );
     }
 
-    public function getMountains(): array
+    public function setup(): void
     {
-        $realm = $this->globals->get(G_REALM);
-        $mountains = [];
-
-        foreach ($realm as $x => $column) {
-            foreach ($column as $y => $space_id) {
-                $space = (array) $this->SPACES[$space_id];
-                $domain_id = (int) $space["domain"];
-                $qi = (int) $space["qi"];
-                $wisdom = (int) $space["wisdom"];
-
-                if ($qi + $wisdom === 0) {
-                    $mountains[] = [
-                        "id" => $domain_id,
-                        "space_id" => $space_id,
-                        "x" => $x,
-                        "y" => $y
-                    ];
-                }
-            }
+        $beastCards = [];
+        foreach ($this->BEASTS as $domain_id => $beast) {
+            $beastCards[] = ["type" => "", "type_arg" => $domain_id, "nbr" => 1];
         }
 
-        return $mountains;
+        $this->deck->createCards($beastCards, "realm");
+
+        $domainSides = $this->globals->get(G_DOMAINS_SIDES);
+
+        foreach ($this->MOUNTAINS as $domain_id => $domain) {
+            $side = $domainSides[$domain_id];
+            $space_id = $domain[$side];
+
+            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_type='{$space_id}', card_location_arg={$space_id}
+            WHERE card_location='realm' AND card_type_arg={$domain_id}");
+        }
+    }
+
+    public function getPlaced(): array
+    {
+        $cards = $this->deck->getCardsInLocation("realm");
+        return array_values($cards);
     }
 }
