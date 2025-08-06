@@ -44,65 +44,67 @@ class Space extends Subclass
         return $StoneManager->checkBySpace($this->id, $player_id);
     }
 
-    private function countNeighbors(int $player_id, int $x, int $y): int
+    public function countBonds(int $player_id): int
     {
-        $neighborCount = 0;
+        $x = $this->x;
+        $y = $this->y;
+        $bondCount = 0;
 
-        for ($neighbor_x = $x - 1; $neighbor_x >= 1; $neighbor_x--) {
-            $Space = new Space($this->game, $neighbor_x, $y);
-
-            if ($Space->isMountain) {
-                break;
-            }
-
-            if ($Space->isOccupied($player_id)) {
-                $neighborCount++;
-            }
-        }
-
-        for ($neighbor_x = $x + 1; $neighbor_x <= 6; $neighbor_x++) {
-            $Space = new Space($this->game, $neighbor_x, $y);
+        for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
+            $Space = new Space($this->game, $bond_x, $y);
 
             if ($Space->isMountain) {
                 break;
             }
 
             if ($Space->isOccupied($player_id)) {
-                $neighborCount++;
+                $bondCount++;
             }
         }
 
-        for ($neighbor_y = $y - 1; $neighbor_y >= 1; $neighbor_y--) {
-            $Space = new Space($this->game, $x, $neighbor_y);
+        for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
+            $Space = new Space($this->game, $bond_x, $y);
 
             if ($Space->isMountain) {
                 break;
             }
 
             if ($Space->isOccupied($player_id)) {
-                $neighborCount++;
+                $bondCount++;
             }
         }
 
-        for ($neighbor_y = $y + 1; $neighbor_y <= 6; $neighbor_y++) {
-            $Space = new Space($this->game, $x, $neighbor_y);
+        for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
+            $Space = new Space($this->game, $x, $bond_y);
 
             if ($Space->isMountain) {
                 break;
             }
 
             if ($Space->isOccupied($player_id)) {
-                $neighborCount++;
+                $bondCount++;
             }
         }
 
-        return $neighborCount;
+        for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
+            $Space = new Space($this->game, $x, $bond_y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            if ($Space->isOccupied($player_id)) {
+                $bondCount++;
+            }
+        }
+
+        return $bondCount;
     }
 
     public function getCost(int $player_id): int
     {
-        $neighborCount = $this->countNeighbors($player_id, $this->x, $this->y);
-        $cost = $this->baseCost - $neighborCount;
+        $bondCount = $this->countBonds($player_id);
+        $cost = $this->baseCost - $bondCount;
 
         if ($cost < 0) {
             $cost = 0;

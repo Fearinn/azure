@@ -29,6 +29,7 @@ use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\states\StBetweenPlayers;
+use Bga\Games\Azure\states\StCheckBeasts;
 use Bga\Games\Azure\states\StPlayerTurn;
 
 class Game extends \Bga\GameFramework\Table
@@ -78,6 +79,12 @@ class Game extends \Bga\GameFramework\Table
     {
         $StPlayerTurn = new StPlayerTurn($this);
         $StPlayerTurn->act();
+    }
+
+    public function st_checkBeasts(): void
+    {
+        $StCheckBeasts = new StCheckBeasts($this);
+        $StCheckBeasts->act();
     }
 
     public function st_betweenPlayers(): void

@@ -91,6 +91,21 @@ class SpaceManager extends Subclass
         $this->placeGrids($grids, $domain_ids);
     }
 
+    public function getById(int $space_id): Space
+    {
+        $realm = $this->globals->get(G_REALM);
+        foreach ($realm as $x => $column) {
+            foreach ($column as $y => $sp_id) {
+                if ($sp_id === $space_id) {
+                    $Space = new Space($this->game, $x, $y);
+                    return $Space;
+                }
+            }
+        }
+
+        throw new \BgaVisibleSystemException("no space found");
+    }
+
     public function getSelectable(int $player_id): array
     {
         $selectableSpaces = [];

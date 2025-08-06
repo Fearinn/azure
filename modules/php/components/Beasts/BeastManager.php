@@ -41,4 +41,10 @@ class BeastManager extends CardManager
         $cards = $this->deck->getCardsInLocation("realm");
         return array_values($cards);
     }
+
+    public function checkBeasts(int $player_id): void
+    {
+       $Dragon = new Dragon($this->game);
+       $Dragon->check($player_id);
+    }
 }

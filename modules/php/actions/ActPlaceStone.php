@@ -31,7 +31,7 @@ class ActPlaceStone extends ActionManager
 
         $Space->gatherBoons($this->player_id);
 
-        $this->game->gamestate->nextState(TR_NEXT_PLAYER);
+        $this->game->gamestate->nextState(TR_CHECK_BEASTS);
     }
 
     public function validate(Space $Space): void

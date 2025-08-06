@@ -25,9 +25,10 @@ if (!defined("ST_PLAYER_TURN")) {
     define("ST_END_SCORE", 98);
     define("ST_END_GAME", 99);
 
-    define("TR_NEXT_PLAYER", "nextPlayer");
-    define("TR_END_SCORE", "endScore");
-    define("TR_END_GAME", "gameEnd");
+    define("TR_CHECK_BEASTS", "TR_CHECK_BEASTS");
+    define("TR_NEXT_PLAYER", "TR_NEXT_PLAYER");
+    define("TR_END_SCORE", "TR_END_SCORE");
+    define("TR_END_GAME", "TR_END_GAME");
 }
 
 $machinestates = [
@@ -41,6 +42,18 @@ $machinestates = [
         ->possibleactions([
             "act_placeStone",
         ])
+        ->transitions([
+            TR_CHECK_BEASTS => ST_CHECK_BEASTS,
+            TR_END_GAME => ST_END_GAME,
+        ])
+        ->build(),
+
+    ST_CHECK_BEASTS => GameStateBuilder::create()
+        ->name("checkBeasts")
+        ->description(clienttranslate('Checking Auspicious Beasts...'))
+        ->descriptionmyturn(clienttranslate('Checking Auspicious Beasts...'))
+        ->type(StateType::GAME)
+        ->action("st_checkBeasts")
         ->transitions([
             TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
             TR_END_GAME => ST_END_GAME,

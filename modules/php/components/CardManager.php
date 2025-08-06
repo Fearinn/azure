@@ -10,6 +10,7 @@ class CardManager extends Subclass
 {
     public readonly Deck $deck;
     public readonly string $dbTable;
+    public string $cardFields;
 
     public function __construct(
         Game $game,
@@ -19,6 +20,7 @@ class CardManager extends Subclass
         parent::__construct($game);
         $this->deck = $deck;
         $this->dbTable = $dbTable;
+        $this->cardFields = "card_id id, card_location location, card_location_arg location_arg, card_type type, card_type_arg type_arg";
     }
 
     public function getHand(int $player_id): array
