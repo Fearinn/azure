@@ -22,8 +22,12 @@ if (!defined("ST_PLAYER_TURN")) {
     define("ST_PLAYER_TURN", 2);
     define("ST_CHECK_BEASTS", 3);
     define("ST_BETWEEN_PLAYERS", 4);
+    define("ST_END_SCORE", 98);
+    define("ST_END_GAME", 99);
 
     define("TR_NEXT_PLAYER", "nextPlayer");
+    define("TR_END_SCORE", "endScore");
+    define("TR_END_GAME", "gameEnd");
 }
 
 $machinestates = [
@@ -33,11 +37,13 @@ $machinestates = [
         ->descriptionmyturn(clienttranslate('${you} must place a stone on a space'))
         ->type(StateType::ACTIVE_PLAYER)
         ->args("arg_playerTurn")
+        ->action("st_playerTurn")
         ->possibleactions([
             "act_placeStone",
         ])
         ->transitions([
             TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
+            TR_END_GAME => ST_END_GAME,
         ])
         ->build(),
 
@@ -49,9 +55,9 @@ $machinestates = [
         ->updateGameProgression(true)
         ->transitions([
             TR_NEXT_PLAYER => ST_PLAYER_TURN,
-            "endScore" => 98,
+            TR_END_GAME => ST_END_GAME,
         ])
         ->build(),
 
-    98 => GameStateBuilder::endScore()->build(),
+    // 98 => GameStateBuilder::endScore()->build(),
 ];

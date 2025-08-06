@@ -69,6 +69,12 @@ class Game extends \Bga\GameFramework\Table
         return $StPlayerTurn->getArgs();
     }
 
+    public function st_playerTurn(): void
+    {
+        $StPlayerTurn = new StPlayerTurn($this);
+        $StPlayerTurn->act();
+    }
+
     public function st_betweenPlayers(): void
     {
         $StBetweenPlayers = new StBetweenPlayers($this);

@@ -5,7 +5,6 @@ namespace Bga\Games\Azure\score;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\Subclass;
-use BgaUserException;
 
 class ScoreManager extends Subclass
 {
@@ -19,12 +18,12 @@ class ScoreManager extends Subclass
         return (int) $this->game->getUniqueValueFromDB("SELECT player_score FROM player WHERE player_id={$player_id}");
     }
 
-    public function setScore(int $score, int $player_id): void
+    public function setScore(int $player_id, int $score): void
     {
         $this->game->DbQuery("UPDATE player SET player_score={$score} WHERE player_id={$player_id}");
     }
 
-    public function incScore(int $score, int $player_id): void
+    public function incScore(int $player_id, int $score): void
     {
         if ($score === 0) {
             return;

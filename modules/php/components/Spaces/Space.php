@@ -134,6 +134,6 @@ class Space extends Subclass
         );
 
         $ScoreManager = new ScoreManager($this->game);
-        $ScoreManager->incScore($this->wisdom, $player_id);
+        $ScoreManager->incScore($player_id, $this->wisdom);
     }
 }
