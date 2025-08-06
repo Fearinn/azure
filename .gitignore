@@ -9,6 +9,7 @@ yarn-error.log
 # IDE files
 .vscode/
 .idea/
+_ide_helper.php
 
 # Dependency lock files
 package-lock.json
