@@ -34,7 +34,7 @@ class StPlayerTurn extends StateManager
         $player_id = (int) $this->game->getActivePlayerId();
         $args = $this->getArgs();
 
-        if (!$args["_private"]["active"]["selectableSpaces"] || true) {
+        if (!$args["_private"]["active"]["selectableSpaces"]) {
             $ScoreManager = new ScoreManager($this->game);
             $ScoreManager->setScore($player_id, -1);
 
