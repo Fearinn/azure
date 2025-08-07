@@ -7,7 +7,7 @@ class AzureTemplate {
     this.gamedatas = gamedatas;
   }
 
-  setupZoom() {
+  private setupZoom(): void {
     new ZoomManager({
       element: document.getElementById(`azr_gameArea`),
       localStorageZoomKey: "azr-zoom",
@@ -20,7 +20,7 @@ class AzureTemplate {
     });
   }
 
-  setupRealm() {
+  private setupRealm(): void {
     const { domainsOrder, domainsRotations, domainsSides, decksCounts } =
       this.gamedatas;
 
@@ -47,7 +47,17 @@ class AzureTemplate {
     }
   }
 
-  setupWisdomTrack() {
+  private setupHand(): void {
+    const { color } = this.gamedatas.players[this.game.player_id];
+    const opp_color = new Utils(this.game).getOppColor(color);
+
+    const handTitle = document.getElementById(`azr_handTitle`);
+    handTitle.style.setProperty("--color", `#${color}`);
+    handTitle.style.setProperty("--opp-color", `#${opp_color}`);
+    handTitle.textContent = _("Your hand");
+  }
+
+  private setupWisdomTrack() {
     const wisdomTrack = document.getElementById(`azr_wisdomTrack`);
 
     for (let i = 1; i <= 25; i++) {
@@ -58,7 +68,46 @@ class AzureTemplate {
     }
   }
 
-  setupStocks() {
+  private setupFavors(): void {
+    const favorsElement = document.getElementById(`azr_favorsContainer`);
+    const titleElement = document.getElementById(`azr_favorsTitle`);
+    titleElement.textContent = _("active favors");
+
+    const utils = new Utils(this.game);
+
+    for (const p_id in this.gamedatas.players) {
+      const player_id = Number(p_id);
+      const { color, name } = this.gamedatas.players[player_id];
+
+      const title =
+        player_id === this.game.player_id
+          ? this.game.format_string("You (${player_name})", {
+              player_name: name,
+            })
+          : name;
+
+      const opp_color = utils.getOppColor(color);
+      const order = player_id === this.game.player_id ? 0 : 1;
+
+      if (player_id === this.game.player_id) {
+        titleElement.style.setProperty("--color", `#${color}`);
+        titleElement.style.setProperty("--opp-color", `#${opp_color}`);
+      }
+
+      favorsElement.insertAdjacentHTML(
+        "beforeend",
+        `<div id="azr_favors-${player_id}" class="azr_favors" 
+        style="--color: #${color}; --opp-color: #${opp_color}; --bg-color: #${color}aa; order: ${order}">
+        <div id="azr_favorBeasts-${player_id}" class="azr_favorBeasts"></div>
+        <h4 class="playername">
+        ${title}
+        </h4>
+        </div>`
+      );
+    }
+  }
+
+  private setupStocks(): void {
     const spaceManager = new SpaceManager(this.game);
     spaceManager.setup();
 
@@ -75,7 +124,7 @@ class AzureTemplate {
     wisdomManager.setup();
   }
 
-  setupPanels() {
+  private setupPanels(): void {
     const { handsCounts, stoneCounts } = this.gamedatas;
 
     for (const p_id in this.gamedatas.players) {
@@ -118,17 +167,7 @@ class AzureTemplate {
     }
   }
 
-  setupHand(): void {
-    const { color } = this.gamedatas.players[this.game.player_id];
-    const opp_color = new Utils(this.game).getOppColor(color);
-
-    const handTitle = document.getElementById(`azr_handTitle`);
-    handTitle.style.setProperty("--color", `#${color}`);
-    handTitle.style.setProperty("--opp-color", `#${opp_color}`);
-    handTitle.textContent = _("Your hand");
-  }
-
-  initObserver(): void {
+  private initObserver(): void {
     const observer = new MutationObserver((mutations: MutationRecord[]) => {
       mutations.forEach((mutation) => {
         const { addedNodes } = mutation;
@@ -166,11 +205,12 @@ class AzureTemplate {
     });
   }
 
-  setup() {
+  public setup() {
     this.setupZoom();
     this.setupRealm();
     this.setupHand();
     this.setupWisdomTrack();
+    this.setupFavors();
     this.setupStocks();
     this.setupPanels();
     this.initObserver();

@@ -686,6 +686,55 @@ body > .card {
   z-index: 1;
 }
 
+.azr_favorsContainer {
+  position: relative;
+  grid-area: favors;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  height: calc(var(--domain-width) * 0.9);
+  width: 100%;
+}
+
+.azr_favors {
+  position: relative;
+  background-color: var(--bg-color);
+  box-shadow: 0 0 4px var(--opp-color);
+  margin: 0;
+  height: 50%;
+  width: 100%;
+}
+.azr_favors .playername {
+  font-size: 28px;
+  position: absolute;
+  bottom: -5%;
+  right: -5%;
+  justify-self: end;
+  border-radius: 8px;
+  padding: 4px;
+  margin: 0;
+  width: fit-content;
+}
+
+.azr_favorsTitle {
+  color: var(--color);
+  font-size: 32px;
+  text-transform: capitalize;
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  background-color: var(--opp-color);
+  border-radius: 8px;
+  box-shadow: 0 0 8px var(--color);
+  margin: 0;
+  padding: 4px;
+  width: fit-content;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+}
+
 .player-board-game-specific-content {
   display: flex;
   gap: 16px;
@@ -745,14 +794,16 @@ body > .card {
   display: grid;
   align-items: center;
   justify-content: center;
-  grid-template-areas: "decks empty" "realm empty" "realm wisdom" "hand hand";
-  gap: 24px;
+  grid-template-areas: "decks empty" "realm favors" "realm wisdom" "hand hand";
+  column-gap: 24px;
+  row-gap: 16px;
   padding: 8px;
   width: 100%;
   user-select: none;
 }
 
-.player-name a:first-of-type, .playername {
+.player-name a:first-of-type,
+.playername {
   color: var(--color);
   background-color: var(--opp-color);
   border-radius: 4px;

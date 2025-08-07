@@ -2453,10 +2453,40 @@ var AzureTemplate = /** @class */ (function () {
             decksElement.insertAdjacentHTML("beforeend", "<div id=\"azr_deck-".concat(domain_id, "\" class=\"azr_deck\"></div>"));
         }
     };
+    AzureTemplate.prototype.setupHand = function () {
+        var color = this.gamedatas.players[this.game.player_id].color;
+        var opp_color = new Utils(this.game).getOppColor(color);
+        var handTitle = document.getElementById("azr_handTitle");
+        handTitle.style.setProperty("--color", "#".concat(color));
+        handTitle.style.setProperty("--opp-color", "#".concat(opp_color));
+        handTitle.textContent = _("Your hand");
+    };
     AzureTemplate.prototype.setupWisdomTrack = function () {
         var wisdomTrack = document.getElementById("azr_wisdomTrack");
         for (var i = 1; i <= 25; i++) {
             wisdomTrack.insertAdjacentHTML("beforeend", "<div id=\"azr_wisdomTrack-".concat(i, "\" class=\"azr_wisdomTrack-number\"></div>"));
+        }
+    };
+    AzureTemplate.prototype.setupFavors = function () {
+        var favorsElement = document.getElementById("azr_favorsContainer");
+        var titleElement = document.getElementById("azr_favorsTitle");
+        titleElement.textContent = _("active favors");
+        var utils = new Utils(this.game);
+        for (var p_id in this.gamedatas.players) {
+            var player_id = Number(p_id);
+            var _a = this.gamedatas.players[player_id], color = _a.color, name_1 = _a.name;
+            var title = player_id === this.game.player_id
+                ? this.game.format_string("You (${player_name})", {
+                    player_name: name_1,
+                })
+                : name_1;
+            var opp_color = utils.getOppColor(color);
+            var order = player_id === this.game.player_id ? 0 : 1;
+            if (player_id === this.game.player_id) {
+                titleElement.style.setProperty("--color", "#".concat(color));
+                titleElement.style.setProperty("--opp-color", "#".concat(opp_color));
+            }
+            favorsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_favors-".concat(player_id, "\" class=\"azr_favors\" \n        style=\"--color: #").concat(color, "; --opp-color: #").concat(opp_color, "; --bg-color: #").concat(color, "aa; order: ").concat(order, "\">\n        <div id=\"azr_favorBeasts-").concat(player_id, "\" class=\"azr_favorBeasts\"></div>\n        <h4 class=\"playername\">\n        ").concat(title, "\n        </h4>\n        </div>"));
         }
     };
     AzureTemplate.prototype.setupStocks = function () {
@@ -2494,14 +2524,6 @@ var AzureTemplate = /** @class */ (function () {
             new Utils(this.game).stylePlayerName(playerNameElement);
         }
     };
-    AzureTemplate.prototype.setupHand = function () {
-        var color = this.gamedatas.players[this.game.player_id].color;
-        var opp_color = new Utils(this.game).getOppColor(color);
-        var handTitle = document.getElementById("azr_handTitle");
-        handTitle.style.setProperty("--color", "#".concat(color));
-        handTitle.style.setProperty("--opp-color", "#".concat(opp_color));
-        handTitle.textContent = _("Your hand");
-    };
     AzureTemplate.prototype.initObserver = function () {
         var _this = this;
         var observer = new MutationObserver(function (mutations) {
@@ -2538,6 +2560,7 @@ var AzureTemplate = /** @class */ (function () {
         this.setupRealm();
         this.setupHand();
         this.setupWisdomTrack();
+        this.setupFavors();
         this.setupStocks();
         this.setupPanels();
         this.initObserver();

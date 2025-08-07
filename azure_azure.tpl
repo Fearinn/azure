@@ -18,6 +18,9 @@
     <div id="azr_beasts" class="azr_beasts"></div>
     <div id="azr_stones" class="azr_stones"></div>
   </div>
+  <div id="azr_favorsContainer" class="azr_favorsContainer">
+    <h4 id="azr_favorsTitle" class="azr_favorsTitle"></h4>
+  </div>
   <div id="azr_wisdomTrack" class="azr_wisdomTrack"></div>
   <div id="azr_handContainer" class="whiteblock azr_handContainer">
     <h4 id="azr_handTitle" class="azr_handTitle"></h4>

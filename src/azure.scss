@@ -7,6 +7,7 @@
 @use "components/Stones/stone";
 @use "components/Spaces/space";
 @use "components/Wisdom/wisdom";
+@use "scss/favors";
 @use "scss/panels";
 @use "scss/prefs";
 @use "scss/logs";
@@ -23,16 +24,18 @@
   justify-content: center;
   grid-template-areas:
     "decks empty"
-    "realm empty"
+    "realm favors"
     "realm wisdom"
     "hand hand";
-  gap: 24px;
+  column-gap: 24px;
+  row-gap: 16px;
   padding: 8px;
   width: 100%;
   user-select: none;
 }
 
-.player-name a:first-of-type, .playername {
+.player-name a:first-of-type,
+.playername {
   color: var(--color);
   background-color: var(--opp-color);
   border-radius: 4px;
