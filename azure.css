@@ -437,7 +437,7 @@ body > .card {
   pointer-events: none;
 }
 
-.azr_beasts {
+:root {
   --beast-width: calc(var(--space-width) * 0.8);
 }
 
@@ -486,6 +486,7 @@ body > .card {
   align-items: center;
   gap: 8px;
   margin: 0;
+  width: 100%;
 }
 
 .azr_handTitle {
@@ -698,8 +699,27 @@ body > .card {
   width: 100%;
 }
 
+.azr_favorsTitle {
+  color: var(--color);
+  font-size: 32px;
+  text-transform: capitalize;
+  position: absolute;
+  top: -10%;
+  left: 50%;
+  background-color: var(--opp-color);
+  border-radius: 8px;
+  box-shadow: 0 0 8px var(--color);
+  margin: 0;
+  padding: 4px;
+  width: fit-content;
+  transform: translate(-50%, 50%);
+  z-index: 1;
+}
+
 .azr_favors {
   position: relative;
+  display: flex;
+  align-items: center;
   background-color: var(--bg-color);
   box-shadow: 0 0 4px var(--opp-color);
   margin: 0;
@@ -718,21 +738,9 @@ body > .card {
   width: fit-content;
 }
 
-.azr_favorsTitle {
-  color: var(--color);
-  font-size: 32px;
-  text-transform: capitalize;
-  position: absolute;
-  top: -10%;
-  left: 50%;
-  background-color: var(--opp-color);
-  border-radius: 8px;
-  box-shadow: 0 0 8px var(--color);
-  margin: 0;
-  padding: 4px;
-  width: fit-content;
-  transform: translate(-50%, 50%);
-  z-index: 1;
+.azr_favorBeasts {
+  display: grid;
+  grid-template-columns: repeat(4, var(--beast-width));
 }
 
 .player-board-game-specific-content {
@@ -794,6 +802,7 @@ body > .card {
   display: grid;
   align-items: center;
   justify-content: center;
+  justify-items: center;
   grid-template-areas: "decks empty" "realm favors" "realm wisdom" "hand hand";
   column-gap: 24px;
   row-gap: 16px;

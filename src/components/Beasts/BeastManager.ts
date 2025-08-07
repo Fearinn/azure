@@ -1,12 +1,18 @@
 interface BeastCard extends AzureCard {
   type_arg: number;
+  location: "realm" | "favors";
+}
+
+interface BeastStocks {
+  realm: CardStock<BeastCard>;
+  [player_id: number]: { favors: CardStock<BeastCard> };
 }
 
 class BeastManager {
   private game: Azure;
   private gamedatas: AzureGamedatas;
   public manager: CardManager<BeastCard>;
-  public stocks: { realm: CardStock<BeastCard> };
+  public stocks: BeastStocks;
 
   constructor(game: Azure) {
     this.game = game;
@@ -29,7 +35,7 @@ class BeastManager {
       },
     });
 
-    this.gamedatas.stocks.beasts = {
+    const stocks: BeastStocks = {
       realm: new CardStock<BeastCard>(
         manager,
         document.getElementById(`azr_beasts`),
@@ -37,12 +43,29 @@ class BeastManager {
       ),
     };
 
+    for (const p_id in this.gamedatas.players) {
+      const player_id = Number(p_id);
+      stocks[player_id] = {
+        favors: new CardStock<BeastCard>(
+          manager,
+          document.getElementById(`azr_favorBeasts-${player_id}`),
+          { sort: sortFunction("type") }
+        ),
+      };
+    }
+
+    this.gamedatas.stocks.beasts = stocks;
     this.gamedatas.managers.beasts = manager;
   }
 
   setupStocks(): void {
-    const { placedBeasts } = this.gamedatas;
+    const { placedBeasts, activeBeasts } = this.gamedatas;
     placedBeasts.forEach((card) => {
+      const beast = new Beast(this.game, card);
+      beast.setup();
+    });
+
+    activeBeasts.forEach((card) => {
       const beast = new Beast(this.game, card);
       beast.setup();
     });

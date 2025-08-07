@@ -132,6 +132,7 @@ class Game extends \Bga\GameFramework\Table
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),
             "domainsSides" => $this->globals->get(G_DOMAINS_SIDES),
             "placedBeasts" => $BeastManager->getPlaced(),
+            "activeBeasts" => $BeastManager->getActive(),
             "decksCounts" => $QiManager->getDecksCounts(),
             "handsCounts" => $QiManager->getHandsCounts(),
             "placedStones" => $StoneManager->getPlaced(),

@@ -27,6 +27,8 @@ class Beast extends BeastManager
 
     public function gainFavor(int $player_id): void
     {
+        $this->deck->moveCard($this->card_id, "favors", $player_id);
+
         $Notif = new NotifManager($this->game);
         $Notif->all(
             "gainFavor",

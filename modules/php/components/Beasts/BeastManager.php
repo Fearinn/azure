@@ -42,9 +42,15 @@ class BeastManager extends CardManager
         return array_values($cards);
     }
 
+    public function getActive(): array
+    {
+        $cards = $this->deck->getCardsInLocation("favors");
+        return array_values($cards);
+    }
+
     public function checkBeasts(int $player_id): void
     {
-       $Dragon = new Dragon($this->game);
-       $Dragon->check($player_id);
+        $Dragon = new Dragon($this->game);
+        $Dragon->check($player_id);
     }
 }

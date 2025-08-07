@@ -9,9 +9,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     wisdom?: CardManager<WisdomCard>;
   };
   stocks: {
-    beasts?: {
-      realm: CardStock<BeastCard>;
-    };
+    beasts?: BeastStocks;
     spaces?: {
       realm: CardStock<SpaceCard>;
     };
@@ -42,6 +40,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     [domain_id: number]: number;
   };
   placedBeasts: BeastCard[];
+  activeBeasts: BeastCard[];
   decksCounts: {
     [domain_id: number]: number;
   };

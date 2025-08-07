@@ -2647,15 +2647,26 @@ var BeastManager = /** @class */ (function () {
                 element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(type_arg, ".png)");
             },
         });
-        this.gamedatas.stocks.beasts = {
+        var stocks = {
             realm: new CardStock(manager, document.getElementById("azr_beasts"), {}),
         };
+        for (var p_id in this.gamedatas.players) {
+            var player_id = Number(p_id);
+            stocks[player_id] = {
+                favors: new CardStock(manager, document.getElementById("azr_favorBeasts-".concat(player_id)), { sort: sortFunction("type") }),
+            };
+        }
+        this.gamedatas.stocks.beasts = stocks;
         this.gamedatas.managers.beasts = manager;
     };
     BeastManager.prototype.setupStocks = function () {
         var _this = this;
-        var placedBeasts = this.gamedatas.placedBeasts;
+        var _a = this.gamedatas, placedBeasts = _a.placedBeasts, activeBeasts = _a.activeBeasts;
         placedBeasts.forEach(function (card) {
+            var beast = new Beast(_this.game, card);
+            beast.setup();
+        });
+        activeBeasts.forEach(function (card) {
             var beast = new Beast(_this.game, card);
             beast.setup();
         });
@@ -2671,14 +2682,21 @@ var Beast = /** @class */ (function (_super) {
     function Beast(game, card) {
         var _this = _super.call(this, game) || this;
         _this.card = new AzureCard(card);
-        _this.space_id = _this.card.location_arg;
+        _this.space_id = Number(_this.card.type);
         _this.id = _this.card.type_arg;
         return _this;
     }
     Beast.prototype.setup = function () {
-        this.stocks.realm.addCard(this.card, {}, {
-            forceToElement: document.getElementById("azr_space-".concat(this.space_id)),
-        });
+        var _a = this.card, location = _a.location, player_id = _a.location_arg;
+        if (location === "favors") {
+            this.stocks[player_id].favors.addCard(this.card);
+        }
+        if (location === "realm") {
+            this.stocks.realm.addCard(this.card, {}, {
+                forceToElement: document.getElementById("azr_space-".concat(this.space_id)),
+            });
+            return;
+        }
     };
     return Beast;
 }(BeastManager));
