@@ -61,7 +61,7 @@ class NotifManager {
   ) {
     const { player_id, initialWisdom, finalWisdom } = args;
     const wisdomManager = new WisdomManager(this.game);
-    await wisdomManager.setScore(player_id, initialWisdom, finalWisdom);
+    await wisdomManager.set(player_id, initialWisdom, finalWisdom);
   }
 }
 

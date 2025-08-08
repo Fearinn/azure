@@ -64,7 +64,7 @@ class Beast extends BeastManager
 
     public function getFavoredPlayer(): int | null
     {
-        $sql = "SELECT card_location_arg FROM {$this->dbTable} WHERE card_location='favors'";
+        $sql = "SELECT card_location_arg FROM {$this->dbTable} WHERE card_location='favors' AND card_id={$this->card_id}";
         $player_id = (int) $this->game->getUniqueValueFromDB($sql);
         return $player_id;
     }

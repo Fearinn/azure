@@ -2432,7 +2432,7 @@ var NotifManager = /** @class */ (function () {
                     case 0:
                         player_id = args.player_id, initialWisdom = args.initialWisdom, finalWisdom = args.finalWisdom;
                         wisdomManager = new WisdomManager(this.game);
-                        return [4 /*yield*/, wisdomManager.setScore(player_id, initialWisdom, finalWisdom)];
+                        return [4 /*yield*/, wisdomManager.set(player_id, initialWisdom, finalWisdom)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -3079,12 +3079,12 @@ var WisdomManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
-    WisdomManager.prototype.setScore = function (player_id, initialScore, finalScore) {
+    WisdomManager.prototype.set = function (player_id, initialWisdom, finalWisdom) {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.stocks[finalScore].addCard({ id: player_id }, {
-                            fromElement: initialScore === 0
+                    case 0: return [4 /*yield*/, this.stocks[finalWisdom].addCard({ id: player_id }, {
+                            fromElement: initialWisdom === 0
                                 ? document.getElementById("azr_stoneIcon-".concat(player_id))
                                 : undefined,
                         })];

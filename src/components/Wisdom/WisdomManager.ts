@@ -58,16 +58,16 @@ class WisdomManager {
     this.setupStocks();
   }
 
-  async setScore(
+  async set(
     player_id: number,
-    initialScore: number,
-    finalScore: number
+    initialWisdom: number,
+    finalWisdom: number
   ): Promise<void> {
-    await this.stocks[finalScore].addCard(
+    await this.stocks[finalWisdom].addCard(
       { id: player_id },
       {
         fromElement:
-          initialScore === 0
+          initialWisdom === 0
             ? document.getElementById(`azr_stoneIcon-${player_id}`)
             : undefined,
       }

@@ -17,6 +17,10 @@ class WisdomManager extends Subclass
 
     public function inc(int $player_id, int $wisdom): void
     {
+        if ($wisdom === 0) {
+            return;
+        }
+
         $ScoreManager = new ScoreManager($this->game);
 
         $initialWisdom = $ScoreManager->getScore($player_id);
