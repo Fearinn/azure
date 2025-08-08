@@ -50,7 +50,6 @@ class WisdomManager extends Subclass
         $ScoreManager = new ScoreManager($this->game);
 
         $initialWisdom = $ScoreManager->getScore($player_id);
-        $ScoreManager->incScore($player_id, -$wisdom);
         $finalWisdom = $initialWisdom - $wisdom;
 
         if ($finalWisdom < 0) {

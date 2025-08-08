@@ -47,13 +47,13 @@ class NotifManager {
     await beast.gainFavor(player_id);
   }
 
-  notif_incScore(
+  notif_setScore(
     args: NotifArgs & {
       score: number;
     }
   ): void {
     const { player_id, score } = args;
-    this.game.scoreCtrl[player_id].incValue(score);
+    this.game.scoreCtrl[player_id].toValue(score);
   }
 
   async notif_gatherWisdom(

@@ -21,21 +21,21 @@ class ScoreManager extends Subclass
     public function setScore(int $player_id, int $score): void
     {
         $this->game->DbQuery("UPDATE player SET player_score={$score} WHERE player_id={$player_id}");
-    }
-
-    public function incScore(int $player_id, int $score): void
-    {
-        $this->game->DbQuery("UPDATE player SET player_score=player_score+{$score} WHERE player_id={$player_id}");
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
-            "incScore",
+            "setScore",
             "",
             [
                 "score" => $score,
             ],
             $player_id,
         );
+    }
+
+    public function incScore(int $player_id, int $score): void
+    {
+        $this->game->DbQuery("UPDATE player SET player_score=player_score+{$score} WHERE player_id={$player_id}");
     }
 
     public function setScoreAux(int $score, int $player_id): void

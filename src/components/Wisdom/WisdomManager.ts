@@ -63,14 +63,18 @@ class WisdomManager {
     initialWisdom: number,
     finalWisdom: number
   ): Promise<void> {
-    await this.stocks[finalWisdom].addCard(
-      { id: player_id },
-      {
-        fromElement:
-          initialWisdom === 0
-            ? document.getElementById(`azr_stoneIcon-${player_id}`)
-            : undefined,
-      }
-    );
+    const iconElement = document.getElementById(`azr_stoneIcon-${player_id}`);
+    const card = { id: player_id };
+
+    if (finalWisdom === 0) {
+      await this.stocks[initialWisdom].removeCard(card, {
+        slideTo: iconElement,
+      });
+      return;
+    }
+
+    await this.stocks[finalWisdom].addCard(card, {
+      fromElement: initialWisdom === 0 ? iconElement : undefined,
+    });
   }
 }

@@ -2420,9 +2420,9 @@ var NotifManager = /** @class */ (function () {
             });
         });
     };
-    NotifManager.prototype.notif_incScore = function (args) {
+    NotifManager.prototype.notif_setScore = function (args) {
         var player_id = args.player_id, score = args.score;
-        this.game.scoreCtrl[player_id].incValue(score);
+        this.game.scoreCtrl[player_id].toValue(score);
     };
     NotifManager.prototype.notif_gatherWisdom = function (args) {
         return __awaiter(this, void 0, void 0, function () {
@@ -3081,14 +3081,23 @@ var WisdomManager = /** @class */ (function () {
     };
     WisdomManager.prototype.set = function (player_id, initialWisdom, finalWisdom) {
         return __awaiter(this, void 0, void 0, function () {
+            var iconElement, card;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.stocks[finalWisdom].addCard({ id: player_id }, {
-                            fromElement: initialWisdom === 0
-                                ? document.getElementById("azr_stoneIcon-".concat(player_id))
-                                : undefined,
-                        })];
+                    case 0:
+                        iconElement = document.getElementById("azr_stoneIcon-".concat(player_id));
+                        card = { id: player_id };
+                        if (!(finalWisdom === 0)) return [3 /*break*/, 2];
+                        return [4 /*yield*/, this.stocks[initialWisdom].removeCard(card, {
+                                slideTo: iconElement,
+                            })];
                     case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                    case 2: return [4 /*yield*/, this.stocks[finalWisdom].addCard(card, {
+                            fromElement: initialWisdom === 0 ? iconElement : undefined,
+                        })];
+                    case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }
