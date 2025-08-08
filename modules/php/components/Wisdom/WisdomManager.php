@@ -22,13 +22,16 @@ class WisdomManager extends Subclass
         }
 
         $ScoreManager = new ScoreManager($this->game);
-
         $initialWisdom = $ScoreManager->getScore($player_id);
-        $ScoreManager->incScore($player_id, $wisdom);
-        $finalWisdom = $ScoreManager->getScore($player_id);
+        $finalWisdom = $initialWisdom + $wisdom;
+
+        if ($finalWisdom > 25) {
+            $finalWisdom = 25;
+        }
+
+        $ScoreManager->setScore($player_id, $finalWisdom);
 
         $NotifManager = new NotifManager($this->game);
-
         $NotifManager->all(
             "gatherWisdom",
             clienttranslate('${player_name} gathers ${log_wisdom} wisdom'),
@@ -48,10 +51,15 @@ class WisdomManager extends Subclass
 
         $initialWisdom = $ScoreManager->getScore($player_id);
         $ScoreManager->incScore($player_id, -$wisdom);
-        $finalWisdom = $ScoreManager->getScore($player_id);
+        $finalWisdom = $initialWisdom - $wisdom;
+
+        if ($finalWisdom < 0) {
+            $finalWisdom = 0;
+        }
+
+        $ScoreManager->setScore($player_id, $finalWisdom);
 
         $NotifManager = new NotifManager($this->game);
-
         $NotifManager->all(
             "gatherWisdom",
             clienttranslate('${player_name} loses ${log_wisdom} wisdom'),
