@@ -47,17 +47,21 @@ class NotifManager {
     await beast.gainFavor(player_id);
   }
 
-  async notif_incScore(
+  notif_incScore(
     args: NotifArgs & {
-      initialScore: number;
-      finalScore: number;
+      score: number;
     }
-  ): Promise<void> {
-    const { initialScore, finalScore, player_id } = args;
-    this.game.scoreCtrl[player_id].toValue(finalScore);
+  ): void {
+    const { player_id, score } = args;
+    this.game.scoreCtrl[player_id].incValue(score);
+  }
 
+  async notif_gatherWisdom(
+    args: NotifArgs & { initialWisdom: number; finalWisdom: number }
+  ) {
+    const { player_id, initialWisdom, finalWisdom } = args;
     const wisdomManager = new WisdomManager(this.game);
-    await wisdomManager.setScore(player_id, initialScore, finalScore);
+    await wisdomManager.setScore(player_id, initialWisdom, finalWisdom);
   }
 }
 

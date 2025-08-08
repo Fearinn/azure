@@ -2421,15 +2421,18 @@ var NotifManager = /** @class */ (function () {
         });
     };
     NotifManager.prototype.notif_incScore = function (args) {
+        var player_id = args.player_id, score = args.score;
+        this.game.scoreCtrl[player_id].incValue(score);
+    };
+    NotifManager.prototype.notif_gatherWisdom = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var initialScore, finalScore, player_id, wisdomManager;
+            var player_id, initialWisdom, finalWisdom, wisdomManager;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        initialScore = args.initialScore, finalScore = args.finalScore, player_id = args.player_id;
-                        this.game.scoreCtrl[player_id].toValue(finalScore);
+                        player_id = args.player_id, initialWisdom = args.initialWisdom, finalWisdom = args.finalWisdom;
                         wisdomManager = new WisdomManager(this.game);
-                        return [4 /*yield*/, wisdomManager.setScore(player_id, initialScore, finalScore)];
+                        return [4 /*yield*/, wisdomManager.setScore(player_id, initialWisdom, finalWisdom)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

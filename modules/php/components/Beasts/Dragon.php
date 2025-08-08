@@ -3,8 +3,8 @@
 namespace Bga\Games\Azure\components\Beasts;
 
 use Bga\Games\Azure\components\Spaces\SpaceManager;
+use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\score\ScoreManager;
 
 class Dragon extends Beast
 {
@@ -51,8 +51,8 @@ class Dragon extends Beast
         $this->loseFavor();
         parent::gainFavor($player_id);
 
-        $ScoreManager = new ScoreManager($this->game);
-        $ScoreManager->incScore($player_id, 3);
+        $WisdomManager = new WisdomManager($this->game);
+        $WisdomManager->inc($player_id, 3);
     }
 
     public function loseFavor(): void
@@ -65,7 +65,7 @@ class Dragon extends Beast
 
         parent::loseFavor();
 
-        $ScoreManager = new ScoreManager($this->game);
-        $ScoreManager->incScore($player_id, -3);
+        $WisdomManager = new WisdomManager($this->game);
+        $WisdomManager->dec($player_id, 3);
     }
 }

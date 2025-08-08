@@ -4,8 +4,8 @@ namespace Bga\Games\Azure\components\Spaces;
 
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
+use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\score\ScoreManager;
 use Bga\Games\Azure\Subclass;
 
 class Space extends Subclass
@@ -135,7 +135,7 @@ class Space extends Subclass
             $this->qi
         );
 
-        $ScoreManager = new ScoreManager($this->game);
-        $ScoreManager->incScore($player_id, $this->wisdom);
+        $WisdomManager = new WisdomManager($this->game);
+        $WisdomManager->inc($player_id, $this->wisdom);
     }
 }

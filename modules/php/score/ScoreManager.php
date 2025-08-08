@@ -25,23 +25,14 @@ class ScoreManager extends Subclass
 
     public function incScore(int $player_id, int $score): void
     {
-        if ($score === 0) {
-            return;
-        }
-
-        $initialScore = $this->getScore($player_id);
         $this->game->DbQuery("UPDATE player SET player_score=player_score+{$score} WHERE player_id={$player_id}");
-        $finalScore = $this->getScore($player_id);
 
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "incScore",
-            clienttranslate('${player_name} gathers ${log_score} of wisdom'),
+            "",
             [
-                "initialScore" => $initialScore,
                 "score" => $score,
-                "finalScore" => $finalScore,
-                "log_score" => $score,
             ],
             $player_id,
         );
