@@ -16,7 +16,7 @@ class Beast extends BeastManager implements Beast {
   setup(): void {
     const { location, location_arg: player_id } = this.card;
     if (location === "favors") {
-      this.stocks[player_id].favors.addCard(this.card);
+      this.gainFavor(player_id);
     }
 
     if (location === "realm") {
@@ -29,5 +29,9 @@ class Beast extends BeastManager implements Beast {
       );
       return;
     }
+  }
+
+  async gainFavor(player_id: number): Promise<void> {
+    await this.stocks[player_id].favors.addCard(this.card);
   }
 }

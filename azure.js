@@ -2404,6 +2404,22 @@ var NotifManager = /** @class */ (function () {
             });
         });
     };
+    NotifManager.prototype.notif_gainFavor = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var card, player_id, beast;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        card = args.card, player_id = args.player_id;
+                        beast = new Beast(this.game, card);
+                        return [4 /*yield*/, beast.gainFavor(player_id)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     NotifManager.prototype.notif_incScore = function (args) {
         return __awaiter(this, void 0, void 0, function () {
             var initialScore, finalScore, player_id, wisdomManager;
@@ -2689,7 +2705,7 @@ var Beast = /** @class */ (function (_super) {
     Beast.prototype.setup = function () {
         var _a = this.card, location = _a.location, player_id = _a.location_arg;
         if (location === "favors") {
-            this.stocks[player_id].favors.addCard(this.card);
+            this.gainFavor(player_id);
         }
         if (location === "realm") {
             this.stocks.realm.addCard(this.card, {}, {
@@ -2697,6 +2713,18 @@ var Beast = /** @class */ (function (_super) {
             });
             return;
         }
+    };
+    Beast.prototype.gainFavor = function (player_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.stocks[player_id].favors.addCard(this.card)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
     };
     return Beast;
 }(BeastManager));

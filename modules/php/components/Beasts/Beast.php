@@ -36,8 +36,36 @@ class Beast extends BeastManager
             [
                 "i18n" => ["beast_label"],
                 "beast_label" => $this->label,
+                "card" => $this->deck->getCard($this->card_id),
             ],
             $player_id,
         );
+    }
+
+    public function loseFavor(): void
+    {
+        $player_id = $this->getFavoredPlayer();
+
+        if (!$player_id) {
+            return;
+        }
+
+        $Notif = new NotifManager($this->game);
+        $Notif->all(
+            "loseFavor",
+            clienttranslate('${player_name} loses the favor of the ${beast_label}'),
+            [
+                "i18n" => ["beast_label"],
+                "beast_label" => $this->label,
+            ],
+            $player_id,
+        );
+    }
+
+    public function getFavoredPlayer(): int | null
+    {
+        $sql = "SELECT card_location_arg FROM {$this->dbTable} WHERE card_location='favors'";
+        $player_id = (int) $this->game->getUniqueValueFromDB($sql);
+        return $player_id;
     }
 }

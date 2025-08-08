@@ -35,10 +35,16 @@ class NotifManager {
 
   async notif_placeStone(
     args: NotifArgs & { card: StoneCard; space_id: number }
-  ) {
+  ): Promise<void> {
     const { player_id, space_id, card } = args;
     const stone = new Stone(this.game, card);
     await stone.place(player_id, space_id);
+  }
+
+  async notif_gainFavor(args: NotifArgs & { card: BeastCard }): Promise<void> {
+    const { card, player_id } = args;
+    const beast = new Beast(this.game, card);
+    await beast.gainFavor(player_id);
   }
 
   async notif_incScore(
