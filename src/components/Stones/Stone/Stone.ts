@@ -27,4 +27,9 @@ class Stone extends StoneManager implements Stone {
       { forceToElement: document.getElementById(`azr_space-${space_id}`) }
     );
   }
+
+  async remove(player_id: number): Promise<void> {
+    this.gamedatas.counters[player_id].stones.incValue(1);
+    await this.stocks.void.addCard(this.card);
+  }
 }

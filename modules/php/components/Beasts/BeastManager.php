@@ -50,6 +50,9 @@ class BeastManager extends CardManager
 
     public function checkBeasts(int $player_id): void
     {
+        $Tortoise = new Tortoise($this->game);
+        $Tortoise->check($player_id);
+
         $Dragon = new Dragon($this->game);
         $Dragon->check($player_id);
 

@@ -38,10 +38,21 @@ class Space extends Subclass
         $this->isMountain = $this->baseCost === 0;
     }
 
-    private function isOccupied(int $player_id = null): bool
+    public function isOccupied(int $player_id = null): bool
     {
         $StoneManager = new StoneManager($this->game);
         return $StoneManager->checkBySpace($this->id, $player_id);
+    }
+
+    public function isTortoiseFavor(int $player_id): bool
+    {
+        if (!$this->isOccupied($player_id)) {
+            return false;
+        }
+
+        $domainSides = $this->globals->get(G_DOMAINS_SIDES);
+        $side = $domainSides[4];
+        return $this->MOUNTAINS[4][$side] === $this->id;
     }
 
     public function countBonds(int $player_id): int
@@ -52,6 +63,10 @@ class Space extends Subclass
 
         for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
             $Space = new Space($this->game, $bond_x, $y);
+
+            if ($Space->isTortoiseFavor($player_id)) {
+                $bondCount++;
+            }
 
             if ($Space->isMountain) {
                 break;

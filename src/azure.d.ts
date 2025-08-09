@@ -15,6 +15,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     };
     qi?: QiStocks;
     stones?: {
+      void: CardStock<StoneCard>;
       realm: CardStock<StoneCard>;
     };
     wisdom?: {

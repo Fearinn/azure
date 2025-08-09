@@ -4,6 +4,7 @@ namespace Bga\Games\Azure\components\Stones;
 
 use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\components\Spaces\Space;
+use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
 
@@ -66,6 +67,32 @@ class StoneManager extends CardManager
                 "space_icon" => "",
                 "x" => $x,
                 "y" => $y,
+                "space_id" => $space_id,
+                "card" => $this->deck->getCard($card_id),
+
+            ],
+            $player_id
+        );
+    }
+
+    public function remove(int $player_id, int $space_id): void {
+        $SpaceManager = new SpaceManager($this->game, $space_id);
+        $Space = $SpaceManager->getById($space_id);
+
+        $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable} 
+        WHERE card_location='realm' AND card_location_arg={$space_id} AND card_type_arg={$player_id} LIMIT 1");
+
+        $this->deck->moveCard($card_id, "hand", $player_id);
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "removeStone",
+            clienttranslate('${player_name} removes a stone from (${x}, ${y}) ${space_icon}'),
+            [
+                "preserve" => ["space_id"],
+                "space_icon" => "",
+                "x" => $Space->x,
+                "y" => $Space->y,
                 "space_id" => $space_id,
                 "card" => $this->deck->getCard($card_id),
 

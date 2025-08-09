@@ -528,6 +528,11 @@ body > .card {
   box-shadow: none !important;
 }
 
+.azr_stonesVoid {
+  top: -100%;
+  right: -200%;
+}
+
 .azr_spaces {
   display: grid;
   grid-template-columns: repeat(6, var(--space-width));

@@ -39,6 +39,7 @@ class Game extends \Bga\GameFramework\Table
     public readonly array $BEASTS;
     public readonly array $MOUNTAINS;
     public readonly array $SPACES;
+    public readonly array $SERPENTS;
 
     public Deck $qi_cards;
     public Deck $stone_cards;

@@ -6,7 +6,10 @@ class StoneManager {
   public readonly game: Azure;
   public readonly gamedatas: AzureGamedatas;
   public readonly manager: CardManager<StoneCard>;
-  public readonly stocks: { realm: CardStock<StoneCard> };
+  public readonly stocks: {
+    realm: CardStock<StoneCard>;
+    void: CardStock<StoneCard>;
+  };
 
   constructor(game: Azure) {
     this.game = game;
@@ -36,6 +39,10 @@ class StoneManager {
         manager,
         document.getElementById(`azr_stones`),
         {}
+      ),
+      void: new VoidStock<StoneCard>(
+        manager,
+        document.getElementById(`azr_stonesVoid`)
       ),
     };
 

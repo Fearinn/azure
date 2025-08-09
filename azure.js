@@ -2404,6 +2404,22 @@ var NotifManager = /** @class */ (function () {
             });
         });
     };
+    NotifManager.prototype.notif_removeStone = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, card, stone;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, card = args.card;
+                        stone = new Stone(this.game, card);
+                        return [4 /*yield*/, stone.remove(player_id)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     NotifManager.prototype.notif_gainFavor = function (args) {
         return __awaiter(this, void 0, void 0, function () {
             var card, player_id, beast;
@@ -2992,6 +3008,7 @@ var StoneManager = /** @class */ (function () {
         });
         this.gamedatas.stocks.stones = {
             realm: new CardStock(manager, document.getElementById("azr_stones"), {}),
+            void: new VoidStock(manager, document.getElementById("azr_stonesVoid")),
         };
         this.gamedatas.managers.stones = manager;
     };
@@ -3029,6 +3046,20 @@ var Stone = /** @class */ (function (_super) {
                     case 0:
                         this.gamedatas.counters[player_id].stones.incValue(-1);
                         return [4 /*yield*/, this.stocks.realm.addCard(this.card, { fromElement: document.getElementById("azr_stoneIcon-".concat(player_id)) }, { forceToElement: document.getElementById("azr_space-".concat(space_id)) })];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Stone.prototype.remove = function (player_id) {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        this.gamedatas.counters[player_id].stones.incValue(1);
+                        return [4 /*yield*/, this.stocks.void.addCard(this.card)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
