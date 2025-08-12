@@ -143,4 +143,35 @@ class QiManager extends CardManager
             $player_id,
         );
     }
+
+    public function draw(int $player_id, int $nbr): void
+    {
+        $cards = $this->deck->pickCards($nbr, "deck-0", $player_id);
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "drawQi",
+            clienttranslate('${player_name} draws ${nbr} qi from the hidden deck'),
+            [
+                "nbr" => $nbr,
+            ],
+            $player_id
+        );
+
+        foreach ($cards as $card_id => $card) {
+            $domain_id = (int) $card["type_arg"];
+
+            $Notify = new NotifManager($this->game);
+            $Notify->player(
+                $player_id,
+                "gatherQi",
+                clienttranslate('You draw a ${qi_label} qi from the hidden deck'),
+                [
+                    "i18n" => ["qi_label"],
+                    "cards" => [$card],
+                    "qi_label" => $this->QI[$domain_id]["label"],
+                ]
+            );
+        }
+    }
 }

@@ -57,6 +57,8 @@ class NotifManager extends Subclass
 
     public function player(int $player_id, string $name, string $message, array $args = []): void
     {
+        $args["player_id"] = $player_id;
+
         $this->notify->player(
             $player_id,
             $name,

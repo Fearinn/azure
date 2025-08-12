@@ -58,5 +58,8 @@ class BeastManager extends CardManager
 
         $Tiger = new Tiger($this->game);
         $Tiger->check($player_id);
+
+        $Bird = new Bird($this->game);
+        $Bird->check($player_id);
     }
 }

@@ -2,16 +2,15 @@
 
 namespace Bga\Games\Azure\components\Beasts;
 
+use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
-use Bga\Games\Azure\components\Stones\StoneManager;
-use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
 
-class Tortoise extends Beast
+class Bird extends Beast
 {
     public function __construct(Game $game)
     {
-        parent::__construct($game, 4);
+        parent::__construct($game, 3);
     }
 
     public function check(int $player_id): void
@@ -31,7 +30,7 @@ class Tortoise extends Beast
         }
 
         $SpaceManager = new SpaceManager($this->game);
-        $bondsCount = $SpaceManager->countOccupiedSerpents($player_id);
+        $bondsCount = $SpaceManager->countOccupiedByDomain($player_id, 3);
 
         if ($bondsCount < 2) {
             return false;
@@ -41,7 +40,7 @@ class Tortoise extends Beast
             return true;
         }
 
-        $favoredBondsCount = $SpaceManager->countOccupiedSerpents($favoredPlayer);
+        $favoredBondsCount = $SpaceManager->countOccupiedByDomain($player_id, 3);
         return $bondsCount > $favoredBondsCount;
     }
 
@@ -50,24 +49,18 @@ class Tortoise extends Beast
         $this->loseFavor();
         parent::gainFavor($player_id);
 
-        $SpaceManager = new SpaceManager($this->game);
-        $Space = $SpaceManager->getById($this->space_id);
-
-        $StoneManager = new StoneManager($this->game);
-        $StoneManager->place($player_id, $Space->x, $Space->y);
+        $QiManager = new QiManager($this->game);
+        $QiManager->draw($player_id, 2);
     }
 
     public function loseFavor(): void
     {
-        parent::loseFavor();
-        
         $player_id = $this->getFavoredPlayer();
 
         if (!$player_id) {
             return;
         }
 
-        $StoneManager = new StoneManager($this->game);
-        $StoneManager->remove($player_id, $this->space_id);
+        parent::loseFavor();
     }
 }
