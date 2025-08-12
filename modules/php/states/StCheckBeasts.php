@@ -16,7 +16,11 @@ class StCheckBeasts extends StateManager
     {
         $player_id = (int) $this->game->getActivePlayerId();
         $BeastManager = new BeastManager($this->game);
-        $BeastManager->checkBeasts($player_id);
+
+        if ($BeastManager->checkBeasts($player_id)) {
+            $this->game->gamestate->nextState(TR_BIRD_DISCARD);
+            return;
+        };
 
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }

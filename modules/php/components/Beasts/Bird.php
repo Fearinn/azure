@@ -13,12 +13,13 @@ class Bird extends Beast
         parent::__construct($game, 3);
     }
 
-    public function check(int $player_id): void
+    public function check(int $player_id): bool
     {
         if ($this->mustTakeFavor($player_id)) {
-            $this->gainFavor($player_id);
-            return;
+            return $this->bird_gainFavor($player_id);
         }
+
+        return false;
     }
 
     private function mustTakeFavor(int $player_id): bool
@@ -40,27 +41,35 @@ class Bird extends Beast
             return true;
         }
 
-        $favoredBondsCount = $SpaceManager->countOccupiedByDomain($player_id, 3);
+        $favoredBondsCount = $SpaceManager->countOccupiedByDomain($favoredPlayer, 3);
         return $bondsCount > $favoredBondsCount;
     }
 
-    public function gainFavor(int $player_id): void
+    public function bird_gainFavor(int $player_id): bool
     {
-        $this->loseFavor();
         parent::gainFavor($player_id);
+
+        $pendingBird = $this->globals->get(G_PENDING_BIRD);
+
+        if (!$pendingBird && $this->bird_loseFavor()) {
+            $this->globals->set(G_PENDING_BIRD, $player_id);
+            return true;
+        }
 
         $QiManager = new QiManager($this->game);
         $QiManager->draw($player_id, 2);
+        return false;
     }
 
-    public function loseFavor(): void
+    public function bird_loseFavor(): bool
     {
         $player_id = $this->getFavoredPlayer();
 
         if (!$player_id) {
-            return;
+            return false;
         }
 
         parent::loseFavor();
+        return true;
     }
 }

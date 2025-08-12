@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Azure\states;
 
+use Bga\Games\Azure\components\Beasts\Bird;
 use Bga\Games\Azure\Game;
 
 class StBetweenPlayers extends StateManager

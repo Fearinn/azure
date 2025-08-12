@@ -48,7 +48,7 @@ class BeastManager extends CardManager
         return array_values($cards);
     }
 
-    public function checkBeasts(int $player_id): void
+    public function checkBeasts(int $player_id): bool
     {
         $Tortoise = new Tortoise($this->game);
         $Tortoise->check($player_id);
@@ -60,6 +60,6 @@ class BeastManager extends CardManager
         $Tiger->check($player_id);
 
         $Bird = new Bird($this->game);
-        $Bird->check($player_id);
+        return $Bird->check($player_id);
     }
 }
