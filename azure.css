@@ -442,7 +442,6 @@ body > .card {
 }
 
 .azr_beast {
-  --beast-width: calc(var(--space-width) * 0.8);
   position: relative;
   aspect-ratio: 1;
   background-size: cover;
@@ -505,7 +504,7 @@ body > .card {
 }
 
 :root {
-  --stone-width: calc(var(--space-width) * 0.9);
+  --stone-width: calc(var(--space-width) * 0.7);
 }
 
 .azr_stone {
@@ -564,7 +563,7 @@ body > .card {
 }
 
 :root {
-  --wisdom-width: calc(var(--stone-width) / 2);
+  --wisdom-width: calc(var(--stone-width) / 1.5);
 }
 
 .azr_wisdomTrack {
@@ -776,9 +775,12 @@ body > .card {
   width: var(--qi-width);
 }
 
+.azr_stoneCounter {
+  --stone-width: 50px;
+}
 .azr_stoneCounter-icon {
   box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.2);
-  width: calc(var(--stone-width) / 3) !important;
+  width: var(--stone-width);
 }
 
 .azr_pref-thematicBg {

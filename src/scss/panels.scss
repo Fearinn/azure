@@ -29,8 +29,10 @@
 }
 
 .azr_stoneCounter {
+  --stone-width: 50px;
+  
   &-icon {
     box-shadow: inset 0 0 4px 2px #00000033;
-    width: calc(var(--stone-width) / 3) !important;
+    width: var(--stone-width);
   }
 }
