@@ -2348,8 +2348,13 @@ define([
 });
 var NotifManager = /** @class */ (function () {
     function NotifManager(game) {
+        var _this = this;
         this.game = game;
         this.gamedatas = this.game.gamedatas;
+        game.notifqueue.setIgnoreNotificationCheck("drawQi", function (notif) {
+            var _a = notif.args, player_id = _a.player_id, isPrivate = _a.isPrivate;
+            return player_id === _this.game.player_id;
+        });
     }
     NotifManager.prototype.notif_discardQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
@@ -2385,6 +2390,28 @@ var NotifManager = /** @class */ (function () {
                         _a.sent();
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    NotifManager.prototype.notif_drawQi = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, nbr, qiManager;
+            return __generator(this, function (_a) {
+                player_id = args.player_id, nbr = args.nbr;
+                qiManager = new QiManager(this.game);
+                qiManager.draw(player_id, nbr);
+                return [2 /*return*/];
+            });
+        });
+    };
+    NotifManager.prototype.notif_drawQiPrivate = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var player_id, cards, qiManager;
+            return __generator(this, function (_a) {
+                player_id = args.player_id, cards = args.cards;
+                qiManager = new QiManager(this.game);
+                qiManager.drawPrivate(cards);
+                return [2 /*return*/];
             });
         });
     };
@@ -2596,8 +2623,8 @@ var AzureTemplate = /** @class */ (function () {
         this.setupHand();
         this.setupWisdomTrack();
         this.setupFavors();
-        this.setupStocks();
         this.setupPanels();
+        this.setupStocks();
         this.initObserver();
     };
     return AzureTemplate;
@@ -2755,6 +2782,7 @@ var QiManager = /** @class */ (function () {
         this.manager = this.gamedatas.managers.qi;
     }
     QiManager.prototype.create = function () {
+        var _a;
         var manager = new CardManager(this.game, {
             cardHeight: 228,
             cardWidth: 150,
@@ -2783,7 +2811,7 @@ var QiManager = /** @class */ (function () {
         var decksCounts = this.gamedatas.decksCounts;
         var decks = {};
         var _loop_3 = function (d_id) {
-            var _a;
+            var _b;
             var domain_id = Number(d_id);
             var deck = new Deck(manager, document.getElementById("azr_deck-".concat(domain_id)), {
                 fakeCardGenerator: function (deck_id) {
@@ -2801,17 +2829,24 @@ var QiManager = /** @class */ (function () {
                     position: "top",
                 },
             });
-            decks = __assign(__assign({}, decks), (_a = {}, _a["deck-".concat(domain_id)] = deck, _a));
+            decks = __assign(__assign({}, decks), (_b = {}, _b["deck-".concat(domain_id)] = deck, _b));
         };
         for (var d_id in decksCounts) {
             _loop_3(d_id);
         }
-        this.gamedatas.stocks.qi = {
+        var stocks = {
             decks: decks,
             hand: new LineStock(manager, document.getElementById("azr_hand"), {
                 sort: sortFunction("type_arg"),
             }),
         };
+        for (var p_id in this.gamedatas.players) {
+            var player_id = Number(p_id);
+            stocks = __assign(__assign({}, stocks), (_a = {}, _a[player_id] = {
+                void: new VoidStock(manager, document.getElementById("azr_handIcon-".concat(player_id))),
+            }, _a));
+        }
+        this.gamedatas.stocks.qi = stocks;
         this.gamedatas.managers.qi = manager;
         this.stocks = this.gamedatas.stocks.qi;
         this.manager = manager;
@@ -2837,6 +2872,51 @@ var QiManager = /** @class */ (function () {
                         cards.forEach(function (card) {
                             var qi = new Qi(_this.game, card);
                             qi.gather(player_id);
+                        });
+                        return [4 /*yield*/, Promise.all(promises)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    QiManager.prototype.draw = function (player_id, nbr) {
+        return __awaiter(this, void 0, void 0, function () {
+            var i, fakeCard;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        i = 1;
+                        _a.label = 1;
+                    case 1:
+                        if (!(i <= nbr)) return [3 /*break*/, 4];
+                        fakeCard = this.manager.getFakeCardGenerator()("fake-".concat(i));
+                        return [4 /*yield*/, this.stocks[player_id].void.addCard(fakeCard, {
+                                fromStock: this.stocks.decks["deck-0"],
+                            })];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        i++;
+                        return [3 /*break*/, 1];
+                    case 4: return [2 /*return*/];
+                }
+            });
+        });
+    };
+    QiManager.prototype.drawPrivate = function (cards) {
+        return __awaiter(this, void 0, void 0, function () {
+            var promises;
+            var _this = this;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        promises = [];
+                        cards.forEach(function (card) {
+                            var qi = new Qi(_this.game, card);
+                            qi.drawPrivate();
                         });
                         return [4 /*yield*/, Promise.all(promises)];
                     case 1:
@@ -2891,8 +2971,24 @@ var Qi = /** @class */ (function (_super) {
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
-                    case 2: return [4 /*yield*/, this.stocks.decks[this.deck_id].removeCard(this.card)];
+                    case 2: return [4 /*yield*/, this.stocks.decks[this.deck_id].removeCard(this.card, {
+                            slideTo: document.getElementById("azr_handIcon-".concat(player_id)),
+                        })];
                     case 3:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    Qi.prototype.drawPrivate = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.stocks.hand.addCard(this.card, {
+                            fromStock: this.stocks.decks["deck-0"],
+                        })];
+                    case 1:
                         _a.sent();
                         return [2 /*return*/];
                 }

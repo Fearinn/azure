@@ -5,6 +5,11 @@ class NotifManager {
   constructor(game: Azure) {
     this.game = game;
     this.gamedatas = this.game.gamedatas;
+
+    game.notifqueue.setIgnoreNotificationCheck("drawQi", (notif) => {
+      const { player_id, isPrivate } = notif.args;
+      return player_id === this.game.player_id;
+    });
   }
 
   async notif_discardQi(
@@ -31,6 +36,18 @@ class NotifManager {
     const { player_id, cards } = args;
     const qiManager = new QiManager(this.game);
     await qiManager.gather(player_id, cards);
+  }
+
+  async notif_drawQi(args: NotifArgs & { nbr: number }) {
+    const { player_id, nbr } = args;
+    const qiManager = new QiManager(this.game);
+    qiManager.draw(player_id, nbr);
+  }
+
+  async notif_drawQiPrivate(args: NotifArgs & { cards: QiCard[] }) {
+    const { player_id, cards } = args;
+    const qiManager = new QiManager(this.game);
+    qiManager.drawPrivate(cards);
   }
 
   async notif_placeStone(

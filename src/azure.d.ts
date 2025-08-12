@@ -55,4 +55,11 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   placedStones: StoneCard[];
 }
 
-interface AzureGui extends Game {}
+interface AzureGui extends Game {
+  notifqueue: {
+    setIgnoreNotificationCheck(
+      notif_name: string,
+      predicate: (notif: Notif) => boolean
+    ): void;
+  };
+}

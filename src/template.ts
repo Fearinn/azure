@@ -211,8 +211,8 @@ class AzureTemplate {
     this.setupHand();
     this.setupWisdomTrack();
     this.setupFavors();
-    this.setupStocks();
     this.setupPanels();
+    this.setupStocks();
     this.initObserver();
   }
 }

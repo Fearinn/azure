@@ -7,6 +7,7 @@ Game = (function () {
 
 // Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
 class Azure extends Game<AzureGamedatas> implements AzureGui {
+  notifqueue: AzureGui["notifqueue"];
   // @ts-ignore
   constructor() {}
 

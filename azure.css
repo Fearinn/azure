@@ -768,9 +768,12 @@ body > .card {
   background-size: cover;
 }
 
+.azr_handCounter {
+  --qi-width: 50px;
+}
 .azr_handCounter-icon {
   background-image: url("img/qi_0.jpg");
-  width: calc(var(--qi-width) / 3) !important;
+  width: var(--qi-width);
 }
 
 .azr_stoneCounter-icon {

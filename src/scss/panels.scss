@@ -20,9 +20,11 @@
 }
 
 .azr_handCounter {
+  --qi-width: 50px;
+  
   &-icon {
     background-image: url("img/qi_0.jpg");
-    width: calc(var(--qi-width) / 3) !important;
+    width: var(--qi-width);
   }
 }
 

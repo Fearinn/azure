@@ -164,7 +164,7 @@ class QiManager extends CardManager
             $Notify = new NotifManager($this->game);
             $Notify->player(
                 $player_id,
-                "gatherQi",
+                "drawQiPrivate",
                 clienttranslate('You draw a ${qi_label} qi from the hidden deck'),
                 [
                     "i18n" => ["qi_label"],

@@ -34,6 +34,14 @@ class Qi extends QiManager {
       return;
     }
 
-    await this.stocks.decks[this.deck_id].removeCard(this.card);
+    await this.stocks.decks[this.deck_id].removeCard(this.card, {
+      slideTo: document.getElementById(`azr_handIcon-${player_id}`),
+    });
+  }
+
+  async drawPrivate(): Promise<void> {
+    await this.stocks.hand.addCard(this.card, {
+      fromStock: this.stocks.decks["deck-0"],
+    });
   }
 }

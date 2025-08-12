@@ -3,6 +3,9 @@ interface QiCard extends AzureCard {}
 interface QiStocks {
   decks: { [deck_id: string]: Deck<QiCard> };
   hand: LineStock<QiCard>;
+  [player_id: number]: {
+    void: VoidStock<QiCard>;
+  };
 }
 
 class QiManager {
@@ -76,13 +79,28 @@ class QiManager {
       };
     }
 
-    this.gamedatas.stocks.qi = {
+    let stocks = {
       decks,
       hand: new LineStock(manager, document.getElementById(`azr_hand`), {
         sort: sortFunction("type_arg"),
       }),
     };
 
+    for (const p_id in this.gamedatas.players) {
+      const player_id = Number(p_id);
+
+      stocks = {
+        ...stocks,
+        [player_id]: {
+          void: new VoidStock(
+            manager,
+            document.getElementById(`azr_handIcon-${player_id}`)
+          ),
+        },
+      };
+    }
+
+    this.gamedatas.stocks.qi = stocks;
     this.gamedatas.managers.qi = manager;
 
     this.stocks = this.gamedatas.stocks.qi;
@@ -107,6 +125,26 @@ class QiManager {
     cards.forEach((card) => {
       const qi = new Qi(this.game, card);
       qi.gather(player_id);
+    });
+
+    await Promise.all(promises);
+  }
+
+  async draw(player_id: number, nbr: number): Promise<void> {
+    for (let i = 1; i <= nbr; i++) {
+      const fakeCard = this.manager.getFakeCardGenerator()(`fake-${i}`);
+
+      await this.stocks[player_id].void.addCard(fakeCard, {
+        fromStock: this.stocks.decks["deck-0"],
+      });
+    }
+  }
+
+  async drawPrivate(cards: QiCard[]): Promise<void> {
+    const promises = [];
+    cards.forEach((card) => {
+      const qi = new Qi(this.game, card);
+      qi.drawPrivate();
     });
 
     await Promise.all(promises);
