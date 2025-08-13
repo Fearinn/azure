@@ -31,6 +31,7 @@ use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\states\StBetweenPlayers;
+use Bga\Games\Azure\states\StBirdDiscard;
 use Bga\Games\Azure\states\StCheckBeasts;
 use Bga\Games\Azure\states\StPlayerTurn;
 
@@ -88,6 +89,11 @@ class Game extends \Bga\GameFramework\Table
     {
         $StCheckBeasts = new StCheckBeasts($this);
         $StCheckBeasts->act();
+    }
+
+    public function st_birdDiscard(): void {
+        $StBirdDiscard = new StBirdDiscard($this);
+        $StBirdDiscard->act();
     }
 
     public function st_betweenPlayers(): void

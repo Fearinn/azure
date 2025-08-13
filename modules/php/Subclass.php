@@ -8,7 +8,6 @@ use GameState;
 class Subclass
 {
     public readonly Game $game;
-    public readonly GameState $gamestate;
     public readonly Globals $globals;
     public readonly array $QI;
     public readonly array $DOMAINS;

@@ -68,8 +68,7 @@ $machinestates = [
         ->description(clienttranslate('${actplayer} must discard 2 qi from his hand'))
         ->descriptionmyturn(clienttranslate('${you} must discard 2 qi from your hand'))
         ->type(StateType::ACTIVE_PLAYER)
-        // ->args("arg_birdDiscard")
-        // ->action("st_birdDiscard")
+        ->action("st_birdDiscard")
         ->possibleactions([
             "act_birdDiscard",
         ])
