@@ -107,7 +107,7 @@ class QiManager extends CardManager
         $sql = "SELECT card_id id FROM {$this->dbTable} WHERE card_location='hand' 
         AND card_location_arg={$player_id} AND card_type_arg={$domain_id} LIMIT $nbr";
 
-        $card_ids = $this->game->azr_getObjectListFromDB($sql, true);
+        $card_ids = $this->game->getObjectListFromDB($sql, true);
         $this->deck->moveCards($card_ids, "deck-{$domain_id}");
 
         $cards = $this->deck->getCards($card_ids);

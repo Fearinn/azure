@@ -24,7 +24,7 @@ class StBetweenPlayers extends StateManager
         } else {
             $player_id = (int) $this->game->getActivePlayerId();
             $this->game->giveExtraTime($player_id);
-            $this->game->azr_activeNextPlayer();
+            $this->game->activeNextPlayer();
         }
 
         $Notify = new NotifManager($this->game);

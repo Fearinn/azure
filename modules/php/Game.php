@@ -119,18 +119,6 @@ class Game extends \Bga\GameFramework\Table
         $ActBirdDiscard->act($cards);
     }
 
-    // Utils 
-
-    public function azr_activeNextPlayer(): void
-    {
-        $this->activeNextPlayer();
-    }
-
-    public function azr_getObjectListFromDB(string $sql, bool $bUniqueValue = false): array
-    {
-        return $this->getObjectListFromDB($sql, $bUniqueValue);
-    }
-
     public function upgradeTableDb($from_version) {}
 
     protected function getAllDatas(): array
