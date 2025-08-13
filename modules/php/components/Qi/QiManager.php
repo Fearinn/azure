@@ -95,8 +95,11 @@ class QiManager extends CardManager
         WHERE card_location='hand' AND card_type_arg={$domain_id} AND card_location_arg={$player_id}");
     }
 
-    public function discard(int $player_id, int $nbr, int $domain_id): void
-    {
+    public function discardByDomain(
+        int $player_id,
+        int $nbr,
+        int $domain_id
+    ): void {
         if ($nbr === 0) {
             return;
         }
@@ -115,8 +118,46 @@ class QiManager extends CardManager
             "",
             [
                 "cards" => array_values($cards),
-            ]
+            ],
+            $player_id,
         );
+    }
+
+    public function discardCards(int $player_id, array $cards): void
+    {
+        $cardsByDomain = [
+            1 => [],
+            2 => [],
+            3 => [],
+            4 => []
+        ];
+
+        foreach ($cards as $card) {
+            $card_id = (int) $card["id"];
+            $domain_id = (int) $card["type_arg"];
+            $this->deck->moveCard($card_id, "deck-{$domain_id}");
+
+            $cardsByDomain[$domain_id][] = $this->deck->getCard($card_id);
+        }
+
+        foreach ($cardsByDomain as $domain_id => $cards) {
+            if (!$cards) {
+                continue;
+            }
+
+            $Notify = new NotifManager($this->game);
+            $Notify->all(
+                "discardQi",
+                clienttranslate('${player_name} discards ${nbr} ${qi_label} qi'),
+                [
+                    "i18n" => ["qi_label"],
+                    "cards" => $cards,
+                    "qi_label" => $this->QI[$domain_id]["label"],
+                    "nbr" => count($cards)
+                ],
+                $player_id,
+            );
+        }
     }
 
     public function gather(

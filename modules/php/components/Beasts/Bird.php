@@ -47,17 +47,15 @@ class Bird extends Beast
 
     public function bird_gainFavor(int $player_id): bool
     {
+        $pendingBird = $this->bird_loseFavor() ? $this->globals->get(G_PENDING_BIRD) : null;
         parent::gainFavor($player_id);
 
-        $pendingBird = $this->globals->get(G_PENDING_BIRD);
-
-        if (!$pendingBird && $this->bird_loseFavor()) {
+        if (!$pendingBird) {
             $this->globals->set(G_PENDING_BIRD, $player_id);
             return true;
         }
 
-        $QiManager = new QiManager($this->game);
-        $QiManager->draw($player_id, 2);
+        $this->execFavor($player_id);
         return false;
     }
 
@@ -70,6 +68,15 @@ class Bird extends Beast
         }
 
         parent::loseFavor();
+
+        $this->game->giveExtraTime($player_id);
+        $this->game->gamestate->changeActivePlayer($player_id);
         return true;
+    }
+
+    public function execFavor(int $player_id): void
+    {
+        $QiManager = new QiManager($this->game);
+        $QiManager->draw($player_id, 2);
     }
 }

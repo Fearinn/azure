@@ -27,7 +27,7 @@ class ActPlaceStone extends ActionManager
 
         $cost = $Space->getCost($this->player_id);
         $QiManager = new QiManager($this->game);
-        $QiManager->discard($this->player_id, $cost, $domain_id);
+        $QiManager->discardByDomain($this->player_id, $cost, $domain_id);
 
         $Space->gatherBoons($this->player_id);
 

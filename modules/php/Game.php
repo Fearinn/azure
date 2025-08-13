@@ -21,7 +21,9 @@ declare(strict_types=1);
 namespace Bga\Games\Azure;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\GameFramework\Components\Deck;
+use Bga\Games\Azure\actions\ActBirdDiscard;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Qi\QiManager;
@@ -102,6 +104,13 @@ class Game extends \Bga\GameFramework\Table
     ): void {
         $ActPlaceStone = new ActPlaceStone($this);
         $ActPlaceStone->act($x, $y);
+    }
+
+    public function act_birdDiscard(
+        #[JsonParam] array $cards
+    ): void {
+        $ActBirdDiscard = new ActBirdDiscard($this);
+        $ActBirdDiscard->act($cards);
     }
 
     // Utils 
