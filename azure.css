@@ -473,6 +473,13 @@ body > .card {
 .azr_qi .card-side {
   background-size: cover;
 }
+.azr_qi.azr_selectable {
+  cursor: pointer;
+}
+.azr_qi.azr_selected {
+  outline: 6px solid green;
+  transform: translateY(-10%);
+}
 
 .azr_deckCounter {
   font-size: 32px !important;
@@ -501,6 +508,7 @@ body > .card {
 .azr_hand {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
 }
 
 :root {

@@ -71,7 +71,7 @@ $machinestates = [
         // ->args("arg_birdDiscard")
         // ->action("st_birdDiscard")
         ->possibleactions([
-            "act_discardQi",
+            "act_birdDiscard",
         ])
         ->transitions([
             TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS

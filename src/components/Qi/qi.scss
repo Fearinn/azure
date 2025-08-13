@@ -19,6 +19,15 @@
   .card-side {
     background-size: cover;
   }
+
+  &.azr_selectable {
+    cursor: pointer;
+  }
+
+  &.azr_selected {
+    outline: 6px solid green;
+    transform: translateY(-10%);
+  }
 }
 
 .azr_deckCounter {
@@ -48,4 +57,5 @@
 .azr_hand {
   display: flex;
   flex-wrap: wrap;
+  gap: 16px;
 }

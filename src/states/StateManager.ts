@@ -14,6 +14,10 @@ class StateManager {
       case "playerTurn":
         new StPlayerTurn(this.game).enter(args);
         break;
+
+      case "birdDiscard":
+        new StBirdDiscard(this.game).enter(args);
+        break;
     }
   }
 
@@ -26,8 +30,12 @@ class StateManager {
       case "playerTurn":
         new StPlayerTurn(this.game).leave();
         break;
+
+      case "birdDiscard":
+        new StBirdDiscard(this.game).leave();
+        break;
     }
   }
 }
 
-type StateName = "playerTurn";
+type StateName = "playerTurn" | "birdDiscard";

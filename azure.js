@@ -2836,7 +2836,7 @@ var QiManager = /** @class */ (function () {
         }
         var stocks = {
             decks: decks,
-            hand: new LineStock(manager, document.getElementById("azr_hand"), {
+            hand: new CardStock(manager, document.getElementById("azr_hand"), {
                 sort: sortFunction("type_arg"),
             }),
         };
@@ -2925,6 +2925,29 @@ var QiManager = /** @class */ (function () {
                 }
             });
         });
+    };
+    QiManager.prototype.makeSelectable = function () {
+        var _this = this;
+        this.stocks.hand.setSelectionMode("multiple");
+        this.stocks.hand.onSelectionChange = function (selection) {
+            var utils = new Utils(_this.game);
+            utils.removeConfirmationButton();
+            if (selection.length === 2) {
+                utils.addConfirmationButton(_("confirm qi"), function () {
+                    utils.performAction("act_birdDiscard", {
+                        cards: JSON.stringify(selection),
+                    });
+                });
+                return;
+            }
+            if (selection.length > 2) {
+                _this.game.showMessage(_("You must discard exactly 2 qi"), "error");
+                return;
+            }
+        };
+    };
+    QiManager.prototype.makeUnselectable = function () {
+        this.stocks.hand.setSelectionMode("none");
     };
     return QiManager;
 }());
@@ -3245,6 +3268,9 @@ var StateManager = /** @class */ (function () {
             case "playerTurn":
                 new StPlayerTurn(this.game).enter(args);
                 break;
+            case "birdDiscard":
+                new StBirdDiscard(this.game).enter(args);
+                break;
         }
     };
     StateManager.prototype.onLeaving = function (stateName) {
@@ -3255,10 +3281,29 @@ var StateManager = /** @class */ (function () {
             case "playerTurn":
                 new StPlayerTurn(this.game).leave();
                 break;
+            case "birdDiscard":
+                new StBirdDiscard(this.game).leave();
+                break;
         }
     };
     return StateManager;
 }());
+var StBirdDiscard = /** @class */ (function (_super) {
+    __extends(StBirdDiscard, _super);
+    function StBirdDiscard(game) {
+        return _super.call(this, game) || this;
+    }
+    StBirdDiscard.prototype.enter = function (args) {
+        console.log("BIRD DISCARD");
+        var qiManager = new QiManager(this.game);
+        qiManager.makeSelectable();
+    };
+    StBirdDiscard.prototype.leave = function () {
+        var qiManager = new QiManager(this.game);
+        qiManager.makeUnselectable();
+    };
+    return StBirdDiscard;
+}(StateManager));
 var StPlayerTurn = /** @class */ (function (_super) {
     __extends(StPlayerTurn, _super);
     function StPlayerTurn(game) {

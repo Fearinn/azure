@@ -2,7 +2,7 @@ interface QiCard extends AzureCard {}
 
 interface QiStocks {
   decks: { [deck_id: string]: Deck<QiCard> };
-  hand: LineStock<QiCard>;
+  hand: CardStock<QiCard>;
   [player_id: number]: {
     void: VoidStock<QiCard>;
   };
@@ -81,7 +81,7 @@ class QiManager {
 
     let stocks = {
       decks,
-      hand: new LineStock(manager, document.getElementById(`azr_hand`), {
+      hand: new CardStock(manager, document.getElementById(`azr_hand`), {
         sort: sortFunction("type_arg"),
       }),
     };
@@ -148,5 +148,33 @@ class QiManager {
     });
 
     await Promise.all(promises);
+  }
+
+  makeSelectable(): void {
+    this.stocks.hand.setSelectionMode("multiple");
+
+    this.stocks.hand.onSelectionChange = (selection) => {
+      const utils = new Utils(this.game);
+      utils.removeConfirmationButton();
+
+      if (selection.length === 2) {
+        utils.addConfirmationButton(_("confirm qi"), () => {
+          utils.performAction("act_birdDiscard", {
+            cards: JSON.stringify(selection),
+          });
+        });
+
+        return;
+      }
+
+      if (selection.length > 2) {
+        this.game.showMessage(_("You must discard exactly 2 qi"), "error");
+        return;
+      }
+    };
+  }
+
+  makeUnselectable(): void {
+    this.stocks.hand.setSelectionMode("none");
   }
 }

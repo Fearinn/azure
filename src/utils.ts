@@ -76,4 +76,4 @@ class Utils {
   }
 }
 
-type ActionName = "act_placeStone";
+type ActionName = "act_placeStone" | "act_birdDiscard";
