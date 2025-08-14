@@ -9,8 +9,12 @@
   aspect-ratio: 1;
   width: var(--stone-width);
 
+  &:not(.bga-animations_animated) {
+    transition: 2s;
+  }
+
   &:hover {
-    opacity: 0.7;
+    opacity: 0.5;
   }
 
   &-003a4f {

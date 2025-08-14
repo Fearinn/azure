@@ -522,8 +522,11 @@ body > .card {
   aspect-ratio: 1;
   width: var(--stone-width);
 }
+.azr_stone:not(.bga-animations_animated) {
+  transition: 2s;
+}
 .azr_stone:hover {
-  opacity: 0.7;
+  opacity: 0.5;
 }
 .azr_stone-003a4f {
   background: radial-gradient(circle at 80% 20%, rgb(0, 109, 138) 0%, rgb(0, 58, 79) 60%, rgb(0, 30, 42) 70%, rgb(0, 0, 0) 100%);
