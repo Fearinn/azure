@@ -78,8 +78,14 @@ class SpaceManager {
         return;
       }
 
-      utils.addConfirmationButton(_("confirm space"), () => {
-        const { x, y } = card;
+      const { x, y } = card;
+
+      if (this.game.getGameUserPreference(101) === 0) {
+        utils.performAction("act_placeStone", { x, y });
+        return;
+      }
+
+      utils.addConfirmationButton(_("confirm placement"), () => {
         utils.performAction("act_placeStone", { x, y });
       });
     };

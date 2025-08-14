@@ -11,5 +11,17 @@
       }
     },
     "default": 1
+  },
+  "101": {
+    "name": "Confirm placements",
+    "values": {
+      "0": {
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes"
+      }
+    },
+    "default": 1
   }
 }

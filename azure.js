@@ -3087,8 +3087,12 @@ var SpaceManager = /** @class */ (function () {
             if (selection.length === 0) {
                 return;
             }
-            utils.addConfirmationButton(_("confirm space"), function () {
-                var x = card.x, y = card.y;
+            var x = card.x, y = card.y;
+            if (_this.game.getGameUserPreference(101) === 0) {
+                utils.performAction("act_placeStone", { x: x, y: y });
+                return;
+            }
+            utils.addConfirmationButton(_("confirm placement"), function () {
                 utils.performAction("act_placeStone", { x: x, y: y });
             });
         };
