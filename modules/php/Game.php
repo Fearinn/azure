@@ -91,7 +91,8 @@ class Game extends \Bga\GameFramework\Table
         $StCheckBeasts->act();
     }
 
-    public function st_birdDiscard(): void {
+    public function st_birdDiscard(): void
+    {
         $StBirdDiscard = new StBirdDiscard($this);
         $StBirdDiscard->act();
     }
@@ -191,23 +192,6 @@ class Game extends \Bga\GameFramework\Table
     protected function zombieTurn(array $state, int $active_player): void
     {
         $state_name = $state["name"];
-
-        if ($state["type"] === "activeplayer") {
-            switch ($state_name) {
-                default: {
-                        $this->gamestate->nextState("zombiePass");
-                        break;
-                    }
-            }
-
-            return;
-        }
-
-        throw new \feException("Zombie mode not supported at this game state: \"{$state_name}\".");
-    }
-
-    public function debug_placeStone(int $x = 5, int $y = 6): void
-    {
-        $this->act_placeStone($x, $y);
+        $this->gamestate->jumpToState(ST_END_GAME);
     }
 }
