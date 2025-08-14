@@ -67,6 +67,16 @@ class Utils {
           const backgroundImage = `url(${g_gamethemeurl}img/spaces/space_${args.space_id}.jpg)`;
           args.space_icon = `<div class="azr_logIcon azr_spaceIcon" style="background-image: ${backgroundImage};"></div>`;
         }
+
+        for (const key in args) {
+          if (key.includes("_label") || key.includes("_log")) {
+            const value = (args.i18n as string[] | undefined)?.includes("key")
+              ? _(args[key])
+              : args[key];
+
+            args[key] = `<span class="azr_logHighlight">${value}</span>`;
+          }
+        }
       }
     } catch (e) {
       console.error(log, args, "Exception thrown", e.stack);

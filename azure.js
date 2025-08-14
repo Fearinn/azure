@@ -2662,11 +2662,20 @@ var Utils = /** @class */ (function () {
         element.style.setProperty("--opp-color", "#".concat(opp_color));
     };
     Utils.prototype.bgaFormatText = function (log, args) {
+        var _a;
         try {
             if (log && args && !args.processed) {
                 if (args.space_icon !== undefined && args.space_id !== undefined) {
                     var backgroundImage = "url(".concat(g_gamethemeurl, "img/spaces/space_").concat(args.space_id, ".jpg)");
                     args.space_icon = "<div class=\"azr_logIcon azr_spaceIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
+                }
+                for (var key in args) {
+                    if (key.includes("_label") || key.includes("_log")) {
+                        var value = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes("key"))
+                            ? _(args[key])
+                            : args[key];
+                        args[key] = "<span class=\"azr_logHighlight\">".concat(value, "</span>");
+                    }
                 }
             }
         }

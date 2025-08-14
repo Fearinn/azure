@@ -813,6 +813,10 @@ body > .card {
   width: 50px;
 }
 
+.azr_logHighlight {
+  font-weight: bold;
+}
+
 #bga-zoom-wrapper {
   direction: ltr;
 }

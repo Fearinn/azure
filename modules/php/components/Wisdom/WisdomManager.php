@@ -34,12 +34,12 @@ class WisdomManager extends Subclass
         $NotifManager = new NotifManager($this->game);
         $NotifManager->all(
             "gatherWisdom",
-            clienttranslate('${player_name} gathers ${log_wisdom} wisdom'),
+            clienttranslate('${player_name} gathers ${wisdom_log} wisdom'),
             [
                 "initialWisdom" => $initialWisdom,
                 "finalWisdom" => $finalWisdom,
                 "wisdom" => $wisdom,
-                "log_wisdom" => $wisdom,
+                "wisdom_log" => $wisdom,
             ],
             $player_id,
         );

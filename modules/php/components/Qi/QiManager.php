@@ -148,12 +148,13 @@ class QiManager extends CardManager
             $Notify = new NotifManager($this->game);
             $Notify->all(
                 "discardQi",
-                clienttranslate('${player_name} discards ${nbr} ${qi_label} qi'),
+                clienttranslate('${player_name} discards ${nbr_log} ${qi_label} qi'),
                 [
                     "i18n" => ["qi_label"],
                     "cards" => $cards,
+                    "nbr" => count($cards),
+                    "nbr_log" => count($cards),
                     "qi_label" => $this->QI[$domain_id]["label"],
-                    "nbr" => count($cards)
                 ],
                 $player_id,
             );
@@ -174,12 +175,13 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "gatherQi",
-            clienttranslate('${player_name} gathers ${nbr} ${qi_label} qi'),
+            clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} qi'),
             [
                 "i18n" => ["qi_label"],
                 "cards" => $cards,
-                "qi_label" => $this->QI[$domain_id]["label"],
                 "nbr" => $nbr,
+                "nbr_log" => $nbr,
+                "qi_label" => $this->QI[$domain_id]["label"],
             ],
             $player_id,
         );
@@ -192,8 +194,9 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "drawQi",
-            clienttranslate('${player_name} draws ${nbr} qi from the hidden deck'),
+            clienttranslate('${player_name} draws ${nbr_log} qi from the hidden deck'),
             [
+                "nbr_log" => $nbr,
                 "nbr" => $nbr,
             ],
             $player_id
