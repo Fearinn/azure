@@ -11,10 +11,6 @@ class Qi extends QiManager {
     this.deck_id = `deck-${this.domain_id}`;
   }
 
-  setup(): void {
-    this.stocks.decks[this.card.location].addCard(this.card);
-  }
-
   async discard(player_id: number): Promise<void> {
     const fromElement =
       player_id === this.game.player_id

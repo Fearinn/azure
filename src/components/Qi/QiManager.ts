@@ -45,7 +45,7 @@ class QiManager {
       },
     });
 
-    const { decksCounts } = this.gamedatas;
+    const { decksCounts, hand } = this.gamedatas;
 
     let decks = {};
 
@@ -57,13 +57,19 @@ class QiManager {
         document.getElementById(`azr_deck-${domain_id}`),
         {
           fakeCardGenerator: (deck_id) => {
-            return {
-              id: domain_id,
+            const fakeCard = {
+              id: -domain_id,
               type_arg: domain_id,
               type: "",
               location: deck_id,
               location_arg: 0,
             };
+
+            if (domain_id === 3) {
+              console.trace(fakeCard);
+            }
+
+            return fakeCard;
           },
           cardNumber: decksCounts[domain_id],
           counter: {
@@ -108,7 +114,7 @@ class QiManager {
   }
 
   setupStocks(): void {
-    const { decksCounts, hand } = this.gamedatas;
+    const { hand } = this.gamedatas;
 
     if (!this.game.isSpectator) {
       this.stocks.hand.addCards(hand);
