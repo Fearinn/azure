@@ -76,8 +76,8 @@ class Game extends \Bga\GameFramework\Table
         $StoneManager = new StoneManager($this);
         $placedStones = $StoneManager->getPlaced();
 
-        $progression = floor(count($placedStones) / 28);
-        return (int) $progression;
+        $progression = (count($placedStones) / 28) * 99;
+        return (int) round($progression);
     }
 
     // States
