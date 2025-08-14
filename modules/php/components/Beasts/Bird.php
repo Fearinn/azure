@@ -47,7 +47,7 @@ class Bird extends Beast
 
     public function bird_gainFavor(int $player_id): bool
     {
-        $pendingBird = $this->bird_loseFavor() ? $this->globals->get(G_PENDING_BIRD) : null;
+        $pendingBird = $this->bird_loseFavor() ? $this->globals->get(G_PENDING_BIRD) : $player_id;
         parent::gainFavor($player_id);
 
         if (!$pendingBird) {

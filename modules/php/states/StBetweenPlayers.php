@@ -35,6 +35,7 @@ class StBetweenPlayers extends StateManager
             $player_id,
         );
 
+        $this->globals->set(G_PENDING_BIRD, null);
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
 }
