@@ -71,6 +71,15 @@ class Game extends \Bga\GameFramework\Table
         $this->initGameStateLabels([]);
     }
 
+    public function getGameProgression(): int
+    {
+        $StoneManager = new StoneManager($this);
+        $placedStones = $StoneManager->getPlaced();
+
+        $progression = floor(count($placedStones) / 28);
+        return (int) $progression;
+    }
+
     // States
 
     public function arg_playerTurn(): array

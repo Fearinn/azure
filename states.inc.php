@@ -48,6 +48,7 @@ $machinestates = [
             TR_CHECK_BEASTS => ST_CHECK_BEASTS,
             TR_END_GAME => ST_END_GAME,
         ])
+        ->updateGameProgression(true)
         ->build(),
 
     ST_CHECK_BEASTS => GameStateBuilder::create()

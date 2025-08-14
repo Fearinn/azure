@@ -67,7 +67,7 @@ class BeastManager extends CardManager
         $Tiger = new Tiger($this->game);
         $Tiger->check($player_id);
 
-        if ($ScoreManager->getHigherScore() === 25 || true) {
+        if ($ScoreManager->getHigherScore() === 25) {
             $this->game->gamestate->nextState(TR_END_GAME);
             return;
         }
