@@ -4,6 +4,7 @@ namespace Bga\Games\Azure\components\Beasts;
 
 use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\Game;
+use Bga\Games\Azure\score\ScoreManager;
 
 class BeastManager extends CardManager
 {
@@ -48,18 +49,33 @@ class BeastManager extends CardManager
         return array_values($cards);
     }
 
-    public function checkBeasts(int $player_id): bool
+    public function checkBeasts(int $player_id): void
     {
         $Tortoise = new Tortoise($this->game);
         $Tortoise->check($player_id);
 
+        $ScoreManager = new ScoreManager($this->game);
+
         $Dragon = new Dragon($this->game);
         $Dragon->check($player_id);
+
+        if ($ScoreManager->getHigherScore() === 25) {
+            $this->game->gamestate->nextState(TR_END_GAME);
+            return;
+        }
 
         $Tiger = new Tiger($this->game);
         $Tiger->check($player_id);
 
+        if ($ScoreManager->getHigherScore() === 25 || true) {
+            $this->game->gamestate->nextState(TR_END_GAME);
+            return;
+        }
+
         $Bird = new Bird($this->game);
-        return $Bird->check($player_id);
+        if ($Bird->check($player_id)) {
+            $this->game->gamestate->nextState(TR_BIRD_DISCARD);
+            return;
+        };
     }
 }

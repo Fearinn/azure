@@ -43,6 +43,10 @@ class WisdomManager extends Subclass
             ],
             $player_id,
         );
+
+        if ($finalWisdom === 25) {
+            $this->game->gamestate->nextState(TR_END_GAME);
+        }
     }
 
     public function dec(int $player_id, int $wisdom): void

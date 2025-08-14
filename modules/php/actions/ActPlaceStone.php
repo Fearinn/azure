@@ -7,6 +7,7 @@ use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
+use Bga\Games\Azure\score\ScoreManager;
 
 class ActPlaceStone extends ActionManager
 {
@@ -30,6 +31,12 @@ class ActPlaceStone extends ActionManager
         $QiManager->discardByDomain($this->player_id, $cost, $domain_id);
 
         $Space->gatherBoons($this->player_id);
+
+        $ScoreManager = new ScoreManager($this->game);
+        if ($ScoreManager->getHigherScore() === 25) {
+            $this->game->gamestate->nextState(TR_END_GAME);
+            return;
+        }
 
         $this->game->gamestate->nextState(TR_CHECK_BEASTS);
     }
