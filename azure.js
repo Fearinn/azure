@@ -2500,11 +2500,12 @@ var AzureTemplate = /** @class */ (function () {
             element: document.getElementById("azr_gameArea"),
             localStorageZoomKey: "azr-zoom",
             zoomLevels: [
-                0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
+                0.2, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
             ],
             zoomControls: {
                 color: "white",
             },
+            defaultZoom: 0.5,
         });
     };
     AzureTemplate.prototype.setupRealm = function () {
