@@ -31,8 +31,11 @@ class QiManager {
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: (_, element) => {
+      setupDiv: (card, element) => {
         element.classList.add(`azr_qi`);
+        const qi = new Qi(this.game, card);
+        const tooltip = qi.buildTooltip();
+        this.game.addTooltipHtml(element.id, tooltip);
       },
       setupFrontDiv: ({ type_arg }, element) => {
         element.style.backgroundImage = `url(${g_gamethemeurl}img/qi_${type_arg}.jpg)`;

@@ -428,8 +428,19 @@ body > .card {
   text-transform: uppercase !important;
 }
 
-.azr_customFont-body {
+.dijitTooltipContainer:has(.azr_tooltip) {
+  box-shadow: 0 4px 12px var(--color) !important;
+  padding: 0;
+}
+
+.azr_tooltip {
   font-family: "Montserrat", Roboto;
+  font-size: 16px;
+  font-weight: bold;
+  text-align: justify;
+  color: var(--color);
+  background-color: var(--opp-color);
+  padding: 8px;
 }
 
 :root {
@@ -477,9 +488,6 @@ body > .card {
 }
 
 .azr_beastTooltip {
-  font-size: 16px;
-  font-weight: bold;
-  text-align: justify;
   display: flex;
   flex-direction: column;
   gap: 8px;
@@ -895,6 +903,7 @@ body > .card {
 
 .azr_gameArea {
   direction: ltr;
+  font-family: "Montserrat", Roboto;
   position: relative;
   display: grid;
   align-items: center;

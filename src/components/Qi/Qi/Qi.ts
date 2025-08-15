@@ -1,7 +1,11 @@
+interface QiInfo {
+  label: string;
+}
+
 class Qi extends QiManager {
   readonly card: QiCard;
-  readonly id: number;
   readonly domain_id: number;
+  private readonly info: QiInfo;
   private readonly deck_id: string;
 
   constructor(game: Azure, card: QiCard) {
@@ -9,6 +13,12 @@ class Qi extends QiManager {
     this.card = new AzureCard(card);
     this.domain_id = this.card.type_arg;
     this.deck_id = `deck-${this.domain_id}`;
+
+    if (this.domain_id !== 0) {
+      const info = this.gamedatas.QI[this.domain_id];
+      info.label = _(info.label);
+      this.info = info;
+    }
   }
 
   async discard(player_id: number): Promise<void> {
@@ -39,5 +49,21 @@ class Qi extends QiManager {
     await this.stocks.hand.addCard(this.card, {
       fromStock: this.stocks.decks["deck-0"],
     });
+  }
+
+  buildTooltip(): string {
+    const label =
+      this.domain_id === 0
+        ? _("Hidden deck")
+        : this.game.format_string_recursive(_("${qi_label} qi"), {
+            i18n: "qi_label",
+            qi_label: this.info.label,
+          });
+
+    const tooltip = `
+      <div class="azr_tooltip azr_qiTooltip"><span class="azr_qiTooltipTitle">${label}</span></div>
+    `;
+    
+    return tooltip;
   }
 }

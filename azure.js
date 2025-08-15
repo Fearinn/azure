@@ -2810,7 +2810,7 @@ var Beast = /** @class */ (function (_super) {
         var formattedFavor = this.game.format_string_recursive(_("Favor: ${favor}"), {
             favor: favor,
         });
-        var tooltip = "<div class=\"azr_customFont-body azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont-title\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
+        var tooltip = "<div class=\"azr_tooltip azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont-title\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
         return tooltip;
     };
     return Beast;
@@ -2824,6 +2824,7 @@ var QiManager = /** @class */ (function () {
     }
     QiManager.prototype.create = function () {
         var _a;
+        var _this = this;
         var manager = new CardManager(this.game, {
             cardHeight: 273.6,
             cardWidth: 180,
@@ -2834,8 +2835,11 @@ var QiManager = /** @class */ (function () {
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
-            setupDiv: function (_, element) {
+            setupDiv: function (card, element) {
                 element.classList.add("azr_qi");
+                var qi = new Qi(_this.game, card);
+                var tooltip = qi.buildTooltip();
+                _this.game.addTooltipHtml(element.id, tooltip);
             },
             setupFrontDiv: function (_a, element) {
                 var type_arg = _a.type_arg;
@@ -3043,6 +3047,11 @@ var Qi = /** @class */ (function (_super) {
         _this.card = new AzureCard(card);
         _this.domain_id = _this.card.type_arg;
         _this.deck_id = "deck-".concat(_this.domain_id);
+        if (_this.domain_id !== 0) {
+            var info = _this.gamedatas.QI[_this.domain_id];
+            info.label = _(info.label);
+            _this.info = info;
+        }
         return _this;
     }
     Qi.prototype.discard = function (player_id) {
@@ -3099,6 +3108,16 @@ var Qi = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    Qi.prototype.buildTooltip = function () {
+        var label = this.domain_id === 0
+            ? _("Hidden deck")
+            : this.game.format_string_recursive(_("${qi_label} qi"), {
+                i18n: "qi_label",
+                qi_label: this.info.label,
+            });
+        var tooltip = "\n      <div class=\"azr_tooltip azr_qiTooltip\"><span class=\"azr_qiTooltipTitle\">".concat(label, "</span></div>\n    ");
+        return tooltip;
     };
     return Qi;
 }(QiManager));

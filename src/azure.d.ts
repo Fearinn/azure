@@ -2,6 +2,7 @@ interface AzurePlayer extends Player {}
 
 interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   BEASTS: BeastInfo;
+  QI: QiInfo;
   managers: {
     beasts?: CardManager<BeastCard>;
     qi?: CardManager<QiCard>;
