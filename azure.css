@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
 #bga-zoom-wrapper {
   position: relative;
 }
@@ -424,6 +425,10 @@ body > .card {
 .azr_customFont-title {
   font-family: "The Slavic", Roboto, sans-serif;
   text-transform: uppercase !important;
+}
+
+.azr_customFont-body {
+  font-family: "Montserrat", Roboto;
 }
 
 :root {

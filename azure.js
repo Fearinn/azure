@@ -2798,7 +2798,7 @@ var Beast = /** @class */ (function (_super) {
         var formattedFavor = this.game.format_string_recursive(_("Favor: ${favor}"), {
             favor: favor,
         });
-        var tooltip = "<div class=\"azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont-title\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
+        var tooltip = "<div class=\"azr_customFont-body azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont-title\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
         return tooltip;
     };
     return Beast;

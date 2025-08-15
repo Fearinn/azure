@@ -65,7 +65,7 @@ class Beast extends BeastManager implements Beast {
       }
     );
 
-    const tooltip = `<div class="azr_beastTooltip">
+    const tooltip = `<div class="azr_customFont-body azr_beastTooltip">
     <span class="azr_beastTooltipTitle azr_customFont-title">${label}</span>
     <span>${formattedGuard}</span>
     <span>${formattedFavor}</span>
