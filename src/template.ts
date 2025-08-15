@@ -130,13 +130,13 @@ class AzureTemplate {
       playerPanel.insertAdjacentHTML(
         `beforeend`,
         `<div id="azr_stoneCounter-${player_id}" class="azr_counter azr_stoneCounter">
-          <div id="azr_stoneIcon-${player_id}" class=" azr_counter-icon azr_stone azr_stone-${player_color} azr_stoneCounter-icon" 
+          <div id="azr_stoneIcon-${player_id}" class=" azr_counterIcon azr_stone azr_stone-${player_color} azr_stoneCounterIcon" 
           style="--color: #${player_color};"></div>
-          <span id="azr_stoneCount-${player_id}" class="azr_counter-count">0</span>
+          <span id="azr_stoneCount-${player_id}" class="azr_customFont-title azr_counterCount">0</span>
         </div>
         <div id="azr_handCounter-${player_id}" class="azr_counter azr_handCounter">
-          <div id="azr_handIcon-${player_id}" class="azr_qi azr_counter-icon azr_handCounter-icon"></div>
-          <span id="azr_handCount-${player_id}" class="azr_counter-count">0</span>
+          <div id="azr_handIcon-${player_id}" class="azr_qi azr_counterIcon azr_handCounterIcon"></div>
+          <span id="azr_handCount-${player_id}" class="azr_customFont-title azr_counterCount">0</span>
         </div>`
       );
 

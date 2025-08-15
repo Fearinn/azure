@@ -14,25 +14,26 @@
   gap: 4px;
   width: fit-content;
 
-  &-icon {
+  &Icon {
     background-size: cover;
   }
 }
 
 .azr_handCounter {
   --qi-width: 50px;
-  
-  &-icon {
+
+  &Icon {
     background-image: url("img/qi_0.jpg");
+    box-shadow: 0 0 4px #000000;
     width: var(--qi-width);
   }
 }
 
 .azr_stoneCounter {
   --stone-width: 50px;
-  
-  &-icon {
-    box-shadow: inset 0 0 4px 2px #00000033;
+
+  &Icon {
+    box-shadow: inset 0 0 4px 2px #00000033, 0 0 4px #000000;
     width: var(--stone-width);
   }
 }

@@ -560,7 +560,7 @@ body > .card {
 .azr_stone {
   position: relative;
   border-radius: 100%;
-  box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: inset 0 0 8px 4px rgba(0, 0, 0, 0.2), 0 0 8px #000000;
   aspect-ratio: 1;
   width: var(--stone-width);
 }
@@ -815,23 +815,24 @@ body > .card {
   gap: 4px;
   width: fit-content;
 }
-.azr_counter-icon {
+.azr_counterIcon {
   background-size: cover;
 }
 
 .azr_handCounter {
   --qi-width: 50px;
 }
-.azr_handCounter-icon {
+.azr_handCounterIcon {
   background-image: url("img/qi_0.jpg");
+  box-shadow: 0 0 4px #000000;
   width: var(--qi-width);
 }
 
 .azr_stoneCounter {
   --stone-width: 50px;
 }
-.azr_stoneCounter-icon {
-  box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.2);
+.azr_stoneCounterIcon {
+  box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.2), 0 0 4px #000000;
   width: var(--stone-width);
 }
 
