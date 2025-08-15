@@ -2704,6 +2704,7 @@ var BeastManager = /** @class */ (function () {
         this.stocks = this.gamedatas.stocks.beasts;
     }
     BeastManager.prototype.create = function () {
+        var _this = this;
         var manager = new CardManager(this.game, {
             getId: function (_a) {
                 var type_arg = _a.type_arg;
@@ -2712,10 +2713,12 @@ var BeastManager = /** @class */ (function () {
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
-            setupDiv: function (_a, element) {
-                var type_arg = _a.type_arg;
+            setupDiv: function (card, element) {
                 element.classList.add("azr_beast");
-                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(type_arg, ".png)");
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/beast_").concat(card.type_arg, ".png)");
+                var beast = new Beast(_this.game, card);
+                var tooltip = beast.buildTooltip();
+                _this.game.addTooltipHtml(element.id, tooltip);
             },
         });
         var stocks = {
@@ -2753,8 +2756,13 @@ var Beast = /** @class */ (function (_super) {
     function Beast(game, card) {
         var _this = _super.call(this, game) || this;
         _this.card = new AzureCard(card);
-        _this.space_id = Number(_this.card.type);
         _this.id = _this.card.type_arg;
+        _this.space_id = Number(_this.card.type);
+        var info = _this.gamedatas.BEASTS[_this.id];
+        info.label = _(info.label);
+        info.guard = _(info.guard);
+        info.favor = _(info.favor);
+        _this.info = info;
         return _this;
     }
     Beast.prototype.setup = function () {
@@ -2780,6 +2788,17 @@ var Beast = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    Beast.prototype.buildTooltip = function () {
+        var _a = this.info, label = _a.label, guard = _a.guard, favor = _a.favor;
+        var formattedGuard = this.game.format_string_recursive(_("Guarded by ${guard}"), {
+            guard: guard,
+        });
+        var formattedFavor = this.game.format_string_recursive(_("Favor: ${favor}"), {
+            favor: favor,
+        });
+        var tooltip = "<div class=\"azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
+        return tooltip;
     };
     return Beast;
 }(BeastManager));
@@ -2831,9 +2850,6 @@ var QiManager = /** @class */ (function () {
                         location: deck_id,
                         location_arg: 0,
                     };
-                    if (domain_id === 3) {
-                        console.trace(fakeCard);
-                    }
                     return fakeCard;
                 },
                 cardNumber: decksCounts[domain_id],

@@ -141,6 +141,7 @@ class Game extends \Bga\GameFramework\Table
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
+            "BEASTS" => $this->BEASTS,
             "realm" => $this->globals->get(G_REALM),
             "domainsOrder" => $this->globals->get(G_DOMAINS_ORDER),
             "domainsRotations" => $this->globals->get(G_DOMAINS_ROTATIONS),

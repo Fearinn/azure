@@ -9,10 +9,10 @@ interface BeastStocks {
 }
 
 class BeastManager {
-  private game: Azure;
-  private gamedatas: AzureGamedatas;
-  public manager: CardManager<BeastCard>;
-  public stocks: BeastStocks;
+  protected game: Azure;
+  protected gamedatas: AzureGamedatas;
+  protected manager: CardManager<BeastCard>;
+  protected stocks: BeastStocks;
 
   constructor(game: Azure) {
     this.game = game;
@@ -29,9 +29,13 @@ class BeastManager {
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ type_arg }, element) => {
+      setupDiv: (card, element) => {
         element.classList.add(`azr_beast`);
-        element.style.backgroundImage = `url(${g_gamethemeurl}img/beast_${type_arg}.png)`;
+        element.style.backgroundImage = `url(${g_gamethemeurl}img/beast_${card.type_arg}.png)`;
+
+        const beast = new Beast(this.game, card);
+        const tooltip = beast.buildTooltip();
+        this.game.addTooltipHtml(element.id, tooltip);
       },
     });
 

@@ -1,6 +1,7 @@
 @use "scss/bga-zoom";
 @use "scss/bga-help";
 @use "scss/bga-cards";
+@use "scss/utils.scss";
 @use "scss/realm";
 @use "components/Beasts/beasts";
 @use "components/Qi/qi";
@@ -33,13 +34,4 @@
   padding: 8px;
   width: 100%;
   user-select: none;
-}
-
-.player-name a:first-of-type,
-.playername {
-  color: var(--color);
-  background-color: var(--opp-color);
-  border-radius: 4px;
-  box-shadow: 0 0 4px var(--color);
-  padding: 2px;
 }

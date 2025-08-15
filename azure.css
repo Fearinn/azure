@@ -408,6 +408,24 @@ body > .card {
   box-shadow: none !important;
 }
 
+@font-face {
+  font-family: "The Slavic";
+  src: url("img/font_the-slavic/TheSlavicFont-Regular.ttf");
+}
+.player-name a:first-of-type,
+.playername {
+  color: var(--color);
+  background-color: var(--opp-color);
+  border-radius: 4px;
+  box-shadow: 0 0 4px var(--color);
+  padding: 2px;
+}
+
+.azr_customFont {
+  font-family: "The Slavic", Roboto, sans-serif;
+  text-transform: uppercase !important;
+}
+
 :root {
   --domain-width: 500px;
   --space-width: calc(var(--domain-width) / 3);
@@ -450,6 +468,17 @@ body > .card {
 }
 .azr_beast * {
   box-shadow: none !important;
+}
+
+.azr_beastTooltip {
+  font-size: 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.azr_beastTooltipTitle {
+  font-size: 24px;
 }
 
 :root {
@@ -716,8 +745,7 @@ body > .card {
 
 .azr_favorsTitle {
   color: var(--color);
-  font-size: 32px;
-  text-transform: capitalize;
+  font-size: 48px;
   position: absolute;
   top: -10%;
   left: 50%;
@@ -726,7 +754,7 @@ body > .card {
   box-shadow: 0 0 8px var(--color);
   margin: 0;
   padding: 4px;
-  width: fit-content;
+  width: max-content;
   transform: translate(-50%, 50%);
   z-index: 1;
 }
@@ -834,13 +862,4 @@ body > .card {
   padding: 8px;
   width: 100%;
   user-select: none;
-}
-
-.player-name a:first-of-type,
-.playername {
-  color: var(--color);
-  background-color: var(--opp-color);
-  border-radius: 4px;
-  box-shadow: 0 0 4px var(--color);
-  padding: 2px;
 }

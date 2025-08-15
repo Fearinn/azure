@@ -65,10 +65,6 @@ class QiManager {
               location_arg: 0,
             };
 
-            if (domain_id === 3) {
-              console.trace(fakeCard);
-            }
-
             return fakeCard;
           },
           cardNumber: decksCounts[domain_id],

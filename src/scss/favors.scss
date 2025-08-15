@@ -12,8 +12,7 @@
 
 .azr_favorsTitle {
   color: var(--color);
-  font-size: 32px;
-  text-transform: capitalize;
+  font-size: 48px;
   position: absolute;
   top: -10%;
   left: 50%;
@@ -22,7 +21,7 @@
   box-shadow: 0 0 8px var(--color);
   margin: 0;
   padding: 4px;
-  width: fit-content;
+  width: max-content;
   transform: translate(-50%, 50%);
   z-index: 1;
 }
