@@ -23,26 +23,26 @@ $this->BEASTS = [
     1 => [
         "animal" => "dragon",
         "label" => clienttranslate("Azure Dragon"),
-        "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain"),
-        "favor" => clienttranslate("gain 3 wisdom"),
+        "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain."),
+        "favor" => clienttranslate("gain 3 wisdom."),
     ],
     2 => [
         "animal" => "tiger",
         "label" => clienttranslate("White Tiger"),
-        "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain"),
-        "favor" => clienttranslate("gain 2 wisdom"),
+        "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain."),
+        "favor" => clienttranslate("gain 2 wisdom."),
     ],
     3 => [
         "animal" => "bird",
         "label" => clienttranslate("Vermillion Bird"),
-        "guard" => clienttranslate("all stones in the Vermillion domain"),
-        "favor" => clienttranslate("draw 2 qi from the hidden deck"),
+        "guard" => clienttranslate("all stones in the Vermillion domain."),
+        "favor" => clienttranslate("draw 2 qi from the hidden deck."),
     ],
     4 => [
         "animal" => "tortoise",
         "label" => clienttranslate("Black Tortoise"),
-        "guard" => clienttranslate("all stones on serpent spaces in all domains"),
-        "favor" => clienttranslate("place a common stone on its mountain")
+        "guard" => clienttranslate("all stones on serpent spaces in all domains."),
+        "favor" => clienttranslate("place a common stone on its mountain.")
     ],
 ];
 
