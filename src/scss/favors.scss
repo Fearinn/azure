@@ -4,7 +4,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  gap: 20px;
   box-sizing: border-box;
   height: calc(var(--domain-width) * 0.9);
   width: 100%;
@@ -30,18 +30,17 @@
   position: relative;
   display: flex;
   align-items: center;
-  background-color: var(--bg-color);
+  background-color: var(--color-transparent);
   box-shadow: 0 0 4px var(--opp-color);
   margin: 0;
   height: 50%;
   width: 100%;
 
   .playername {
-    font-size: 28px;
+    font-size: 32px;
     position: absolute;
-    bottom: -5%;
-    right: -5%;
-    justify-self: end;
+    bottom: -2%;
+    right: -2%;
     border-radius: 8px;
     padding: 4px;
     margin: 0;

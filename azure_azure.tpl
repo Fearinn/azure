@@ -23,7 +23,7 @@
     <h4 id="azr_favorsTitle" class="azr_customFont-title azr_favorsTitle"></h4>
   </div>
   <div id="azr_wisdomTrack" class="azr_wisdomTrack"></div>
-  <div id="azr_handContainer" class="whiteblock azr_handContainer">
+  <div id="azr_handContainer" class="azr_handContainer">
     <h4 id="azr_handTitle" class="azr_customFont-title azr_handTitle"></h4>
     <div id="azr_hand" class="azr_hand"></div>
   </div>

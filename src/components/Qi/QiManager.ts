@@ -23,8 +23,8 @@ class QiManager {
 
   public create(): void {
     const manager = new CardManager<QiCard>(this.game, {
-      cardHeight: 228,
-      cardWidth: 150,
+      cardHeight: 273.6,
+      cardWidth: 180,
       getId: ({ id }) => {
         return `azr_qi-${id}`;
       },

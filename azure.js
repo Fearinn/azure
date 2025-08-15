@@ -2550,7 +2550,7 @@ var AzureTemplate = /** @class */ (function () {
                 titleElement.style.setProperty("--color", "#".concat(color));
                 titleElement.style.setProperty("--opp-color", "#".concat(opp_color));
             }
-            favorsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_favors-".concat(player_id, "\" class=\"azr_favors\" \n        style=\"--color: #").concat(color, "; --opp-color: #").concat(opp_color, "; --bg-color: #").concat(color, "aa; order: ").concat(order, "\">\n        <div id=\"azr_favorBeasts-").concat(player_id, "\" class=\"azr_favorBeasts\"></div>\n        <h4 class=\"playername\">\n        ").concat(title, "\n        </h4>\n        </div>"));
+            favorsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_favors-".concat(player_id, "\" class=\"azr_favors\" \n        style=\"--color: #").concat(color, "; --opp-color: #").concat(opp_color, "; --color-transparent: #").concat(color, "aa; order: ").concat(order, "\">\n        <div id=\"azr_favorBeasts-").concat(player_id, "\" class=\"azr_favorBeasts\"></div>\n        <h4 class=\"playername\">\n        ").concat(title, "\n        </h4>\n        </div>"));
         }
     };
     AzureTemplate.prototype.setupStocks = function () {
@@ -2625,6 +2625,8 @@ var AzureTemplate = /** @class */ (function () {
         var html = document.querySelector("html");
         html.style.setProperty("--color", "#".concat(color));
         html.style.setProperty("--opp-color", "#".concat(opp_color));
+        html.style.setProperty("--color-transparent", "#".concat(color, "aa"));
+        html.style.setProperty("--opp-color-transparent", "#".concat(opp_color, "aa"));
         this.setupZoom();
         this.setupRealm();
         this.setupHand();
@@ -2823,8 +2825,8 @@ var QiManager = /** @class */ (function () {
     QiManager.prototype.create = function () {
         var _a;
         var manager = new CardManager(this.game, {
-            cardHeight: 228,
-            cardWidth: 150,
+            cardHeight: 273.6,
+            cardWidth: 180,
             getId: function (_a) {
                 var id = _a.id;
                 return "azr_qi-".concat(id);

@@ -1,5 +1,5 @@
 :root {
-  --qi-width: 150px;
+  --qi-width: 180px;
 }
 
 .azr_decks {
@@ -7,7 +7,7 @@
   display: grid;
   grid-template-columns: repeat(5, var(--qi-width));
   justify-content: center;
-  gap: 16px;
+  gap: 24px;
   width: calc(var(--domain-width) * 2);
 }
 
@@ -38,7 +38,7 @@
   border-radius: 100%;
   height: 40px;
   width: 40px;
-  transform: translate(-20%, -10%);
+  transform: translate(-20%, -20%);
 }
 
 .azr_handContainer {
@@ -47,14 +47,17 @@
   flex-direction: column;
   align-items: center;
   gap: 8px;
+  background-color: var(--color-transparent);
+  box-shadow: 0 0 8px var(--opp-color);
   margin: 0;
+  padding: 8px;
   width: 100%;
 }
 
 .azr_handTitle {
   color: var(--color);
   border-radius: 8px;
-  font-size: 32px;
+  font-size: 48px;
   align-self: start;
   background-color: var(--opp-color);
   margin: 0;

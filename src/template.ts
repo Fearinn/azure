@@ -93,7 +93,7 @@ class AzureTemplate {
       favorsElement.insertAdjacentHTML(
         "beforeend",
         `<div id="azr_favors-${player_id}" class="azr_favors" 
-        style="--color: #${color}; --opp-color: #${opp_color}; --bg-color: #${color}aa; order: ${order}">
+        style="--color: #${color}; --opp-color: #${opp_color}; --color-transparent: #${color}aa; order: ${order}">
         <div id="azr_favorBeasts-${player_id}" class="azr_favorBeasts"></div>
         <h4 class="playername">
         ${title}
@@ -208,6 +208,8 @@ class AzureTemplate {
     const html = document.querySelector("html");
     html.style.setProperty("--color", `#${color}`);
     html.style.setProperty("--opp-color", `#${opp_color}`);
+    html.style.setProperty("--color-transparent", `#${color}aa`);
+    html.style.setProperty("--opp-color-transparent", `#${opp_color}aa`);
 
     this.setupZoom();
     this.setupRealm();
