@@ -612,7 +612,7 @@ body > .card {
   background-color: rgba(0, 0, 0, 0.4);
 }
 .azr_space.azr_selected {
-  background-color: rgba(0, 100, 0, 0.4);
+  background-color: rgba(0, 100, 0, 0.5333333333);
 }
 
 :root {
