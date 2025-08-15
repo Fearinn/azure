@@ -1,0 +1,18 @@
+@font-face {
+  font-family: "The Slavic";
+  src: url("img/font_the-slavic/TheSlavicFont-Regular.ttf");
+}
+
+.player-name a:first-of-type,
+.playername {
+  color: var(--color);
+  background-color: var(--opp-color);
+  border-radius: 4px;
+  box-shadow: 0 0 4px var(--color);
+  padding: 2px;
+}
+
+.azr_customFont {
+  font-family: "The Slavic", Roboto, sans-serif;
+  text-transform: uppercase !important;
+}
