@@ -26,11 +26,16 @@ class StoneManager {
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ type_arg: player_id }, element) => {
+      setupDiv: (card, element) => {
         element.classList.add(`azr_stone`);
 
+        const { type_arg: player_id } = card;
         const { color } = this.gamedatas.players[player_id];
         element.classList.add(`azr_stone-${color}`);
+
+        const stone = new Stone(this.game, card);
+        const tooltip = stone.buildTooltip();
+        this.game.addTooltipHtml(element.id, tooltip);
       },
     });
 

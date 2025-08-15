@@ -3223,11 +3223,14 @@ var StoneManager = /** @class */ (function () {
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
-            setupDiv: function (_a, element) {
-                var player_id = _a.type_arg;
+            setupDiv: function (card, element) {
                 element.classList.add("azr_stone");
+                var player_id = card.type_arg;
                 var color = _this.gamedatas.players[player_id].color;
                 element.classList.add("azr_stone-".concat(color));
+                var stone = new Stone(_this.game, card);
+                var tooltip = stone.buildTooltip();
+                _this.game.addTooltipHtml(element.id, tooltip);
             },
         });
         this.gamedatas.stocks.stones = {
@@ -3255,6 +3258,7 @@ var Stone = /** @class */ (function (_super) {
     function Stone(game, card) {
         var _this = _super.call(this, game) || this;
         _this.card = new AzureCard(card);
+        _this.player_id = _this.card.type_arg;
         return _this;
     }
     Stone.prototype.setup = function () {
@@ -3290,6 +3294,16 @@ var Stone = /** @class */ (function (_super) {
                 }
             });
         });
+    };
+    Stone.prototype.buildTooltip = function () {
+        var _a = this.gamedatas.players[this.player_id], name = _a.name, color = _a.color;
+        var label = this.game.format_string_recursive(_("${player_name}'s stone"), {
+            player_name: name,
+        });
+        var utils = new Utils(this.game);
+        var opp_color = utils.getOppColor(color);
+        var tooltip = "<div class=\"azr_tooltip azr_stoneTooltip\" style=\"--color: #".concat(color, "; --opp-color: #").concat(opp_color, "\">\n    <span>").concat(label, "</span></div>");
+        return tooltip;
     };
     return Stone;
 }(StoneManager));
