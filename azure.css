@@ -818,6 +818,9 @@ body > .card {
 .azr_counterIcon {
   background-size: cover;
 }
+.azr_counterCount {
+  font-size: 24px;
+}
 
 .azr_handCounter {
   --qi-width: 50px;
