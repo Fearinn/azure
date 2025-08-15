@@ -68,6 +68,11 @@ class Utils {
           args.space_icon = `<div class="azr_logIcon azr_spaceIcon" style="background-image: ${backgroundImage};"></div>`;
         }
 
+        if (args.qi_icon !== undefined && args.domain_id !== undefined) {
+          const backgroundImage = `url(${g_gamethemeurl}img/qi_${args.domain_id}.jpg)`;
+          args.qi_icon = `<div class="azr_logIcon azr_qiIcon" style="background-image: ${backgroundImage};"></div>`;
+        }
+
         for (const key in args) {
           if (key.includes("_label") || key.includes("_log")) {
             const value = (args.i18n as string[] | undefined)?.includes("key")

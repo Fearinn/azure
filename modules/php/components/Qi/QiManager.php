@@ -148,13 +148,16 @@ class QiManager extends CardManager
             $Notify = new NotifManager($this->game);
             $Notify->all(
                 "discardQi",
-                clienttranslate('${player_name} discards ${nbr_log} ${qi_label} qi'),
+                clienttranslate('${player_name} discards ${nbr_log} ${qi_label} qi ${qi_icon}'),
                 [
                     "i18n" => ["qi_label"],
+                    "preserve" => ["domain_id"],
                     "cards" => $cards,
                     "nbr" => count($cards),
                     "nbr_log" => count($cards),
                     "qi_label" => $this->QI[$domain_id]["label"],
+                    "qi_icon" => "",
+                    "domain_id" => $domain_id,
                 ],
                 $player_id,
             );
@@ -175,13 +178,16 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "gatherQi",
-            clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} qi'),
+            clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} qi ${qi_icon}'),
             [
                 "i18n" => ["qi_label"],
+                "preserve" => ["domain_id"],
                 "cards" => $cards,
                 "nbr" => $nbr,
                 "nbr_log" => $nbr,
                 "qi_label" => $this->QI[$domain_id]["label"],
+                "qi_icon" => "",
+                "domain_id" => $domain_id,
             ],
             $player_id,
         );
@@ -209,11 +215,14 @@ class QiManager extends CardManager
             $Notify->player(
                 $player_id,
                 "drawQiPrivate",
-                clienttranslate('You draw a ${qi_label} qi from the hidden deck'),
+                clienttranslate('You draw a ${qi_label} qi from the hidden deck ${qi_icon}'),
                 [
                     "i18n" => ["qi_label"],
+                    "preserve" => ["domain_id"],
                     "cards" => [$card],
                     "qi_label" => $this->QI[$domain_id]["label"],
+                    "qi_icon" => "",
+                    "domain_id" => $domain_id,
                 ]
             );
         }

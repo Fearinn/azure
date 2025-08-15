@@ -2670,6 +2670,10 @@ var Utils = /** @class */ (function () {
                     var backgroundImage = "url(".concat(g_gamethemeurl, "img/spaces/space_").concat(args.space_id, ".jpg)");
                     args.space_icon = "<div class=\"azr_logIcon azr_spaceIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
                 }
+                if (args.qi_icon !== undefined && args.domain_id !== undefined) {
+                    var backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_").concat(args.domain_id, ".jpg)");
+                    args.qi_icon = "<div class=\"azr_logIcon azr_qiIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
+                }
                 for (var key in args) {
                     if (key.includes("_label") || key.includes("_log")) {
                         var value = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes("key"))
