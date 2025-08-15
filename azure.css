@@ -421,7 +421,7 @@ body > .card {
   padding: 2px;
 }
 
-.azr_customFont {
+.azr_customFont-title {
   font-family: "The Slavic", Roboto, sans-serif;
   text-transform: uppercase !important;
 }
@@ -511,7 +511,14 @@ body > .card {
 }
 
 .azr_deckCounter {
-  font-size: 32px !important;
+  color: var(--color) !important;
+  font-size: 40px !important;
+  background-color: var(--opp-color) !important;
+  box-shadow: 0 0 2px 1px var(--color) !important;
+  border-radius: 100%;
+  height: 40px;
+  width: 40px;
+  transform: translate(-20%, -10%);
 }
 
 .azr_handContainer {

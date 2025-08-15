@@ -48,12 +48,7 @@ class AzureTemplate {
   }
 
   private setupHand(): void {
-    const { color } = this.gamedatas.players[this.game.player_id];
-    const opp_color = new Utils(this.game).getOppColor(color);
-
     const handTitle = document.getElementById(`azr_handTitle`);
-    handTitle.style.setProperty("--color", `#${color}`);
-    handTitle.style.setProperty("--opp-color", `#${opp_color}`);
     handTitle.textContent = _("Your hand");
   }
 
@@ -206,6 +201,13 @@ class AzureTemplate {
   }
 
   public setup() {
+    const { color } = this.gamedatas.players[this.game.player_id];
+    const opp_color = new Utils(this.game).getOppColor(color);
+
+    const html = document.querySelector("html");
+    html.style.setProperty("--color", `#${color}`);
+    html.style.setProperty("--opp-color", `#${opp_color}`);
+
     this.setupZoom();
     this.setupRealm();
     this.setupHand();

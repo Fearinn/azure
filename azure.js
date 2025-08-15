@@ -2516,11 +2516,7 @@ var AzureTemplate = /** @class */ (function () {
         }
     };
     AzureTemplate.prototype.setupHand = function () {
-        var color = this.gamedatas.players[this.game.player_id].color;
-        var opp_color = new Utils(this.game).getOppColor(color);
         var handTitle = document.getElementById("azr_handTitle");
-        handTitle.style.setProperty("--color", "#".concat(color));
-        handTitle.style.setProperty("--opp-color", "#".concat(opp_color));
         handTitle.textContent = _("Your hand");
     };
     AzureTemplate.prototype.setupWisdomTrack = function () {
@@ -2618,6 +2614,11 @@ var AzureTemplate = /** @class */ (function () {
         });
     };
     AzureTemplate.prototype.setup = function () {
+        var color = this.gamedatas.players[this.game.player_id].color;
+        var opp_color = new Utils(this.game).getOppColor(color);
+        var html = document.querySelector("html");
+        html.style.setProperty("--color", "#".concat(color));
+        html.style.setProperty("--opp-color", "#".concat(opp_color));
         this.setupZoom();
         this.setupRealm();
         this.setupHand();
@@ -2797,7 +2798,7 @@ var Beast = /** @class */ (function (_super) {
         var formattedFavor = this.game.format_string_recursive(_("Favor: ${favor}"), {
             favor: favor,
         });
-        var tooltip = "<div class=\"azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
+        var tooltip = "<div class=\"azr_beastTooltip\">\n    <span class=\"azr_beastTooltipTitle azr_customFont-title\">".concat(label, "</span>\n    <span>").concat(formattedGuard, "</span>\n    <span>").concat(formattedFavor, "</span>\n    </div>");
         return tooltip;
     };
     return Beast;
@@ -2854,7 +2855,7 @@ var QiManager = /** @class */ (function () {
                 },
                 cardNumber: decksCounts[domain_id],
                 counter: {
-                    extraClasses: "text-shadow azr_deckCounter",
+                    extraClasses: "azr_customFont-title azr_deckCounter",
                     position: "top",
                 },
             });
