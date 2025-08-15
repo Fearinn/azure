@@ -898,7 +898,7 @@ body > .card {
   align-items: center;
   justify-content: center;
   justify-items: center;
-  grid-template-areas: "decks empty" "realm favors" "realm wisdom" "hand hand";
+  grid-template-areas: "hand hand" "realm favors" "realm wisdom" "decks empty";
   column-gap: 24px;
   row-gap: 16px;
   padding: 8px;

@@ -25,10 +25,10 @@
   justify-content: center;
   justify-items: center;
   grid-template-areas:
-    "decks empty"
+    "hand hand"
     "realm favors"
     "realm wisdom"
-    "hand hand";
+    "decks empty";
   column-gap: 24px;
   row-gap: 16px;
   padding: 8px;

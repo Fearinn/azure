@@ -70,7 +70,7 @@ class QiManager {
           cardNumber: decksCounts[domain_id],
           counter: {
             extraClasses: "azr_customFont-title azr_deckCounter",
-            position: "top",
+            position: "bottom",
           },
         }
       );

@@ -2866,7 +2866,7 @@ var QiManager = /** @class */ (function () {
                 cardNumber: decksCounts[domain_id],
                 counter: {
                     extraClasses: "azr_customFont-title azr_deckCounter",
-                    position: "top",
+                    position: "bottom",
                 },
             });
             decks = __assign(__assign({}, decks), (_c = {}, _c["deck-".concat(domain_id)] = deck, _c));
