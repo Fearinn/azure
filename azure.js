@@ -2358,18 +2358,13 @@ var NotifManager = /** @class */ (function () {
     }
     NotifManager.prototype.notif_discardQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, cards, promises;
-            var _this = this;
+            var player_id, cards, handCount, qiManager;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        player_id = args.player_id, cards = args.cards;
-                        promises = [];
-                        cards.forEach(function (card) {
-                            var qi = new Qi(_this.game, card);
-                            promises.push(qi.discard(player_id));
-                        });
-                        return [4 /*yield*/, Promise.all(promises)];
+                        player_id = args.player_id, cards = args.cards, handCount = args.handCount;
+                        qiManager = new QiManager(this.game);
+                        return [4 /*yield*/, qiManager.discard(player_id, cards, handCount)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -2379,13 +2374,13 @@ var NotifManager = /** @class */ (function () {
     };
     NotifManager.prototype.notif_gatherQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, cards, qiManager;
+            var player_id, cards, handCount, qiManager;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        player_id = args.player_id, cards = args.cards;
+                        player_id = args.player_id, cards = args.cards, handCount = args.handCount;
                         qiManager = new QiManager(this.game);
-                        return [4 /*yield*/, qiManager.gather(player_id, cards)];
+                        return [4 /*yield*/, qiManager.gather(player_id, cards, handCount)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -2395,23 +2390,33 @@ var NotifManager = /** @class */ (function () {
     };
     NotifManager.prototype.notif_drawQi = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, nbr, qiManager;
+            var player_id, nbr, handCount, qiManager;
             return __generator(this, function (_a) {
-                player_id = args.player_id, nbr = args.nbr;
-                qiManager = new QiManager(this.game);
-                qiManager.draw(player_id, nbr);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, nbr = args.nbr, handCount = args.handCount;
+                        qiManager = new QiManager(this.game);
+                        return [4 /*yield*/, qiManager.draw(player_id, nbr, handCount)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
     NotifManager.prototype.notif_drawQiPrivate = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, cards, qiManager;
+            var player_id, cards, handCount, qiManager;
             return __generator(this, function (_a) {
-                player_id = args.player_id, cards = args.cards;
-                qiManager = new QiManager(this.game);
-                qiManager.drawPrivate(cards);
-                return [2 /*return*/];
+                switch (_a.label) {
+                    case 0:
+                        player_id = args.player_id, cards = args.cards, handCount = args.handCount;
+                        qiManager = new QiManager(this.game);
+                        return [4 /*yield*/, qiManager.drawPrivate(player_id, cards, handCount)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
             });
         });
     };
@@ -2895,27 +2900,36 @@ var QiManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
-    QiManager.prototype.gather = function (player_id, cards) {
+    QiManager.prototype.gather = function (player_id, cards, handCount) {
         return __awaiter(this, void 0, void 0, function () {
-            var promises;
-            var _this = this;
+            var _i, cards_1, card, qi;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        promises = [];
-                        cards.forEach(function (card) {
-                            var qi = new Qi(_this.game, card);
-                            qi.gather(player_id);
-                        });
-                        return [4 /*yield*/, Promise.all(promises)];
+                        _i = 0, cards_1 = cards;
+                        _a.label = 1;
                     case 1:
+                        if (!(_i < cards_1.length)) return [3 /*break*/, 4];
+                        card = cards_1[_i];
+                        qi = new Qi(this.game, card);
+                        return [4 /*yield*/, qi.gather(player_id)];
+                    case 2:
                         _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        this.updateHandCounter(player_id, handCount);
                         return [2 /*return*/];
                 }
             });
         });
     };
-    QiManager.prototype.draw = function (player_id, nbr) {
+    QiManager.prototype.updateHandCounter = function (player_id, handCount) {
+        this.gamedatas.counters[player_id].hand.toValue(handCount);
+    };
+    QiManager.prototype.draw = function (player_id, nbr, handCount) {
         return __awaiter(this, void 0, void 0, function () {
             var i, fakeCard;
             return __generator(this, function (_a) {
@@ -2935,26 +2949,60 @@ var QiManager = /** @class */ (function () {
                     case 3:
                         i++;
                         return [3 /*break*/, 1];
-                    case 4: return [2 /*return*/];
+                    case 4:
+                        this.updateHandCounter(player_id, handCount);
+                        return [2 /*return*/];
                 }
             });
         });
     };
-    QiManager.prototype.drawPrivate = function (cards) {
+    QiManager.prototype.drawPrivate = function (player_id, cards, handCount) {
         return __awaiter(this, void 0, void 0, function () {
-            var promises;
-            var _this = this;
+            var _i, cards_2, card, qi;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        promises = [];
-                        cards.forEach(function (card) {
-                            var qi = new Qi(_this.game, card);
-                            qi.drawPrivate();
-                        });
-                        return [4 /*yield*/, Promise.all(promises)];
+                        _i = 0, cards_2 = cards;
+                        _a.label = 1;
                     case 1:
+                        if (!(_i < cards_2.length)) return [3 /*break*/, 4];
+                        card = cards_2[_i];
+                        qi = new Qi(this.game, card);
+                        return [4 /*yield*/, qi.drawPrivate()];
+                    case 2:
                         _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        this.updateHandCounter(player_id, handCount);
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
+    QiManager.prototype.discard = function (player_id, cards, handCount) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _i, cards_3, card, qi;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        _i = 0, cards_3 = cards;
+                        _a.label = 1;
+                    case 1:
+                        if (!(_i < cards_3.length)) return [3 /*break*/, 4];
+                        card = cards_3[_i];
+                        qi = new Qi(this.game, card);
+                        return [4 /*yield*/, qi.discard(player_id)];
+                    case 2:
+                        _a.sent();
+                        _a.label = 3;
+                    case 3:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 4:
+                        this.updateHandCounter(player_id, handCount);
                         return [2 /*return*/];
                 }
             });

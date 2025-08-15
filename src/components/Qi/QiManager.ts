@@ -21,7 +21,7 @@ class QiManager {
     this.manager = this.gamedatas.managers.qi;
   }
 
-  create(): void {
+  public create(): void {
     const manager = new CardManager<QiCard>(this.game, {
       cardHeight: 228,
       cardWidth: 150,
@@ -109,7 +109,7 @@ class QiManager {
     this.manager = manager;
   }
 
-  setupStocks(): void {
+  private setupStocks(): void {
     const { hand } = this.gamedatas;
 
     if (!this.game.isSpectator) {
@@ -117,22 +117,29 @@ class QiManager {
     }
   }
 
-  setup(): void {
+  public setup(): void {
     this.create();
     this.setupStocks();
   }
 
-  async gather(player_id: number, cards: QiCard[]): Promise<void> {
-    const promises = [];
-    cards.forEach((card) => {
+  async gather(
+    player_id: number,
+    cards: QiCard[],
+    handCount: number
+  ): Promise<void> {
+    for (const card of cards) {
       const qi = new Qi(this.game, card);
-      qi.gather(player_id);
-    });
+      await qi.gather(player_id);
+    }
 
-    await Promise.all(promises);
+    this.updateHandCounter(player_id, handCount);
   }
 
-  async draw(player_id: number, nbr: number): Promise<void> {
+  protected updateHandCounter(player_id: number, handCount: number): void {
+    this.gamedatas.counters[player_id].hand.toValue(handCount);
+  }
+
+  async draw(player_id: number, nbr: number, handCount: number): Promise<void> {
     for (let i = 1; i <= nbr; i++) {
       const fakeCard = this.manager.getFakeCardGenerator()(`fake-${i}`);
 
@@ -140,16 +147,30 @@ class QiManager {
         fromStock: this.stocks.decks["deck-0"],
       });
     }
+
+    this.updateHandCounter(player_id, handCount);
   }
 
-  async drawPrivate(cards: QiCard[]): Promise<void> {
-    const promises = [];
-    cards.forEach((card) => {
+  async drawPrivate(
+    player_id: number,
+    cards: QiCard[],
+    handCount: number
+  ): Promise<void> {
+    for (const card of cards) {
       const qi = new Qi(this.game, card);
-      qi.drawPrivate();
-    });
+      await qi.drawPrivate();
+    }
 
-    await Promise.all(promises);
+    this.updateHandCounter(player_id, handCount);
+  }
+
+  async discard(player_id: number, cards: QiCard[], handCount: number) {
+    for (const card of cards) {
+      const qi = new Qi(this.game, card);
+      await qi.discard(player_id);
+    }
+
+    this.updateHandCounter(player_id, handCount);
   }
 
   makeSelectable(): void {

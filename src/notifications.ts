@@ -15,39 +15,37 @@ class NotifManager {
   async notif_discardQi(
     args: NotifArgs & {
       cards: QiCard[];
+      handCount: number;
     }
   ): Promise<void> {
-    const { player_id, cards } = args;
-
-    const promises = [];
-    cards.forEach((card) => {
-      const qi = new Qi(this.game, card);
-      promises.push(qi.discard(player_id));
-    });
-
-    await Promise.all(promises);
+    const { player_id, cards, handCount } = args;
+    const qiManager = new QiManager(this.game);
+    await qiManager.discard(player_id, cards, handCount);
   }
 
   async notif_gatherQi(
     args: NotifArgs & {
       cards: QiCard[];
+      handCount: number;
     }
   ): Promise<void> {
-    const { player_id, cards } = args;
+    const { player_id, cards, handCount } = args;
     const qiManager = new QiManager(this.game);
-    await qiManager.gather(player_id, cards);
+    await qiManager.gather(player_id, cards, handCount);
   }
 
-  async notif_drawQi(args: NotifArgs & { nbr: number }) {
-    const { player_id, nbr } = args;
+  async notif_drawQi(args: NotifArgs & { nbr: number; handCount: number }) {
+    const { player_id, nbr, handCount } = args;
     const qiManager = new QiManager(this.game);
-    qiManager.draw(player_id, nbr);
+    await qiManager.draw(player_id, nbr, handCount);
   }
 
-  async notif_drawQiPrivate(args: NotifArgs & { cards: QiCard[] }) {
-    const { player_id, cards } = args;
+  async notif_drawQiPrivate(
+    args: NotifArgs & { cards: QiCard[]; handCount: number }
+  ) {
+    const { player_id, cards, handCount } = args;
     const qiManager = new QiManager(this.game);
-    qiManager.drawPrivate(cards);
+    await qiManager.drawPrivate(player_id, cards, handCount);
   }
 
   async notif_placeStone(

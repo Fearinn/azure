@@ -118,6 +118,7 @@ class QiManager extends CardManager
             "",
             [
                 "cards" => array_values($cards),
+                "handCount" => $this->getHandCount($player_id),
             ],
             $player_id,
         );
@@ -154,6 +155,7 @@ class QiManager extends CardManager
                     "preserve" => ["domain_id"],
                     "cards" => $cards,
                     "nbr" => count($cards),
+                    "handCount" => $this->getHandCount($player_id),
                     "nbr_log" => count($cards),
                     "qi_label" => $this->QI[$domain_id]["label"],
                     "qi_icon" => "",
@@ -184,6 +186,7 @@ class QiManager extends CardManager
                 "preserve" => ["domain_id"],
                 "cards" => $cards,
                 "nbr" => $nbr,
+                "handCount" => $this->getHandCount($player_id),
                 "nbr_log" => $nbr,
                 "qi_label" => $this->QI[$domain_id]["label"],
                 "qi_icon" => "",
@@ -204,6 +207,7 @@ class QiManager extends CardManager
             [
                 "nbr_log" => $nbr,
                 "nbr" => $nbr,
+                "handCount" => $this->getHandCount($player_id),
             ],
             $player_id
         );
@@ -220,6 +224,7 @@ class QiManager extends CardManager
                     "i18n" => ["qi_label"],
                     "preserve" => ["domain_id"],
                     "cards" => [$card],
+                    "handCount" => $this->getHandCount($player_id),
                     "qi_label" => $this->QI[$domain_id]["label"],
                     "qi_icon" => "",
                     "domain_id" => $domain_id,
