@@ -415,6 +415,7 @@ body > .card {
 }
 .player-name a:first-of-type,
 .playername {
+  font-family: "Montserrat", Roboto;
   color: var(--color);
   background-color: var(--opp-color);
   border-radius: 4px;
@@ -797,6 +798,21 @@ body > .card {
 .azr_favorBeasts {
   display: grid;
   grid-template-columns: repeat(4, var(--beast-width));
+}
+
+.player-board {
+  font-family: "Montserrat", Roboto;
+}
+
+.player_score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+}
+.player_score .player_score_value {
+  font-family: "The Slavic", Roboto;
+  font-size: 24px;
 }
 
 .player-board-game-specific-content {

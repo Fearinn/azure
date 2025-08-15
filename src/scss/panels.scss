@@ -1,3 +1,19 @@
+.player-board {
+  font-family: "Montserrat", Roboto;
+}
+
+.player_score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+
+  .player_score_value {
+    font-family: "The Slavic", Roboto;
+    font-size: 24px;
+  }
+}
+
 .player-board-game-specific-content {
   display: flex;
   gap: 16px;
