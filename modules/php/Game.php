@@ -33,6 +33,7 @@ use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\states\StBetweenPlayers;
 use Bga\Games\Azure\states\StBirdDiscard;
 use Bga\Games\Azure\states\StCheckBeasts;
+use Bga\Games\Azure\states\StEndScore;
 use Bga\Games\Azure\states\StPlayerTurn;
 
 class Game extends \Bga\GameFramework\Table
@@ -110,6 +111,12 @@ class Game extends \Bga\GameFramework\Table
     {
         $StBetweenPlayers = new StBetweenPlayers($this);
         $StBetweenPlayers->act();
+    }
+
+    public function stEndScore(): void
+    {
+        $StEndScore = new StEndScore($this);
+        $StEndScore->act();
     }
 
     // Player Actions
