@@ -875,6 +875,9 @@ body > .card {
   background-size: cover;
   background-position: bottom;
 }
+.azr_pref-thematicBg .player-board.spectator-mode div {
+  background-image: url("img/background.jpg");
+}
 
 .azr_logHighlight {
   font-weight: bold;
@@ -911,7 +914,7 @@ body > .card {
   justify-items: center;
   grid-template-areas: "hand hand" "realm favors" "realm wisdom" "decks empty";
   gap: 24px;
-  padding: 8px;
+  padding: 16px;
   width: 100%;
   user-select: none;
 }

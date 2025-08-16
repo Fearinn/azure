@@ -2522,6 +2522,10 @@ var AzureTemplate = /** @class */ (function () {
         }
     };
     AzureTemplate.prototype.setupHand = function () {
+        if (this.game.isSpectator) {
+            document.getElementById("azr_handContainer").remove();
+            return;
+        }
         var handTitle = document.getElementById("azr_handTitle");
         handTitle.textContent = _("Your hand");
     };
@@ -2620,7 +2624,9 @@ var AzureTemplate = /** @class */ (function () {
         });
     };
     AzureTemplate.prototype.setup = function () {
-        var color = this.gamedatas.players[this.game.player_id].color;
+        var color = this.game.isSpectator
+            ? "003a4f"
+            : this.gamedatas.players[this.game.player_id].color;
         var opp_color = new Utils(this.game).getOppColor(color);
         var html = document.querySelector("html");
         html.style.setProperty("--color", "#".concat(color));

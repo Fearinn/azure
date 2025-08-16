@@ -49,6 +49,11 @@ class AzureTemplate {
   }
 
   private setupHand(): void {
+    if (this.game.isSpectator) {
+      document.getElementById("azr_handContainer").remove();
+      return;
+    }
+
     const handTitle = document.getElementById(`azr_handTitle`);
     handTitle.textContent = _("Your hand");
   }
@@ -202,7 +207,9 @@ class AzureTemplate {
   }
 
   public setup() {
-    const { color } = this.gamedatas.players[this.game.player_id];
+    const color = this.game.isSpectator
+      ? "003a4f"
+      : this.gamedatas.players[this.game.player_id].color;
     const opp_color = new Utils(this.game).getOppColor(color);
 
     const html = document.querySelector("html");
