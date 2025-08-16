@@ -17,7 +17,7 @@
     },
     "STAT_DISCOUNTS_GAINED": {
       "id": 13,
-      "name": "total discounts",
+      "name": "discounts from bonds",
       "type": "int"
     },
     "STAT_REMAINING_QI": {
