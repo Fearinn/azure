@@ -3053,7 +3053,7 @@ var Qi = /** @class */ (function (_super) {
         _this.card = new AzureCard(card);
         _this.domain_id = _this.card.type_arg;
         _this.deck_id = "deck-".concat(_this.domain_id);
-        if (_this.domain_id !== 0) {
+        if (_this.domain_id > 0) {
             var info = _this.gamedatas.QI[_this.domain_id];
             info.label = _(info.label);
             _this.info = info;
@@ -3116,6 +3116,9 @@ var Qi = /** @class */ (function (_super) {
         });
     };
     Qi.prototype.buildTooltip = function () {
+        if (Number.isNaN(this.domain_id)) {
+            return;
+        }
         var label = this.domain_id === 0
             ? _("Hidden deck")
             : this.game.format_string_recursive(_("${qi_label} qi"), {

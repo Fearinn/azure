@@ -14,7 +14,7 @@ class Qi extends QiManager {
     this.domain_id = this.card.type_arg;
     this.deck_id = `deck-${this.domain_id}`;
 
-    if (this.domain_id !== 0) {
+    if (this.domain_id > 0) {
       const info = this.gamedatas.QI[this.domain_id];
       info.label = _(info.label);
       this.info = info;
@@ -52,6 +52,10 @@ class Qi extends QiManager {
   }
 
   buildTooltip(): string {
+    if (Number.isNaN(this.domain_id)) {
+      return;
+    }
+
     const label =
       this.domain_id === 0
         ? _("Hidden deck")
@@ -63,7 +67,7 @@ class Qi extends QiManager {
     const tooltip = `
       <div class="azr_tooltip azr_qiTooltip"><span class="azr_qiTooltipTitle">${label}</span></div>
     `;
-    
+
     return tooltip;
   }
 }
