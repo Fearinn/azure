@@ -35,6 +35,7 @@ use Bga\Games\Azure\states\StBirdDiscard;
 use Bga\Games\Azure\states\StCheckBeasts;
 use Bga\Games\Azure\states\StEndScore;
 use Bga\Games\Azure\states\StPlayerTurn;
+use Bga\Games\Azure\stats\StatManager;
 
 class Game extends \Bga\GameFramework\Table
 {
@@ -205,6 +206,9 @@ class Game extends \Bga\GameFramework\Table
 
         $BeastManager = new BeastManager($this);
         $BeastManager->setup();
+
+        $StatManager = new StatManager($this);
+        $StatManager->init();
     }
 
     protected function zombieTurn(array $state, int $active_player): void

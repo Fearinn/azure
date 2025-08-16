@@ -18,11 +18,15 @@ class StEndScore extends StateManager
         $players = $this->game->loadPlayersBasicInfos();
 
         $QiManager = new QiManager($this->game);
+
         $StatManager = new StatManager($this->game);
+        $StatManager->initEndExclusive();
+
         foreach ($players as $player_id => $player) {
             $handCount = $QiManager->getHandCount($player_id);
-            $StatManager->initEndExclusive();
             $StatManager->inc($player_id, STAT_REMAINING_QI, $handCount);
         }
+
+        $this->game->gamestate->nextState();
     }
 }
