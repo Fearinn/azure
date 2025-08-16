@@ -26,6 +26,8 @@ use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\actions\ActBirdDiscard;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
+use Bga\Games\Azure\components\Gifted\GiftedCard;
+use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
@@ -45,6 +47,7 @@ class Game extends \Bga\GameFramework\Table
     public readonly array $MOUNTAINS;
     public readonly array $SPACES;
     public readonly array $SERPENTS;
+    public readonly array $GIFTED_CARDS;
 
     public Deck $qi_cards;
     public Deck $stone_cards;
@@ -161,6 +164,7 @@ class Game extends \Bga\GameFramework\Table
             "handsCounts" => $QiManager->getHandsCounts(),
             "placedStones" => $StoneManager->getPlaced(),
             "stoneCounts" => $StoneManager->getHandsCounts(),
+            "giftedCard" => $this->globals->get(G_GIFTED_CARD),
         ];
 
         if (!$this->isSpectator()) {
@@ -206,6 +210,9 @@ class Game extends \Bga\GameFramework\Table
 
         $BeastManager = new BeastManager($this);
         $BeastManager->setup();
+
+        $GiftedManager = new GiftedManager($this);
+        $GiftedManager->setup();
 
         $StatManager = new StatManager($this);
         $StatManager->init();

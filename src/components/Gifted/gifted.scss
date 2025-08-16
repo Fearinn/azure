@@ -1,0 +1,9 @@
+.azr_giftedContainer {
+  grid-area: gifted;
+  position: relative;
+}
+
+.azr_giftedCard {
+  aspect-ratio: 1 / 1.52;
+  width: var(--qi-width);
+}

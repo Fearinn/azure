@@ -123,6 +123,9 @@ class AzureTemplate {
 
     const wisdomManager = new WisdomManager(this.game);
     wisdomManager.setup();
+
+    const giftedManager = new GiftedManager(this.game);
+    giftedManager.setup();
   }
 
   private setupPanels(): void {
@@ -226,5 +229,6 @@ class AzureTemplate {
     this.setupPanels();
     this.setupStocks();
     this.initObserver();
+    // BgaAutofit.init();
   }
 }

@@ -487,6 +487,10 @@ body > .card {
   padding: 8px;
 }
 
+.azr_card {
+  position: relative;
+}
+
 :root {
   --domain-width: 500px;
   --space-width: calc(var(--domain-width) / 3);
@@ -800,6 +804,16 @@ body > .card {
   z-index: 1;
 }
 
+.azr_giftedContainer {
+  grid-area: gifted;
+  position: relative;
+}
+
+.azr_giftedCard {
+  aspect-ratio: 1/1.52;
+  width: var(--qi-width);
+}
+
 .azr_favorsContainer {
   position: relative;
   grid-area: favors;
@@ -956,7 +970,7 @@ body > .card {
   align-items: center;
   justify-content: center;
   justify-items: center;
-  grid-template-areas: "hand hand" "realm favors" "realm wisdom" "decks empty";
+  grid-template-areas: "hand hand" "realm favors" "realm wisdom" "decks gifted";
   gap: 24px;
   padding: 16px;
   width: 100%;

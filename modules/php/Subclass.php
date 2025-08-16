@@ -15,6 +15,7 @@ class Subclass
     public readonly array $MOUNTAINS;
     public readonly array $SPACES;
     public readonly array $SERPENTS;
+    public readonly array $GIFTED_CARDS;
 
     public function __construct(Game $game)
     {
@@ -26,5 +27,6 @@ class Subclass
         $this->SPACES = $this->game->SPACES;
         $this->QI = $this->game->QI;
         $this->SERPENTS = $this->game->SERPENTS;
+        $this->GIFTED_CARDS = $this->game->GIFTED_CARDS;
     }
 }

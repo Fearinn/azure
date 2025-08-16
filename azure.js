@@ -2342,7 +2342,8 @@ define([
     "dojo/_base/declare",
     "ebg/core/gamegui",
     "ebg/counter",
-], function (dojo, declare, counter, gamegui, dice, BgaAutoFit) {
+    getLibUrl("bga-autofit", "1.x"),
+], function (dojo, declare, counter, gamegui, BgaAutoFit) {
     window.BgaAutoFit = BgaAutoFit;
     return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });
@@ -2568,6 +2569,8 @@ var AzureTemplate = /** @class */ (function () {
         qiManager.setup();
         var wisdomManager = new WisdomManager(this.game);
         wisdomManager.setup();
+        var giftedManager = new GiftedManager(this.game);
+        giftedManager.setup();
     };
     AzureTemplate.prototype.setupPanels = function () {
         var _a;
@@ -2641,6 +2644,7 @@ var AzureTemplate = /** @class */ (function () {
         this.setupPanels();
         this.setupStocks();
         this.initObserver();
+        // BgaAutofit.init();
     };
     return AzureTemplate;
 }());
@@ -2821,6 +2825,47 @@ var Beast = /** @class */ (function (_super) {
     };
     return Beast;
 }(BeastManager));
+var GiftedManager = /** @class */ (function () {
+    function GiftedManager(game) {
+        this.game = game;
+        this.gamedatas = this.game.gamedatas;
+        this.manager = this.gamedatas.managers.gifted;
+        this.stocks = this.gamedatas.stocks.gifted;
+        this.card = this.gamedatas.giftedCard;
+    }
+    GiftedManager.prototype.create = function () {
+        var manager = new CardManager(this.game, {
+            getId: function (_a) {
+                var id = _a.id;
+                return "azr_giftedCard-".concat(id);
+            },
+            setupDiv: function (_a, element) {
+                var id = _a.id;
+                element.classList.add("azr_card", "azr_giftedCard");
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/giftedCard_").concat(id, ")");
+                element.insertAdjacentHTML("beforeend", "<span class=\"bga-autofit azr_giftedCardTitle\"></span>\n          <span class=\"bga-autofit azr_giftedCardDescription\"></span>");
+            },
+        });
+        this.gamedatas.managers.gifted = manager;
+        this.manager = manager;
+        var stocks = {
+            table: new CardStock(manager, document.getElementById("azr_giftedContainer")),
+        };
+        this.gamedatas.stocks.gifted = stocks;
+        this.stocks = stocks;
+    };
+    GiftedManager.prototype.setupStocks = function () {
+        if (!this.card) {
+            return;
+        }
+        this.stocks.table.addCard(this.card);
+    };
+    GiftedManager.prototype.setup = function () {
+        this.create();
+        this.setupStocks();
+    };
+    return GiftedManager;
+}());
 var QiManager = /** @class */ (function () {
     function QiManager(game) {
         this.game = game;

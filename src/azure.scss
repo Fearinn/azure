@@ -8,6 +8,7 @@
 @use "components/Stones/stone";
 @use "components/Spaces/space";
 @use "components/Wisdom/wisdom";
+@use "components/Gifted/gifted";
 @use "scss/favors";
 @use "scss/panels";
 @use "scss/prefs";
@@ -30,7 +31,7 @@
     "hand hand"
     "realm favors"
     "realm wisdom"
-    "decks empty";
+    "decks gifted";
   gap: 24px;
   padding: 16px;
   width: 100%;

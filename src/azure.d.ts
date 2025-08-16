@@ -9,6 +9,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     spaces?: CardManager<SpaceCard>;
     stones?: CardManager<StoneCard>;
     wisdom?: CardManager<WisdomCard>;
+    gifted?: CardManager<GiftedCard>;
   };
   stocks: {
     beasts?: BeastStocks;
@@ -23,6 +24,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     wisdom?: {
       [score: number]: CardStock<WisdomCard>;
     };
+    gifted?: GiftedStocks;
   };
   counters: {
     [player_id: number]: {
@@ -55,6 +57,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
     [player_id: number]: number;
   };
   placedStones: StoneCard[];
+  giftedCard: GiftedCard;
 }
 
 interface AzureGui extends Game {
@@ -65,3 +68,20 @@ interface AzureGui extends Game {
     ): void;
   };
 }
+
+interface AutofitSettings {
+  scaleStep?: number;
+  minScale?: number;
+}
+interface AutofitWithObserverSettings extends AutofitSettings {
+  rootElement?: HTMLElement;
+}
+/**
+ * Auto-scale the content of divs with a `bga-autofit` class. Those divs should have a fixed width and height.
+ * @param settings settings, width default : { scaleStep: 0.05, minScale: 0.1 }
+ */
+declare function init(settings?: AutofitWithObserverSettings): void;
+
+declare const BgaAutofit: {
+  init: typeof init;
+};

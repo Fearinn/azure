@@ -1,11 +1,17 @@
 {
   "100": {
-    "name": "Gifted module",
+    "name": "Gifted card",
     "default": 0,
     "values": {
       "0": {
         "name": "Disabled",
         "description": "No gifted card and stones"
+      },
+      "5": {
+        "name": "Random",
+        "description": "One of the 4 gifted cards, chosen at random",
+        "nobeginner": true,
+        "alpha": true
       },
       "1": {
         "name": "Mighty",
@@ -27,13 +33,7 @@
       },
       "4": {
         "name": "Favored",
-        "description": "Your gifted stone provides two bonds (instead of one) to all spaces horizontally and vertically in line with it, unless blocked by a mountain.",
-        "nobeginner": true,
-        "alpha": true
-      },
-      "5": {
-        "name": "Random",
-        "description": "One of the 4 gifted cards, chosen at random",
+        "description": "Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same numberof stones guarding it as your opponent",
         "nobeginner": true,
         "alpha": true
       }
