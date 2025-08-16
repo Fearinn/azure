@@ -1,1 +1,42 @@
-{}
+{
+  "100": {
+    "name": "Gifted module",
+    "default": 0,
+    "values": {
+      "0": {
+        "name": "Disabled",
+        "description": "No gifted card and stones"
+      },
+      "1": {
+        "name": "Mighty",
+        "description": "Your gifted stone provides two bonds (instead of one) to all spaces horizontally and vertically in line with it, unless blocked by a mountain.",
+        "nobeginner": true,
+        "alpha": true
+      },
+      "2": {
+        "name": "Perceptive",
+        "description": "Your gifted stone additionally provides one bond to all spaces diagonally in line with it, unless blocked by the center of a mountain.",
+        "nobeginner": true,
+        "alpha": true
+      },
+      "3": {
+        "name": "Bountiful",
+        "description": "Your gifted stone allows you to take one additional boon of your choice, chosen from the boons in the space, when you play a common stone in any surrounding space (including diagonally adjacent spaces).",
+        "nobeginner": true,
+        "alpha": true
+      },
+      "4": {
+        "name": "Favored",
+        "description": "Your gifted stone provides two bonds (instead of one) to all spaces horizontally and vertically in line with it, unless blocked by a mountain.",
+        "nobeginner": true,
+        "alpha": true
+      },
+      "5": {
+        "name": "Random",
+        "description": "One of the 4 gifted cards, chosen at random",
+        "nobeginner": true,
+        "alpha": true
+      }
+    }
+  }
+}
