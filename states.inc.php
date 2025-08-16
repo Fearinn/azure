@@ -46,7 +46,7 @@ $machinestates = [
         ])
         ->transitions([
             TR_CHECK_BEASTS => ST_CHECK_BEASTS,
-            TR_END_GAME => ST_END_GAME,
+            TR_END_GAME => ST_END_SCORE,
         ])
         ->updateGameProgression(true)
         ->build(),
@@ -60,7 +60,7 @@ $machinestates = [
         ->transitions([
             TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS,
             TR_BIRD_DISCARD => ST_BIRD_DISCARD,
-            TR_END_GAME => ST_END_GAME,
+            TR_END_GAME => ST_END_SCORE,
         ])
         ->build(),
 
@@ -86,9 +86,9 @@ $machinestates = [
         ->updateGameProgression(true)
         ->transitions([
             TR_NEXT_PLAYER => ST_PLAYER_TURN,
-            TR_END_GAME => ST_END_GAME,
+            TR_END_GAME => ST_END_SCORE,
         ])
         ->build(),
 
-    // 98 => GameStateBuilder::endScore()->build(),
+    98 => GameStateBuilder::endScore()->build(),
 ];

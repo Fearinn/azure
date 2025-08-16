@@ -7,6 +7,7 @@ use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\stats\StatManager;
 
 class StoneManager extends CardManager
 {
@@ -73,6 +74,9 @@ class StoneManager extends CardManager
             ],
             $player_id
         );
+
+        $StatManager = new StatManager($this->game);
+        $StatManager->inc($player_id, STAT_STONES_PLACED);
     }
 
     public function remove(int $player_id, int $space_id): void {

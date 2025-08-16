@@ -8,6 +8,7 @@ use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\score\ScoreManager;
+use Bga\Games\Azure\stats\StatManager;
 
 class ActPlaceStone extends ActionManager
 {
@@ -31,6 +32,10 @@ class ActPlaceStone extends ActionManager
         $QiManager->discardByDomain($this->player_id, $cost, $domain_id);
 
         $Space->gatherBoons($this->player_id);
+
+        $discount = $Space->baseCost - $cost;
+        $StatManager = new StatManager($this->game);
+        $StatManager->inc($this->player_id, STAT_DISCOUNTS_GAINED, $discount);
 
         $ScoreManager = new ScoreManager($this->game);
         if ($ScoreManager->getHigherScore() === 25) {

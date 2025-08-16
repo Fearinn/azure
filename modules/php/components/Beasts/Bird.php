@@ -31,9 +31,9 @@ class Bird extends Beast
         }
 
         $SpaceManager = new SpaceManager($this->game);
-        $bondsCount = $SpaceManager->countOccupiedByDomain($player_id, 3);
+        $bondCount = $SpaceManager->countOccupiedByDomain($player_id, 3);
 
-        if ($bondsCount < 2) {
+        if ($bondCount < 2) {
             return false;
         }
 
@@ -41,8 +41,8 @@ class Bird extends Beast
             return true;
         }
 
-        $favoredBondsCount = $SpaceManager->countOccupiedByDomain($favoredPlayer, 3);
-        return $bondsCount > $favoredBondsCount;
+        $favoredBondCount = $SpaceManager->countOccupiedByDomain($favoredPlayer, 3);
+        return $bondCount > $favoredBondCount;
     }
 
     public function bird_gainFavor(int $player_id): bool

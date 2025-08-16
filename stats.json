@@ -1,1 +1,29 @@
-{}
+{
+  "player": {
+    "STAT_STONES_PLACED": {
+      "id": 10,
+      "name": "stones placed",
+      "type": "int"
+    },
+    "STAT_FAVORS_GAINED": {
+      "id": 11,
+      "name": "favors gained",
+      "type": "int"
+    },
+    "STAT_QI_USED": {
+      "id": 12,
+      "name": "qi used",
+      "type": "int"
+    },
+    "STAT_DISCOUNTS_GAINED": {
+      "id": 13,
+      "name": "total discounts",
+      "type": "int"
+    },
+    "STAT_REMAINING_QI": {
+      "id": 14,
+      "name": "remaining qi",
+      "type": "int"
+    }
+  }
+}

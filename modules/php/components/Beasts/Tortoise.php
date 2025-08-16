@@ -31,9 +31,9 @@ class Tortoise extends Beast
         }
 
         $SpaceManager = new SpaceManager($this->game);
-        $bondsCount = $SpaceManager->countOccupiedSerpents($player_id);
+        $bondCount = $SpaceManager->countOccupiedSerpents($player_id);
 
-        if ($bondsCount < 2) {
+        if ($bondCount < 2) {
             return false;
         }
 
@@ -41,8 +41,8 @@ class Tortoise extends Beast
             return true;
         }
 
-        $favoredBondsCount = $SpaceManager->countOccupiedSerpents($favoredPlayer);
-        return $bondsCount > $favoredBondsCount;
+        $favoredBondCount = $SpaceManager->countOccupiedSerpents($favoredPlayer);
+        return $bondCount > $favoredBondCount;
     }
 
     public function gainFavor(int $player_id): void

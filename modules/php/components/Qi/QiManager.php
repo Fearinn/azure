@@ -5,6 +5,7 @@ namespace Bga\Games\Azure\components\Qi;
 use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\stats\StatManager;
 
 class QiManager extends CardManager
 {
@@ -122,6 +123,9 @@ class QiManager extends CardManager
             ],
             $player_id,
         );
+
+        $StatManager = new StatManager($this->game);
+        $StatManager->inc($player_id, STAT_QI_USED);
     }
 
     public function discardCards(int $player_id, array $cards): void

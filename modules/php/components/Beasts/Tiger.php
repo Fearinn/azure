@@ -32,9 +32,9 @@ class Tiger extends Beast
         $SpaceManager = new SpaceManager($this->game);
         $Space = $SpaceManager->getById($this->space_id);
 
-        $bondsCount = $Space->countBonds($player_id);
+        $bondCount = $Space->countBonds($player_id);
 
-        if ($bondsCount < 2) {
+        if ($bondCount < 2) {
             return false;
         }
 
@@ -42,8 +42,8 @@ class Tiger extends Beast
             return true;
         }
 
-        $favoredBondsCount = $Space->countBonds($favoredPlayer);
-        return $bondsCount > $favoredBondsCount;
+        $favoredBondCount = $Space->countBonds($favoredPlayer);
+        return $bondCount > $favoredBondCount;
     }
 
     public function gainFavor(int $player_id): void

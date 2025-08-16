@@ -4,6 +4,7 @@ namespace Bga\Games\Azure\components\Beasts;
 
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\stats\StatManager;
 
 class Beast extends BeastManager
 {
@@ -40,6 +41,9 @@ class Beast extends BeastManager
             ],
             $player_id,
         );
+
+        $StatManager = new StatManager($this->game);
+        $StatManager->inc($player_id, STAT_FAVORS_GAINED);
     }
 
     public function loseFavor(): void
