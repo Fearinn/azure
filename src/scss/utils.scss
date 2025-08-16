@@ -1,9 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap");
-
-@font-face {
-  font-family: "The Slavic";
-  src: url("img/font_the-slavic/TheSlavicFont-Regular.ttf");
-}
+@use "fonts";
 
 .player-name a:first-of-type,
 .playername {
