@@ -80,6 +80,10 @@ class Space extends Subclass
         for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
             $Space = new Space($this->game, $bond_x, $y);
 
+            if ($Space->isTortoiseFavor($player_id)) {
+                $bondCount++;
+            }
+
             if ($Space->isMountain) {
                 break;
             }
@@ -92,6 +96,10 @@ class Space extends Subclass
         for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
             $Space = new Space($this->game, $x, $bond_y);
 
+            if ($Space->isTortoiseFavor($player_id)) {
+                $bondCount++;
+            }
+
             if ($Space->isMountain) {
                 break;
             }
@@ -103,6 +111,10 @@ class Space extends Subclass
 
         for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
             $Space = new Space($this->game, $x, $bond_y);
+
+            if ($Space->isTortoiseFavor($player_id)) {
+                $bondCount++;
+            }
 
             if ($Space->isMountain) {
                 break;
