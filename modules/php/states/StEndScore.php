@@ -24,5 +24,7 @@ class StEndScore extends StateManager
             $StatManager->initEndExclusive();
             $StatManager->inc($player_id, STAT_REMAINING_QI, $handCount);
         }
+
+        $this->game->gamestate->nextState();
     }
 }
