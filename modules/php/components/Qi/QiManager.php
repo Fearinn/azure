@@ -125,7 +125,7 @@ class QiManager extends CardManager
         );
 
         $StatManager = new StatManager($this->game);
-        $StatManager->inc($player_id, STAT_QI_USED);
+        $StatManager->inc($player_id, STAT_QI_USED, $nbr);
     }
 
     public function discardCards(int $player_id, array $cards): void
