@@ -120,7 +120,7 @@ class QiManager extends CardManager
             [
                 "i18n" => ["qi_label"],
                 "preserve" => ["domain_id"],
-                "cards" => $cards,
+                "cards" => array_values($cards),
                 "nbr" => $nbr,
                 "handCount" => $this->getHandCount($player_id),
                 "nbr_log" => $nbr,
@@ -157,6 +157,8 @@ class QiManager extends CardManager
                 continue;
             }
 
+            $nbr = count($cards);
+
             $Notify = new NotifManager($this->game);
             $Notify->all(
                 "discardQi",
@@ -164,10 +166,10 @@ class QiManager extends CardManager
                 [
                     "i18n" => ["qi_label"],
                     "preserve" => ["domain_id"],
-                    "cards" => $cards,
-                    "nbr" => count($cards),
+                    "cards" => array_values($cards),
+                    "nbr" => $nbr,
                     "handCount" => $this->getHandCount($player_id),
-                    "nbr_log" => count($cards),
+                    "nbr_log" => $nbr,
                     "qi_label" => $this->QI[$domain_id]["label"],
                     "qi_icon" => "",
                     "domain_id" => $domain_id,
@@ -195,7 +197,7 @@ class QiManager extends CardManager
             [
                 "i18n" => ["qi_label"],
                 "preserve" => ["domain_id"],
-                "cards" => $cards,
+                "cards" => array_values($cards),
                 "nbr" => $nbr,
                 "handCount" => $this->getHandCount($player_id),
                 "nbr_log" => $nbr,
