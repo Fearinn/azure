@@ -607,8 +607,11 @@ body > .card {
 
 .azr_hand {
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
   gap: 16px;
+  width: 100%;
+  max-width: calc(var(--domain-width) * 3);
 }
 
 :root {
