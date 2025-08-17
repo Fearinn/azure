@@ -4,8 +4,8 @@ define([
   "ebg/core/gamegui",
   "ebg/counter",
   getLibUrl("bga-autofit", "1.x"),
-], function (dojo, declare, counter, gamegui, BgaAutoFit) {
-  (window as any).BgaAutoFit = BgaAutoFit;
+], function (dojo, declare, counter, gamegui, BgaAutofit) {
+  (window as any).BgaAutofit = BgaAutofit;
 
   return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });

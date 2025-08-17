@@ -1,5 +1,7 @@
 interface GiftedCard {
   id: number;
+  label: string;
+  description: string;
 }
 
 interface GiftedStocks {
@@ -29,12 +31,16 @@ class GiftedManager {
       },
       setupDiv: ({ id }, element) => {
         element.classList.add("azr_card", "azr_giftedCard");
-        element.style.backgroundImage = `url(${g_gamethemeurl}img/giftedCard_${id})`;
+        element.style.backgroundImage = `url(${g_gamethemeurl}img/giftedCard_${id}.jpg)`;
+
+        const { label, description } = this.card;
 
         element.insertAdjacentHTML(
           "beforeend",
-          `<span class="bga-autofit azr_giftedCardTitle"></span>
-          <span class="bga-autofit azr_giftedCardDescription"></span>`
+          `<span class="bga-autofit azr_giftedCardTitle">${_(label)}</span>
+          <span class="bga-autofit azr_giftedCardDescription">${_(
+            description
+          )}</span>`
         );
       },
     });

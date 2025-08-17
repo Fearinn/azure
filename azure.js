@@ -2343,8 +2343,8 @@ define([
     "ebg/core/gamegui",
     "ebg/counter",
     getLibUrl("bga-autofit", "1.x"),
-], function (dojo, declare, counter, gamegui, BgaAutoFit) {
-    window.BgaAutoFit = BgaAutoFit;
+], function (dojo, declare, counter, gamegui, BgaAutofit) {
+    window.BgaAutofit = BgaAutofit;
     return declare("bgagame.azure", ebg.core.gamegui, new Azure());
 });
 var NotifManager = /** @class */ (function () {
@@ -2644,7 +2644,7 @@ var AzureTemplate = /** @class */ (function () {
         this.setupPanels();
         this.setupStocks();
         this.initObserver();
-        // BgaAutofit.init();
+        BgaAutofit.init();
     };
     return AzureTemplate;
 }());
@@ -2834,6 +2834,7 @@ var GiftedManager = /** @class */ (function () {
         this.card = this.gamedatas.giftedCard;
     }
     GiftedManager.prototype.create = function () {
+        var _this = this;
         var manager = new CardManager(this.game, {
             getId: function (_a) {
                 var id = _a.id;
@@ -2842,8 +2843,9 @@ var GiftedManager = /** @class */ (function () {
             setupDiv: function (_a, element) {
                 var id = _a.id;
                 element.classList.add("azr_card", "azr_giftedCard");
-                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/giftedCard_").concat(id, ")");
-                element.insertAdjacentHTML("beforeend", "<span class=\"bga-autofit azr_giftedCardTitle\"></span>\n          <span class=\"bga-autofit azr_giftedCardDescription\"></span>");
+                element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/giftedCard_").concat(id, ".jpg)");
+                var _b = _this.card, label = _b.label, description = _b.description;
+                element.insertAdjacentHTML("beforeend", "<span class=\"bga-autofit azr_giftedCardTitle\">".concat(_(label), "</span>\n          <span class=\"bga-autofit azr_giftedCardDescription\">").concat(_(description), "</span>"));
             },
         });
         this.gamedatas.managers.gifted = manager;

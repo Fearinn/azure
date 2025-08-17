@@ -229,6 +229,6 @@ class AzureTemplate {
     this.setupPanels();
     this.setupStocks();
     this.initObserver();
-    // BgaAutofit.init();
+    BgaAutofit.init();
   }
 }

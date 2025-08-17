@@ -4,6 +4,33 @@
 }
 
 .azr_giftedCard {
+  font-weight: bold;
+  color: #ffffff;
   aspect-ratio: 1 / 1.52;
   width: var(--qi-width);
+
+  &Title {
+    font-family: "The Slavic", Roboto;
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 24%;
+    left: 35%;
+    transform: translateX(-50%);
+    height: calc(var(--qi-width) / 8);
+    width: calc(var(--qi-width) / 2);
+  }
+
+  &Description {
+    font-family: "Montserrat", Roboto;
+    font-size: 8px;
+    text-align: center;
+    position: absolute;
+    bottom: 3%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: calc(var(--qi-width) * 0.3);
+    width: calc(var(--qi-width) * 0.8);
+  }
 }

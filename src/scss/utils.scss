@@ -32,4 +32,9 @@
 
 .azr_card {
   position: relative;
+  background-size: cover;
+
+  .card-side {
+    background-size: cover;
+  }
 }
