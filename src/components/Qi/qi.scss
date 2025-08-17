@@ -56,10 +56,12 @@
 
 .azr_handTitle {
   color: var(--color);
+  position: relative;
+  bottom: 24px;
   border-radius: 8px;
   font-size: 48px;
-  align-self: start;
   background-color: var(--opp-color);
+  box-shadow: 0 0 8px var(--color);
   margin: 0;
   padding: 4px;
 }
