@@ -44,6 +44,6 @@ class StatManager extends Subclass
         string $statName,
         int $inc = 1
     ) {
-        $this->game->incStat(1, $statName, $player_id);
+        $this->game->incStat($inc, $statName, $player_id);
     }
 }

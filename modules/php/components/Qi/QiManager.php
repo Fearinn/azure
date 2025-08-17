@@ -116,16 +116,23 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "discardQi",
-            "",
+            clienttranslate('${player_name} pays ${nbr_log} ${qi_label} qi ${qi_icon}'),
             [
-                "cards" => array_values($cards),
+                "i18n" => ["qi_label"],
+                "preserve" => ["domain_id"],
+                "cards" => $cards,
+                "nbr" => $nbr,
                 "handCount" => $this->getHandCount($player_id),
+                "nbr_log" => $nbr,
+                "qi_label" => $this->QI[$domain_id]["label"],
+                "qi_icon" => "",
+                "domain_id" => $domain_id,
             ],
             $player_id,
         );
 
         $StatManager = new StatManager($this->game);
-        $StatManager->inc($player_id, STAT_QI_USED);
+        $StatManager->inc($player_id, STAT_QI_USED, $nbr);
     }
 
     public function discardCards(int $player_id, array $cards): void
