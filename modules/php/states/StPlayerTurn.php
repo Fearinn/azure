@@ -3,6 +3,7 @@
 namespace Bga\Games\Azure\states;
 
 use Bga\Games\Azure\components\Spaces\SpaceManager;
+use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\score\ScoreManager;
 
@@ -34,7 +35,12 @@ class StPlayerTurn extends StateManager
         $player_id = (int) $this->game->getActivePlayerId();
         $args = $this->getArgs();
 
-        if (!$args["_private"]["active"]["selectableSpaces"]) {
+        $selectableSpaces = $args["_private"]["active"]["selectableSpaces"];
+
+        $StoneManager = new StoneManager($this->game);
+        $stoneHandCount = $StoneManager->getHandCount($player_id);
+
+        if (!$selectableSpaces && $stoneHandCount === 0) {
             $ScoreManager = new ScoreManager($this->game);
             $ScoreManager->setScore($player_id, -1);
 
