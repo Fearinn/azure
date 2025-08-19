@@ -11,7 +11,7 @@
 
   &Title {
     font-family: "The Slavic", Roboto;
-    font-size: 28px;
+    font-size: 32px;
     text-align: center;
     text-transform: uppercase;
     position: absolute;
@@ -32,5 +32,13 @@
     transform: translateX(-50%);
     height: calc(var(--qi-width) * 0.3);
     width: calc(var(--qi-width) * 0.8);
+  }
+}
+
+.azr_giftedCardTooltip {
+  --qi-width: 300px;
+
+  .azr_giftedCardDescription {
+    font-size: 56px;
   }
 }

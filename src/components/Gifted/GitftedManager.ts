@@ -42,6 +42,14 @@ class GiftedManager {
             description
           )}</span>`
         );
+
+        const cloneElement = element.cloneNode(true) as HTMLElement;
+        cloneElement.removeAttribute("id");
+
+        this.game.addTooltipHtml(
+          element.id,
+          `<div class="azr_tooltip azr_giftedCardTooltip">${cloneElement.outerHTML}</div>`
+        );
       },
     });
 

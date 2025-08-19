@@ -2846,6 +2846,9 @@ var GiftedManager = /** @class */ (function () {
                 element.style.backgroundImage = "url(".concat(g_gamethemeurl, "img/giftedCard_").concat(id, ".jpg)");
                 var _b = _this.card, label = _b.label, description = _b.description;
                 element.insertAdjacentHTML("beforeend", "<span class=\"bga-autofit azr_giftedCardTitle\">".concat(_(label), "</span>\n          <span class=\"bga-autofit azr_giftedCardDescription\">").concat(_(description), "</span>"));
+                var cloneElement = element.cloneNode(true);
+                cloneElement.removeAttribute("id");
+                _this.game.addTooltipHtml(element.id, "<div class=\"azr_tooltip azr_giftedCardTooltip\">".concat(cloneElement.outerHTML, "</div>"));
             },
         });
         this.gamedatas.managers.gifted = manager;
