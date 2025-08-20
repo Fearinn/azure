@@ -33,8 +33,18 @@ class GiftedManager extends Subclass
     protected function getGiftedId(): int
     {
         $card = $this->globals->get(G_GIFTED_CARD);
+
+        if ($card === null) {
+            return 0;
+        }
+
         $gifted_id = (int) $card["id"];
 
         return $gifted_id;
+    }
+
+    public function isEnabled(): bool
+    {
+        return $this->getGiftedId() > 0;
     }
 }

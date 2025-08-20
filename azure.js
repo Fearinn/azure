@@ -2579,7 +2579,7 @@ var AzureTemplate = /** @class */ (function () {
             var player_id = Number(p_id);
             var player_color = this.gamedatas.players[player_id].color;
             var playerPanel = this.game.getPlayerPanelElement(player_id);
-            playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_stoneCounter-".concat(player_id, "\" class=\"azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\" azr_counterIcon azr_stone azr_stone-").concat(player_color, " azr_stoneCounterIcon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counterIcon azr_handCounterIcon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>"));
+            playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_giftedStone-".concat(player_id, "\" class=\"azr_giftedStone\"></div>\n        <div id=\"azr_stoneCounter-").concat(player_id, "\" class=\"azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\" azr_counterIcon azr_stone azr_stone-").concat(player_color, " azr_stoneCounterIcon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counterIcon azr_handCounterIcon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>"));
             this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
                 hand: new ebg.counter(),
                 stones: new ebg.counter(),
@@ -3273,6 +3273,7 @@ var StoneManager = /** @class */ (function () {
         this.stocks = this.gamedatas.stocks.stones;
     }
     StoneManager.prototype.create = function () {
+        var _a;
         var _this = this;
         var manager = new CardManager(this.game, {
             getId: function (_a) {
@@ -3283,25 +3284,35 @@ var StoneManager = /** @class */ (function () {
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
             setupDiv: function (card, element) {
-                element.classList.add("azr_stone");
-                var player_id = card.type_arg;
+                element.classList.add("azr_card", "azr_stone");
+                var player_id = card.type_arg, type = card.type;
                 var color = _this.gamedatas.players[player_id].color;
                 element.classList.add("azr_stone-".concat(color));
+                if (type === "gifted") {
+                    element.classList.add("azr_stone-gifted");
+                    element.style.setProperty("--gifted-bg", "url(".concat(g_gamethemeurl, "img/giftedStone_").concat(color, ".png)"));
+                }
                 var stone = new Stone(_this.game, card);
                 var tooltip = stone.buildTooltip();
                 _this.game.addTooltipHtml(element.id, tooltip);
             },
         });
-        this.gamedatas.stocks.stones = {
+        var stocks = {
             realm: new CardStock(manager, document.getElementById("azr_stones"), {}),
             void: new VoidStock(manager, document.getElementById("azr_stonesVoid")),
         };
+        for (var player_id in this.gamedatas.players) {
+            stocks = __assign(__assign({}, stocks), (_a = {}, _a[player_id] = {
+                gifted: new CardStock(manager, document.getElementById("azr_giftedStone-".concat(player_id))),
+            }, _a));
+        }
+        this.gamedatas.stocks.stones = stocks;
         this.gamedatas.managers.stones = manager;
     };
     StoneManager.prototype.setupStocks = function () {
         var _this = this;
-        var placedStones = this.gamedatas.placedStones;
-        placedStones.forEach(function (stoneCard) {
+        var _a = this.gamedatas, placedStones = _a.placedStones, giftedStones = _a.giftedStones;
+        __spreadArray(__spreadArray([], placedStones, true), giftedStones, true).forEach(function (stoneCard) {
             var stone = new Stone(_this.game, stoneCard);
             stone.setup();
         });
@@ -3321,10 +3332,14 @@ var Stone = /** @class */ (function (_super) {
         return _this;
     }
     Stone.prototype.setup = function () {
-        var space_id = this.card.location_arg;
-        this.stocks.realm.addCard(this.card, {}, {
-            forceToElement: document.getElementById("azr_space-".concat(space_id)),
-        });
+        var _a = this.card, location = _a.location, space_id = _a.location_arg;
+        if (location === "realm") {
+            this.stocks.realm.addCard(this.card, {}, {
+                forceToElement: document.getElementById("azr_space-".concat(space_id)),
+            });
+            return;
+        }
+        this.stocks[this.player_id].gifted.addCard(this.card);
     };
     Stone.prototype.place = function (player_id, space_id) {
         return __awaiter(this, void 0, void 0, function () {
@@ -3356,7 +3371,8 @@ var Stone = /** @class */ (function (_super) {
     };
     Stone.prototype.buildTooltip = function () {
         var _a = this.gamedatas.players[this.player_id], name = _a.name, color = _a.color;
-        var label = this.game.format_string_recursive(_("${player_name}'s stone"), {
+        var label = this.game.format_string_recursive(_("${player_name}'s ${common_or_gifted} stone"), {
+            common_or_gifted: this.card.type === "common" ? _("common") : _("gifted"),
             player_name: name,
         });
         var utils = new Utils(this.game);

@@ -165,6 +165,7 @@ class Game extends \Bga\GameFramework\Table
             "placedStones" => $StoneManager->getPlaced(),
             "stoneCounts" => $StoneManager->getHandsCounts(),
             "giftedCard" => $this->globals->get(G_GIFTED_CARD),
+            "giftedStones" => $StoneManager->getGifted(),
         ];
 
         if (!$this->isSpectator()) {
@@ -199,6 +200,9 @@ class Game extends \Bga\GameFramework\Table
         $this->reloadPlayersBasicInfos();
         $this->activeNextPlayer();
 
+        $GiftedManager = new GiftedManager($this);
+        $GiftedManager->setup();
+
         $SpaceManager = new SpaceManager($this);
         $SpaceManager->setup();
 
@@ -210,9 +214,6 @@ class Game extends \Bga\GameFramework\Table
 
         $BeastManager = new BeastManager($this);
         $BeastManager->setup();
-
-        $GiftedManager = new GiftedManager($this);
-        $GiftedManager->setup();
 
         $StatManager = new StatManager($this);
         $StatManager->init();

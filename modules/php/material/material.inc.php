@@ -107,6 +107,6 @@ $this->GIFTED_CARDS = [
         "id" => 4,
         "label" => clienttranslate("Favored"),
         "description" =>
-        clienttranslate("Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same numberof stones guarding it as your opponen"),
+        clienttranslate("Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same number of stones guarding it as your opponent."),
     ]
 ];

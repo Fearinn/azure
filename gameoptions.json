@@ -33,7 +33,7 @@
       },
       "4": {
         "name": "Favored",
-        "description": "Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same numberof stones guarding it as your opponent",
+        "description": "Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same number of stones guarding it as your opponent",
         "nobeginner": true,
         "alpha": true
       }

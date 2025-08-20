@@ -17,10 +17,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
       realm: CardStock<SpaceCard>;
     };
     qi?: QiStocks;
-    stones?: {
-      void: CardStock<StoneCard>;
-      realm: CardStock<StoneCard>;
-    };
+    stones?: StoneStocks;
     wisdom?: {
       [score: number]: CardStock<WisdomCard>;
     };
@@ -58,6 +55,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   };
   placedStones: StoneCard[];
   giftedCard: GiftedCard;
+  giftedStones: StoneCard[];
 }
 
 interface AzureGui extends Game {

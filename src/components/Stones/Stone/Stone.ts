@@ -9,15 +9,20 @@ class Stone extends StoneManager implements Stone {
   }
 
   public setup(): void {
-    const { location_arg: space_id } = this.card;
+    const { location, location_arg: space_id } = this.card;
 
-    this.stocks.realm.addCard(
-      this.card,
-      {},
-      {
-        forceToElement: document.getElementById(`azr_space-${space_id}`),
-      }
-    );
+    if (location === "realm") {
+      this.stocks.realm.addCard(
+        this.card,
+        {},
+        {
+          forceToElement: document.getElementById(`azr_space-${space_id}`),
+        }
+      );
+      return;
+    }
+
+    this.stocks[this.player_id].gifted.addCard(this.card);
   }
 
   public async place(player_id: number, space_id: number): Promise<void> {
@@ -39,8 +44,10 @@ class Stone extends StoneManager implements Stone {
     const { name, color } = this.gamedatas.players[this.player_id];
 
     const label = this.game.format_string_recursive(
-      _("${player_name}'s stone"),
+      _("${player_name}'s ${common_or_gifted} stone"),
       {
+        common_or_gifted:
+          this.card.type === "common" ? _("common") : _("gifted"),
         player_name: name,
       }
     );

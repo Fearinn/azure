@@ -3,6 +3,7 @@
 namespace Bga\Games\Azure\components\Stones;
 
 use Bga\Games\Azure\components\CardManager;
+use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\Game;
@@ -26,7 +27,7 @@ class StoneManager extends CardManager
         $players = $this->game->loadPlayersBasicInfos();
 
         foreach ($players as $player_id => $player) {
-            $stone_cards[] = ["type" => "", "type_arg" => $player_id, "nbr" => 14];
+            $stone_cards[] = ["type" => "common", "type_arg" => $player_id, "nbr" => 14];
         }
 
         $this->deck->createCards($stone_cards, "deck");
@@ -35,6 +36,8 @@ class StoneManager extends CardManager
             $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='hand', card_location_arg={$player_id} 
             WHERE card_location='deck' AND card_type_arg={$player_id}");
         }
+
+        $this->setupGifted();
     }
 
     public function checkBySpace(int $space_id, int $player_id = null): bool
@@ -79,7 +82,8 @@ class StoneManager extends CardManager
         $StatManager->inc($player_id, STAT_STONES_PLACED);
     }
 
-    public function remove(int $player_id, int $space_id): void {
+    public function remove(int $player_id, int $space_id): void
+    {
         $SpaceManager = new SpaceManager($this->game, $space_id);
         $Space = $SpaceManager->getById($space_id);
 
@@ -109,5 +113,32 @@ class StoneManager extends CardManager
     {
         $placedStones = $this->deck->getCardsInLocation("realm");
         return array_values($placedStones);
+    }
+
+    private function setupGifted(): void
+    {
+        $GiftedManager = new GiftedManager($this->game);
+        if (!$GiftedManager->isEnabled()) {
+            return;
+        }
+
+        $cards = [];
+        $players = $this->game->loadPlayersBasicInfos();
+        foreach ($players as $player_id => $player) {
+            $cards[] = ["type" => "gifted", "type_arg" => $player_id, "nbr" => 1];
+        }
+
+        $this->deck->createCards($cards, "deck");
+
+        foreach ($players as $player_id => $player) {
+            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='gifted', card_location_arg={$player_id} 
+            WHERE card_location='deck' AND card_type_arg={$player_id}");
+        }
+    }
+
+    public function getGifted(): array
+    {
+        $cards = $this->deck->getCardsOfType("gifted");
+        return array_values($cards);
     }
 }
