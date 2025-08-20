@@ -43,6 +43,7 @@ $machinestates = [
         ->action("st_playerTurn")
         ->possibleactions([
             "act_placeStone",
+            "act_placeGifted",
         ])
         ->transitions([
             TR_CHECK_BEASTS => ST_CHECK_BEASTS,

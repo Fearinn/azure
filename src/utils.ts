@@ -91,4 +91,4 @@ class Utils {
   }
 }
 
-type ActionName = "act_placeStone" | "act_birdDiscard";
+type ActionName = "act_placeStone" | "act_placeGifted" | "act_birdDiscard";

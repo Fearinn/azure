@@ -3465,6 +3465,9 @@ var StateManager = /** @class */ (function () {
             case "birdDiscard":
                 new StBirdDiscard(this.game).enter(args);
                 break;
+            case "client_placeGifted":
+                new StPlaceGifted(this.game).enter(args);
+                break;
         }
     };
     StateManager.prototype.onLeaving = function (stateName) {
@@ -3477,6 +3480,9 @@ var StateManager = /** @class */ (function () {
                 break;
             case "birdDiscard":
                 new StBirdDiscard(this.game).leave();
+                break;
+            case "client_placeGifted":
+                new StPlaceGifted(this.game).leave();
                 break;
         }
     };
@@ -3504,13 +3510,42 @@ var StPlayerTurn = /** @class */ (function (_super) {
         return _super.call(this, game) || this;
     }
     StPlayerTurn.prototype.enter = function (args) {
+        var _this = this;
         var _private = args._private;
         var spaceManager = new SpaceManager(this.game);
         spaceManager.makeSelectable(_private.selectableSpaces);
+        this.game.statusBar.addActionButton(_("play gifted stone instead"), function () {
+            _this.game.setClientState("client_placeGifted", {
+                /* @ts-ignore */
+                descriptionmyturn: _("${you} must place your gifted stone"),
+            });
+        });
     };
     StPlayerTurn.prototype.leave = function () {
         var spaceManager = new SpaceManager(this.game);
         spaceManager.makeUnselectable();
     };
     return StPlayerTurn;
+}(StateManager));
+var StPlaceGifted = /** @class */ (function (_super) {
+    __extends(StPlaceGifted, _super);
+    function StPlaceGifted(game) {
+        return _super.call(this, game) || this;
+    }
+    StPlaceGifted.prototype.enter = function (args) {
+        var _this = this;
+        var _private = args._private;
+        var spaceManager = new SpaceManager(this.game);
+        spaceManager.makeSelectable(_private.selectableGifted);
+        this.game.statusBar.addActionButton(_("cancel"), function () {
+            _this.game.restoreServerGameState();
+        }, {
+            color: "alert",
+        });
+    };
+    StPlaceGifted.prototype.leave = function () {
+        var spaceManager = new SpaceManager(this.game);
+        spaceManager.makeUnselectable();
+    };
+    return StPlaceGifted;
 }(StateManager));

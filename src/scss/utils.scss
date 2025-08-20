@@ -38,3 +38,9 @@
     background-size: cover;
   }
 }
+
+.azr_button {
+  &-hidden {
+    display: none !important;
+  }
+}
