@@ -141,4 +141,9 @@ class StoneManager extends CardManager
         $cards = $this->deck->getCardsOfType("gifted");
         return array_values($cards);
     }
+
+    public function canPlayGifted(int $player_id): bool
+    {
+        return $this->deck->countCardsInLocation("gifted", $player_id) > 0;
+    }
 }

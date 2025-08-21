@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Azure\states;
 
+use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
@@ -20,10 +21,17 @@ class StPlayerTurn extends StateManager
 
         $SpaceManager = new SpaceManager($this->game);
         $selectableSpaces = $SpaceManager->getSelectable($player_id);
+        $selectableGifted = $SpaceManager->getSelectableGifted($player_id);
+
+        $GiftedManager = new GiftedManager($this->game);
 
         $args = [
             "_private" => [
-                "active" => ["selectableSpaces" => $selectableSpaces],
+                "active" => [
+                    "selectableSpaces" => $selectableSpaces,
+                    "selectableGifted" => $selectableGifted,
+                    "canPlayGifted" => $GiftedManager->canPlay($player_id),
+                ],
             ]
         ];
 

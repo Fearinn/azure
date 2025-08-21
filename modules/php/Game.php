@@ -149,6 +149,7 @@ class Game extends \Bga\GameFramework\Table
         $BeastManager = new BeastManager($this);
         $QiManager = new QiManager($this);
         $StoneManager = new StoneManager($this);
+        $GiftedManager = new GiftedManager($this);
 
         $gamedatas = [
             "players" => $this->getCollectionFromDb("SELECT `player_id` `id`, `player_score` `score` FROM `player`"),
@@ -164,7 +165,7 @@ class Game extends \Bga\GameFramework\Table
             "handsCounts" => $QiManager->getHandsCounts(),
             "placedStones" => $StoneManager->getPlaced(),
             "stoneCounts" => $StoneManager->getHandsCounts(),
-            "giftedCard" => $this->globals->get(G_GIFTED_CARD),
+            "giftedCard" => $GiftedManager->getGiftedCard(),
             "giftedStones" => $StoneManager->getGifted(),
         ];
 

@@ -2,6 +2,7 @@
 
 namespace Bga\Games\Azure\components\Spaces;
 
+use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\Subclass;
 
@@ -106,24 +107,6 @@ class SpaceManager extends Subclass
         throw new \BgaVisibleSystemException("no space found");
     }
 
-    public function getSelectable(int $player_id): array
-    {
-        $selectableSpaces = [];
-
-        $realm = $this->globals->get(G_REALM);
-        foreach ($realm as $x => $column) {
-            foreach ($column as $y => $space_id) {
-                $Space = new Space($this->game, $x, $y);
-
-                if ($Space->isSelectable($player_id)) {
-                    $selectableSpaces[] = ["id" => $space_id, "x" => $x, "y" => $y];
-                }
-            }
-        }
-
-        return $selectableSpaces;
-    }
-
     public function countOccupiedSerpents(int $player_id): int
     {
         $serpentCount = 0;
@@ -164,5 +147,38 @@ class SpaceManager extends Subclass
         }
 
         return $count;
+    }
+
+    public function getSelectable(int $player_id, int $extraCost = 0): array
+    {
+        $selectableSpaces = [];
+
+        $realm = $this->globals->get(G_REALM);
+        foreach ($realm as $x => $column) {
+            foreach ($column as $y => $space_id) {
+                $Space = new Space($this->game, $x, $y);
+
+                if ($Space->isSelectable($player_id, $extraCost)) {
+                    $selectableSpaces[] = ["id" => $space_id, "x" => $x, "y" => $y];
+                }
+            }
+        }
+
+        return $selectableSpaces;
+    }
+
+    public function getSelectableGifted(int $player_id): array
+    {
+        $GiftedManager = new GiftedManager($this->game);
+
+        if (!$GiftedManager->isEnabled()) {
+            return [];
+        }
+
+        $extraCost = $GiftedManager->getExtraCost();
+
+        $selectableSpaces = $this->getSelectable($player_id, $extraCost);
+
+        return $selectableSpaces;
     }
 }

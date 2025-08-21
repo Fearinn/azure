@@ -65,7 +65,10 @@ class SpaceManager {
     this.setupStocks();
   }
 
-  makeSelectable(selectableSpaces?: SpaceCard[]): void {
+  makeSelectable(
+    selectableSpaces?: SpaceCard[],
+    action: ActionName = "act_placeStone"
+  ): void {
     this.stocks.realm.setSelectionMode("single");
     this.stocks.realm.setSelectableCards(selectableSpaces);
 
@@ -81,12 +84,12 @@ class SpaceManager {
       const { x, y } = card;
 
       if (this.game.getGameUserPreference(101) === 0) {
-        utils.performAction("act_placeStone", { x, y });
+        utils.performAction(action, { x, y });
         return;
       }
 
       utils.addConfirmationButton(_("confirm placement"), () => {
-        utils.performAction("act_placeStone", { x, y });
+        utils.performAction(action, { x, y });
       });
     };
   }

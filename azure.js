@@ -3232,8 +3232,9 @@ var SpaceManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
-    SpaceManager.prototype.makeSelectable = function (selectableSpaces) {
+    SpaceManager.prototype.makeSelectable = function (selectableSpaces, action) {
         var _this = this;
+        if (action === void 0) { action = "act_placeStone"; }
         this.stocks.realm.setSelectionMode("single");
         this.stocks.realm.setSelectableCards(selectableSpaces);
         this.stocks.realm.onSelectionChange = function (selection, card) {
@@ -3244,11 +3245,11 @@ var SpaceManager = /** @class */ (function () {
             }
             var x = card.x, y = card.y;
             if (_this.game.getGameUserPreference(101) === 0) {
-                utils.performAction("act_placeStone", { x: x, y: y });
+                utils.performAction(action, { x: x, y: y });
                 return;
             }
             utils.addConfirmationButton(_("confirm placement"), function () {
-                utils.performAction("act_placeStone", { x: x, y: y });
+                utils.performAction(action, { x: x, y: y });
             });
         };
     };
@@ -3523,14 +3524,17 @@ var StPlayerTurn = /** @class */ (function (_super) {
     StPlayerTurn.prototype.enter = function (args) {
         var _this = this;
         var _private = args._private;
+        var selectableSpaces = _private.selectableSpaces, canPlayGifted = _private.canPlayGifted;
         var spaceManager = new SpaceManager(this.game);
-        spaceManager.makeSelectable(_private.selectableSpaces);
-        this.game.statusBar.addActionButton(_("play gifted stone instead"), function () {
-            _this.game.setClientState("client_placeGifted", {
-                /* @ts-ignore */
-                descriptionmyturn: _("${you} must place your gifted stone"),
-            });
-        });
+        spaceManager.makeSelectable(selectableSpaces);
+        if (canPlayGifted) {
+            this.game.statusBar.addActionButton(_("play gifted stone instead"), function () {
+                _this.game.setClientState("client_placeGifted", {
+                    /* @ts-ignore */
+                    descriptionmyturn: _("${you} must place your gifted stone"),
+                });
+            }, { color: "secondary" });
+        }
     };
     StPlayerTurn.prototype.leave = function () {
         var spaceManager = new SpaceManager(this.game);
@@ -3553,7 +3557,7 @@ var StPlaceGifted = /** @class */ (function (_super) {
         });
         var player_id = Number(this.game.getActivePlayerId());
         var spaceManager = new SpaceManager(this.game);
-        spaceManager.makeSelectable(_private.selectableGifted);
+        spaceManager.makeSelectable(_private.selectableGifted, "act_placeGifted");
         var giftedManager = new GiftedManager(this.game);
         giftedManager.highlight(true);
         var stoneManager = new StoneManager(this.game);

@@ -5,15 +5,23 @@ class StPlayerTurn extends StateManager {
 
   enter(args: arg_playerTurn) {
     const { _private } = args;
-    const spaceManager = new SpaceManager(this.game);
-    spaceManager.makeSelectable(_private.selectableSpaces);
 
-    this.game.statusBar.addActionButton(_("play gifted stone instead"), () => {
-      this.game.setClientState("client_placeGifted", {
-        /* @ts-ignore */
-        descriptionmyturn: _("${you} must place your gifted stone"),
-      });
-    });
+    const { selectableSpaces, canPlayGifted } = _private;
+    const spaceManager = new SpaceManager(this.game);
+    spaceManager.makeSelectable(selectableSpaces);
+
+    if (canPlayGifted) {
+      this.game.statusBar.addActionButton(
+        _("play gifted stone instead"),
+        () => {
+          this.game.setClientState("client_placeGifted", {
+            /* @ts-ignore */
+            descriptionmyturn: _("${you} must place your gifted stone"),
+          });
+        },
+        { color: "secondary" }
+      );
+    }
   }
 
   leave() {
@@ -25,5 +33,6 @@ class StPlayerTurn extends StateManager {
 interface arg_playerTurn {
   _private: {
     selectableSpaces: SpaceCard[];
+    canPlayGifted: boolean;
   };
 }

@@ -87,24 +87,28 @@ $this->SERPENTS = [
 $this->GIFTED_CARDS = [
     1 => [
         "id" => 1,
+        "cost" => 2,
         "label" => clienttranslate("Mighty"),
         "description" =>
         clienttranslate("Your gifted stone provides two bonds (instead of one) to all spaces horizontally and vertically in line with it, unless blocked by a mountain."),
     ],
     2 => [
         "id" => 2,
+        "cost" => 2,
         "label" => clienttranslate("Perceptive"),
         "description" =>
         clienttranslate("Your gifted stone additionally provides one bond to all spaces diagonally in line with it, unless blocked by the center of a mountain."),
     ],
     3 => [
         "id" => 3,
+        "cost" => 1,
         "label" => clienttranslate("Bountiful"),
         "description" =>
         clienttranslate("Your gifted stone allows you to take one additional boon of your choice, chosen from the boons in the space, when you play a common stone in any surrounding space (including diagonally adjacent spaces)."),
     ],
     4 => [
         "id" => 4,
+        "cost" => 1,
         "label" => clienttranslate("Favored"),
         "description" =>
         clienttranslate("Your gifted stone lets you gain the favor of a Beast of a mountain that your gifted stone is guarding if you have the same number of stones guarding it as your opponent."),

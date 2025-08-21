@@ -128,10 +128,10 @@ class Space extends Subclass
         return $bondCount;
     }
 
-    public function getCost(int $player_id): int
+    public function getCost(int $player_id, int $extraCost = 0): int
     {
         $bondCount = $this->countBonds($player_id);
-        $cost = $this->baseCost - $bondCount;
+        $cost = $this->baseCost + $extraCost - $bondCount;
 
         if ($cost < 0) {
             $cost = 0;
@@ -140,16 +140,18 @@ class Space extends Subclass
         return $cost;
     }
 
-    private function canPayCost(int $player_id): bool
+    private function canPayCost(int $player_id, int $extraCost = 0): bool
     {
         $QiManager = new QiManager($this->game);
         $qiCount = $QiManager->countByDomain($player_id, $this->domain_id);
-        return $this->getCost($player_id) <= $qiCount;
+        return $this->getCost($player_id, $extraCost) <= $qiCount;
     }
 
-    public function isSelectable(int $player_id): bool
+    public function isSelectable(int $player_id, int $extraCost = 0): bool
     {
-        return !$this->isMountain && !$this->isOccupied() && $this->canPayCost($player_id);
+        return !$this->isMountain
+            && !$this->isOccupied()
+            && $this->canPayCost($player_id, $extraCost);
     }
 
     public function gatherBoons(int $player_id): void

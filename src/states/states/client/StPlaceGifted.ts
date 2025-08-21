@@ -19,7 +19,7 @@ class StPlaceGifted extends StateManager {
     const player_id = Number(this.game.getActivePlayerId());
 
     const spaceManager = new SpaceManager(this.game);
-    spaceManager.makeSelectable(_private.selectableGifted);
+    spaceManager.makeSelectable(_private.selectableGifted, "act_placeGifted");
 
     const giftedManager = new GiftedManager(this.game);
     giftedManager.highlight(true);
