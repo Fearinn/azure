@@ -60,7 +60,6 @@ class BeastManager extends CardManager
         $Dragon->check($player_id);
 
         if ($ScoreManager->getHigherScore() === 25) {
-            throw new \BgaUserException("TEST");
             $this->game->gamestate->nextState(TR_END_GAME);
             return;
         }
@@ -69,7 +68,6 @@ class BeastManager extends CardManager
         $Tiger->check($player_id);
 
         if ($ScoreManager->getHigherScore() === 25) {
-            throw new \BgaUserException("TEST");
             $this->game->gamestate->nextState(TR_END_GAME);
             return;
         }
