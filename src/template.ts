@@ -130,7 +130,8 @@ class AzureTemplate {
 
     for (const p_id in this.gamedatas.players) {
       const player_id = Number(p_id);
-      const { color: player_color } = this.gamedatas.players[player_id];
+      const { color: player_color, name: player_name } =
+        this.gamedatas.players[player_id];
 
       const playerPanel = this.game.getPlayerPanelElement(player_id);
       playerPanel.insertAdjacentHTML(
@@ -144,6 +145,32 @@ class AzureTemplate {
           <div id="azr_handIcon-${player_id}" class="azr_qi azr_counterIcon azr_handCounterIcon"></div>
           <span id="azr_handCount-${player_id}" class="azr_customFont-title azr_counterCount">0</span>
         </div>`
+      );
+
+      this.game.addTooltipHtml(
+        `azr_stoneCounter-${player_id}`,
+        `<span class="azr_tooltip">
+                ${
+                  /* @ts-ignore */
+                  this.game.format_string_recursive(
+                    "${player_name}'s common stones",
+                    { player_name }
+                  )
+                }
+        </span>`
+      );
+
+      this.game.addTooltipHtml(
+        `azr_handCounter-${player_id}`,
+        `<span class="azr_tooltip">
+                ${
+                  /* @ts-ignore */
+                  this.game.format_string_recursive(
+                    "${player_name}'s qi",
+                    { player_name }
+                  )
+                }
+        </span>`
       );
 
       this.gamedatas.counters = {
