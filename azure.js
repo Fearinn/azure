@@ -2869,6 +2869,11 @@ var GiftedManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
+    GiftedManager.prototype.highlight = function (highlight) {
+        this.stocks.table
+            .getCardElement(this.card)
+            .classList.toggle("azr_giftedCard-highlight", highlight);
+    };
     return GiftedManager;
 }());
 var QiManager = /** @class */ (function () {
@@ -3321,6 +3326,12 @@ var StoneManager = /** @class */ (function () {
         this.create();
         this.setupStocks();
     };
+    StoneManager.prototype.highlightGifted = function (player_id, highlight) {
+        var stock = this.stocks[player_id].gifted;
+        stock
+            .getCardElement(stock.getCards()[0])
+            .classList.toggle("azr_stone-gifted-highlight", highlight);
+    };
     return StoneManager;
 }());
 var Stone = /** @class */ (function (_super) {
@@ -3535,17 +3546,27 @@ var StPlaceGifted = /** @class */ (function (_super) {
     StPlaceGifted.prototype.enter = function (args) {
         var _this = this;
         var _private = args._private;
-        var spaceManager = new SpaceManager(this.game);
-        spaceManager.makeSelectable(_private.selectableGifted);
         this.game.statusBar.addActionButton(_("cancel"), function () {
             _this.game.restoreServerGameState();
         }, {
             color: "alert",
         });
+        var player_id = Number(this.game.getActivePlayerId());
+        var spaceManager = new SpaceManager(this.game);
+        spaceManager.makeSelectable(_private.selectableGifted);
+        var giftedManager = new GiftedManager(this.game);
+        giftedManager.highlight(true);
+        var stoneManager = new StoneManager(this.game);
+        stoneManager.highlightGifted(player_id, true);
     };
     StPlaceGifted.prototype.leave = function () {
+        var player_id = this.game.getActivePlayerId();
         var spaceManager = new SpaceManager(this.game);
         spaceManager.makeUnselectable();
+        var giftedManager = new GiftedManager(this.game);
+        giftedManager.highlight(false);
+        var stoneManager = new StoneManager(this.game);
+        stoneManager.highlightGifted(player_id, false);
     };
     return StPlaceGifted;
 }(StateManager));

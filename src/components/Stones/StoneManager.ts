@@ -42,7 +42,7 @@ class StoneManager {
 
         if (type === "gifted") {
           element.classList.add("azr_stone-gifted");
-          
+
           element.style.setProperty(
             "--gifted-bg",
             `url(${g_gamethemeurl}img/giftedStone_${color}.png)`
@@ -91,8 +91,16 @@ class StoneManager {
     });
   }
 
-  setup(): void {
+  public setup(): void {
     this.create();
     this.setupStocks();
+  }
+
+  public highlightGifted(player_id: number, highlight: boolean): void {
+    const stock = this.stocks[player_id].gifted;
+
+    stock
+      .getCardElement(stock.getCards()[0])
+      .classList.toggle("azr_stone-gifted-highlight", highlight);
   }
 }

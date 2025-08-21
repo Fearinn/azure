@@ -5,8 +5,6 @@ class StPlaceGifted extends StateManager {
 
   enter(args: arg_placeGifted) {
     const { _private } = args;
-    const spaceManager = new SpaceManager(this.game);
-    spaceManager.makeSelectable(_private.selectableGifted);
 
     this.game.statusBar.addActionButton(
       _("cancel"),
@@ -17,11 +15,30 @@ class StPlaceGifted extends StateManager {
         color: "alert",
       }
     );
+
+    const player_id = Number(this.game.getActivePlayerId());
+
+    const spaceManager = new SpaceManager(this.game);
+    spaceManager.makeSelectable(_private.selectableGifted);
+
+    const giftedManager = new GiftedManager(this.game);
+    giftedManager.highlight(true);
+
+    const stoneManager = new StoneManager(this.game);
+    stoneManager.highlightGifted(player_id, true);
   }
 
   leave() {
+    const player_id = this.game.getActivePlayerId();
+
     const spaceManager = new SpaceManager(this.game);
     spaceManager.makeUnselectable();
+
+    const giftedManager = new GiftedManager(this.game);
+    giftedManager.highlight(false);
+
+    const stoneManager = new StoneManager(this.game);
+    stoneManager.highlightGifted(player_id, false);
   }
 }
 

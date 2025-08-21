@@ -33,6 +33,10 @@
     height: calc(var(--qi-width) * 0.3);
     width: calc(var(--qi-width) * 0.8);
   }
+
+  &-highlight {
+    animation: blink 1.5s infinite ease-in-out;
+  }
 }
 
 .azr_giftedCardTooltip {

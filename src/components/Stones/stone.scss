@@ -52,6 +52,10 @@
     right: 0;
     z-index: 1;
   }
+
+  &-highlight {
+    animation: blink 1.5s infinite ease-in-out;
+  }
 }
 
   .card-side {

@@ -9,8 +9,8 @@ interface GiftedStocks {
 }
 
 class GiftedManager {
-  public readonly game: Azure;
-  public readonly gamedatas: AzureGamedatas;
+  protected readonly game: Azure;
+  protected readonly gamedatas: AzureGamedatas;
   protected manager: CardManager<GiftedCard>;
   protected stocks: GiftedStocks;
   protected readonly card: GiftedCard;
@@ -78,5 +78,11 @@ class GiftedManager {
   public setup(): void {
     this.create();
     this.setupStocks();
+  }
+
+  public highlight(highlight: boolean): void {
+    this.stocks.table
+      .getCardElement(this.card)
+      .classList.toggle("azr_giftedCard-highlight", highlight);
   }
 }

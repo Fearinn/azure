@@ -499,6 +499,17 @@ body > .card {
   display: none !important;
 }
 
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 :root {
   --domain-width: 500px;
   --space-width: calc(var(--domain-width) / 3);
@@ -663,6 +674,9 @@ body > .card {
   left: 0;
   right: 0;
   z-index: 1;
+}
+.azr_stone-gifted-highlight {
+  animation: blink 1.5s infinite ease-in-out;
 }
 .azr_stone .card-side {
   box-shadow: none !important;
@@ -865,6 +879,9 @@ body > .card {
   transform: translateX(-50%);
   height: calc(var(--qi-width) * 0.3);
   width: calc(var(--qi-width) * 0.8);
+}
+.azr_giftedCard-highlight {
+  animation: blink 1.5s infinite ease-in-out;
 }
 
 .azr_giftedCardTooltip {
