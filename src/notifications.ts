@@ -55,7 +55,7 @@ class NotifManager {
     const stone = new Stone(this.game, card);
     await stone.place(player_id, space_id);
   }
-
+  
   async notif_removeStone(
     args: NotifArgs & { card: StoneCard; space_id: number }
   ): Promise<void> {

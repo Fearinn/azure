@@ -27,7 +27,11 @@ class StoneManager {
 
   private create(): void {
     const manager = new CardManager<StoneCard>(this.game, {
-      getId: ({ id }) => {
+      getId: ({ type, type_arg, id }) => {
+        if (type === "gifted") {
+          return `azr_stone-${type_arg}`;
+        }
+
         return `azr_stone-${id}`;
       },
       selectedCardClass: `azr_selected`,
@@ -97,10 +101,8 @@ class StoneManager {
   }
 
   public highlightGifted(player_id: number, highlight: boolean): void {
-    const stock = this.stocks[player_id].gifted;
-
-    stock
-      .getCardElement(stock.getCards()[0])
-      .classList.toggle("azr_stone-gifted-highlight", highlight);
+    document
+      .getElementById(`azr_stone-${player_id}`)
+      .classList.toggle(`azr_stone-gifted-highlight`, highlight);
   }
 }

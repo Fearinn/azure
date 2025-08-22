@@ -27,11 +27,15 @@ class GiftedManager extends Subclass
         $this->globals->set(G_GIFTED_CARD, $gifted_id);
     }
 
-    public function getGiftedCard(): array
+    public function getGiftedCard(): array | null
     {
         $gifted_id = $this->globals->get(G_GIFTED_CARD);
-        $card = $this->GIFTED_CARDS[$gifted_id];
 
+        if ($gifted_id === 0) {
+            return null;
+        }
+
+        $card = $this->GIFTED_CARDS[$gifted_id];
         return $card;
     }
 

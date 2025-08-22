@@ -24,6 +24,7 @@ use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\actions\ActBirdDiscard;
+use Bga\Games\Azure\actions\ActPlaceGifted;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Gifted\GiftedCard;
@@ -131,6 +132,14 @@ class Game extends \Bga\GameFramework\Table
     ): void {
         $ActPlaceStone = new ActPlaceStone($this);
         $ActPlaceStone->act($x, $y);
+    }
+
+    public function act_placeGifted(
+        #[IntParam(min: 1, max: 6)] int $x,
+        #[IntParam(min: 1, max: 6)] int $y
+    ): void {
+        $ActPlaceGifted = new ActPlaceGifted($this);
+        $ActPlaceGifted->act($x, $y);
     }
 
     public function act_birdDiscard(

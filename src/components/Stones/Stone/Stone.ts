@@ -26,11 +26,19 @@ class Stone extends StoneManager implements Stone {
   }
 
   public async place(player_id: number, space_id: number): Promise<void> {
-    this.gamedatas.counters[player_id].stones.incValue(-1);
+    const isGifted = this.card.type === "gifted";
+
+    const fromElement = isGifted
+      ? document.getElementById(`azr_giftedStone-${player_id}`)
+      : document.getElementById(`azr_stoneIcon-${player_id}`);
+
+    if (!isGifted) {
+      this.gamedatas.counters[player_id].stones.incValue(-1);
+    }
 
     await this.stocks.realm.addCard(
       this.card,
-      { fromElement: document.getElementById(`azr_stoneIcon-${player_id}`) },
+      { fromElement },
       { forceToElement: document.getElementById(`azr_space-${space_id}`) }
     );
   }

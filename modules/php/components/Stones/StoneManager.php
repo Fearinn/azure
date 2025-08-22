@@ -40,8 +40,10 @@ class StoneManager extends CardManager
         $this->setupGifted();
     }
 
-    public function checkBySpace(int $space_id, int $player_id = null): bool
-    {
+    public function checkBySpace(
+        int $space_id,
+        int $player_id = null
+    ): bool {
         $sql = "SELECT COUNT(card_id) FROM {$this->dbTable} WHERE card_location='realm' AND card_location_arg={$space_id}";
 
         if ($player_id) {
@@ -52,8 +54,11 @@ class StoneManager extends CardManager
         return $count > 0;
     }
 
-    public function place(int $player_id, int $x, int $y): void
-    {
+    public function place(
+        int $player_id,
+        int $x,
+        int $y
+    ): void {
         $Space = new Space($this->game, $x, $y);
         $space_id = $Space->id;
 
@@ -65,7 +70,7 @@ class StoneManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "placeStone",
-            clienttranslate('${player_name} places a stone at (${x}, ${y}) ${space_icon}'),
+            clienttranslate('${player_name} places a common stone (${x}, ${y}) ${space_icon}'),
             [
                 "preserve" => ["space_id"],
                 "space_icon" => "",
@@ -82,8 +87,10 @@ class StoneManager extends CardManager
         $StatManager->inc($player_id, STAT_STONES_PLACED);
     }
 
-    public function remove(int $player_id, int $space_id): void
-    {
+    public function remove(
+        int $player_id,
+        int $space_id
+    ): void {
         $SpaceManager = new SpaceManager($this->game, $space_id);
         $Space = $SpaceManager->getById($space_id);
 
@@ -95,7 +102,7 @@ class StoneManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "removeStone",
-            clienttranslate('${player_name} removes a stone from (${x}, ${y}) ${space_icon}'),
+            clienttranslate('${player_name} removes a stone (${x}, ${y}) ${space_icon}'),
             [
                 "preserve" => ["space_id"],
                 "space_icon" => "",
@@ -145,5 +152,37 @@ class StoneManager extends CardManager
     public function canPlayGifted(int $player_id): bool
     {
         return $this->deck->countCardsInLocation("gifted", $player_id) > 0;
+    }
+
+    public function placeGifted(
+        int $player_id,
+        int $x,
+        int $y
+    ): void {
+        $Space = new Space($this->game, $x, $y);
+        $space_id = $Space->id;
+
+        $card_id = $this->game->getUniqueValueFromDB("SELECT card_id FROM {$this->dbTable} 
+        WHERE card_location='gifted' AND card_type='gifted' AND card_type_arg={$player_id} LIMIT 1");
+
+        $this->deck->moveCard($card_id, "realm", $space_id);
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "placeStone",
+            clienttranslate('${player_name} places a gifted stone (${x}, ${y}) ${space_icon}'),
+            [
+                "preserve" => ["space_id"],
+                "space_icon" => "",
+                "x" => $x,
+                "y" => $y,
+                "space_id" => $space_id,
+                "card" => $this->deck->getCard($card_id),
+            ],
+            $player_id
+        );
+
+        $StatManager = new StatManager($this->game);
+        $StatManager->inc($player_id, STAT_STONES_PLACED);
     }
 }

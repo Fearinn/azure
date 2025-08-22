@@ -3289,7 +3289,10 @@ var StoneManager = /** @class */ (function () {
         var _this = this;
         var manager = new CardManager(this.game, {
             getId: function (_a) {
-                var id = _a.id;
+                var type = _a.type, type_arg = _a.type_arg, id = _a.id;
+                if (type === "gifted") {
+                    return "azr_stone-".concat(type_arg);
+                }
                 return "azr_stone-".concat(id);
             },
             selectedCardClass: "azr_selected",
@@ -3334,9 +3337,8 @@ var StoneManager = /** @class */ (function () {
         this.setupStocks();
     };
     StoneManager.prototype.highlightGifted = function (player_id, highlight) {
-        var stock = this.stocks[player_id].gifted;
-        stock
-            .getCardElement(stock.getCards()[0])
+        document
+            .getElementById("azr_stone-".concat(player_id))
             .classList.toggle("azr_stone-gifted-highlight", highlight);
     };
     return StoneManager;
@@ -3361,11 +3363,18 @@ var Stone = /** @class */ (function (_super) {
     };
     Stone.prototype.place = function (player_id, space_id) {
         return __awaiter(this, void 0, void 0, function () {
+            var isGifted, fromElement;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        this.gamedatas.counters[player_id].stones.incValue(-1);
-                        return [4 /*yield*/, this.stocks.realm.addCard(this.card, { fromElement: document.getElementById("azr_stoneIcon-".concat(player_id)) }, { forceToElement: document.getElementById("azr_space-".concat(space_id)) })];
+                        isGifted = this.card.type === "gifted";
+                        fromElement = isGifted
+                            ? document.getElementById("azr_giftedStone-".concat(player_id))
+                            : document.getElementById("azr_stoneIcon-".concat(player_id));
+                        if (!isGifted) {
+                            this.gamedatas.counters[player_id].stones.incValue(-1);
+                        }
+                        return [4 /*yield*/, this.stocks.realm.addCard(this.card, { fromElement: fromElement }, { forceToElement: document.getElementById("azr_space-".concat(space_id)) })];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];

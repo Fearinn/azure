@@ -660,10 +660,6 @@ body > .card {
 .azr_stone-c1e8fb {
   background: radial-gradient(circle at 80% 20%, #ffffff 0%, #c1e8fb 60%, #91cde5 70%, #5ca9c6 100%);
 }
-.azr_stone-gifted {
-  --stone-width: 50px;
-  margin-bottom: 26px;
-}
 .azr_stone-gifted::before {
   content: "";
   background-image: var(--gifted-bg);
@@ -680,6 +676,14 @@ body > .card {
 }
 .azr_stone .card-side {
   box-shadow: none !important;
+}
+
+.azr_giftedStone:empty {
+  display: none;
+}
+.azr_giftedStone .azr_stone-gifted {
+  --stone-width: 50px;
+  margin-bottom: 26px;
 }
 
 .azr_stonesVoid {

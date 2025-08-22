@@ -38,28 +38,36 @@
   }
 
   &-gifted {
-  --stone-width: 50px;
-  margin-bottom: 26px;
+    &::before {
+      content: "";
+      background-image: var(--gifted-bg);
+      background-size: cover;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+    }
 
-  &::before {
-    content: "";
-    background-image: var(--gifted-bg);
-    background-size: cover;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
+    &-highlight {
+      animation: blink 1.5s infinite ease-in-out;
+    }
   }
-
-  &-highlight {
-    animation: blink 1.5s infinite ease-in-out;
-  }
-}
 
   .card-side {
     box-shadow: none !important;
+  }
+}
+
+.azr_giftedStone {
+  &:empty {
+    display: none;
+  }
+
+  .azr_stone-gifted {
+    --stone-width: 50px;
+    margin-bottom: 26px;
   }
 }
 
