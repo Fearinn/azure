@@ -156,7 +156,9 @@ class StoneManager extends CardManager
 
     public function getGiftedSpace(int $player_id): int
     {
-        return (int) $this->getGifted($player_id)["location_arg"];
+        $space_id = $this->game->getUniqueValueFromDB("SELECT card_location_arg FROM {$this->dbTable} 
+        WHERE card_type='gifted' AND card_type_arg={$player_id}");
+        return $space_id;
     }
 
     public function hasPlayedGifted(int $player_id): bool

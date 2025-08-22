@@ -55,8 +55,13 @@ class Space extends Subclass
         return $this->MOUNTAINS[4][$side] === $this->id;
     }
 
-    public function addBonds(int $player_id, Space $Space, &$bondCount): bool
-    {
+    public function addBonds(
+        int $player_id,
+        int $x,
+        int $y,
+        &$bondCount
+    ): bool {
+        $Space = new Space($this->game, $x, $y);
         if ($Space->isTortoiseFavor($player_id)) {
             $bondCount++;
         }
@@ -85,34 +90,91 @@ class Space extends Subclass
         $bondCount = 0;
 
         for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
-            $Space = new Space($this->game, $bond_x, $y);
-
-            if (!$this->addBonds($player_id, $Space, $bondCount)) {
+            if (!$this->addBonds($player_id, $bond_x, $y, $bondCount)) {
                 break;
             }
         }
 
         for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
-            $Space = new Space($this->game, $bond_x, $y);
-
-            if (!$this->addBonds($player_id, $Space, $bondCount)) {
+            if (!$this->addBonds($player_id, $bond_x, $y, $bondCount)) {
                 break;
             }
         }
 
         for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
-            $Space = new Space($this->game, $x, $bond_y);
-
-            if (!$this->addBonds($player_id, $Space, $bondCount)) {
+            if (!$this->addBonds($player_id, $x, $bond_y, $bondCount)) {
                 break;
             }
         }
 
         for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
-            $Space = new Space($this->game, $x, $bond_y);
-
-            if (!$this->addBonds($player_id, $Space, $bondCount)) {
+            if (!$this->addBonds($player_id, $x, $bond_y, $bondCount)) {
                 break;
+            }
+        }
+
+        if ($this->globals->get(G_GIFTED_CARD) === 2) {
+            for (
+                $bond_x = $x - 1, $bond_y = $y - 1;
+                $bond_x >= 1 && $bond_y >= 1;
+                $bond_x--, $bond_y--
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bondCount++;
+                    return $bondCount;
+                }
+            }
+
+            for (
+                $bond_x = $x + 1, $bond_y = $y - 1;
+                $bond_x <= 6 && $bond_y >= 1;
+                $bond_x++, $bond_y--
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bondCount++;
+                    return $bondCount;
+                }
+            }
+
+            for (
+                $bond_x = $x - 1, $bond_y = $y + 1;
+                $bond_x >= 1 && $bond_y <= 6;
+                $bond_x--, $bond_y++
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bondCount++;
+                    return $bondCount;
+                }
+            }
+
+            for (
+                $bond_x = $x + 1, $bond_y = $y + 1;
+                $bond_x <= 6 && $bond_y <= 6;
+                $bond_x++, $bond_y++
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+                if ($Space->isGifted($player_id)) {
+                    $bondCount++;
+                    return $bondCount;
+                }
             }
         }
 
