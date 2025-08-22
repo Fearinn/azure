@@ -55,6 +55,29 @@ class Space extends Subclass
         return $this->MOUNTAINS[4][$side] === $this->id;
     }
 
+    public function addBonds(int $player_id, Space $Space, &$bondCount): bool
+    {
+        if ($Space->isTortoiseFavor($player_id)) {
+            $bondCount++;
+        }
+
+        if ($Space->isMountain) {
+            return false;
+        }
+
+        if ($Space->isOccupied($player_id)) {
+            $bondCount++;
+
+            if ($Space->isGifted($player_id)) {
+                if ($this->globals->get(G_GIFTED_CARD, 1)) {
+                    $bondCount++;
+                }
+            }
+        }
+
+        return true;
+    }
+
     public function countBonds(int $player_id): int
     {
         $x = $this->x;
@@ -64,64 +87,32 @@ class Space extends Subclass
         for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
             $Space = new Space($this->game, $bond_x, $y);
 
-            if ($Space->isTortoiseFavor($player_id)) {
-                $bondCount++;
-            }
-
-            if ($Space->isMountain) {
+            if (!$this->addBonds($player_id, $Space, $bondCount)) {
                 break;
-            }
-
-            if ($Space->isOccupied($player_id)) {
-                $bondCount++;
             }
         }
 
         for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
             $Space = new Space($this->game, $bond_x, $y);
 
-            if ($Space->isTortoiseFavor($player_id)) {
-                $bondCount++;
-            }
-
-            if ($Space->isMountain) {
+            if (!$this->addBonds($player_id, $Space, $bondCount)) {
                 break;
-            }
-
-            if ($Space->isOccupied($player_id)) {
-                $bondCount++;
             }
         }
 
         for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
             $Space = new Space($this->game, $x, $bond_y);
 
-            if ($Space->isTortoiseFavor($player_id)) {
-                $bondCount++;
-            }
-
-            if ($Space->isMountain) {
+            if (!$this->addBonds($player_id, $Space, $bondCount)) {
                 break;
-            }
-
-            if ($Space->isOccupied($player_id)) {
-                $bondCount++;
             }
         }
 
         for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
             $Space = new Space($this->game, $x, $bond_y);
 
-            if ($Space->isTortoiseFavor($player_id)) {
-                $bondCount++;
-            }
-
-            if ($Space->isMountain) {
+            if (!$this->addBonds($player_id, $Space, $bondCount)) {
                 break;
-            }
-
-            if ($Space->isOccupied($player_id)) {
-                $bondCount++;
             }
         }
 
@@ -166,5 +157,15 @@ class Space extends Subclass
 
         $WisdomManager = new WisdomManager($this->game);
         $WisdomManager->inc($player_id, $this->wisdom);
+    }
+
+    public function isGifted(int $player_id): bool
+    {
+        if ($this->globals->get(G_GIFTED_CARD) === 0) {
+            return false;
+        }
+
+        $StoneManager = new StoneManager($this->game);
+        return $StoneManager->getGiftedSpace($player_id) === $this->id;
     }
 }

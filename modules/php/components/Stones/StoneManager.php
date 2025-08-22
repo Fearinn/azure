@@ -143,15 +143,30 @@ class StoneManager extends CardManager
         }
     }
 
-    public function getGifted(): array
+    public function getGifted(int $player_id = null): array
     {
-        $cards = $this->deck->getCardsOfType("gifted");
-        return array_values($cards);
+        $sql = "SELECT {$this->cardFields} FROM {$this->dbTable} WHERE card_type='gifted'";
+
+        if ($player_id) {
+            return $this->game->getObjectFromDB($sql . " AND card_type_arg={$player_id}");
+        }
+
+        return $this->game->getObjectListFromDB($sql);
+    }
+
+    public function getGiftedSpace(int $player_id): int
+    {
+        return (int) $this->getGifted($player_id)["location_arg"];
+    }
+
+    public function hasPlayedGifted(int $player_id): bool
+    {
+        return $this->deck->countCardsInLocation("realm", $player_id) === 1;
     }
 
     public function canPlayGifted(int $player_id): bool
     {
-        return $this->deck->countCardsInLocation("gifted", $player_id) > 0;
+        return $this->deck->countCardsInLocation("gifted", $player_id) === 1;
     }
 
     public function placeGifted(
