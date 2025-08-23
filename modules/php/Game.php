@@ -112,6 +112,18 @@ class Game extends \Bga\GameFramework\Table
         $StBirdDiscard->act();
     }
 
+    public function arg_gatherBountiful(): array
+    {
+        $args = [
+            "space_icon" => "",
+            "space_id" => $this->globals->get(G_BOUNTIFUL_SPACE),
+        ];
+
+        return $args;
+    }
+
+    public function st_gatherBountiful(): void {}
+
     public function st_betweenPlayers(): void
     {
         $StBetweenPlayers = new StBetweenPlayers($this);

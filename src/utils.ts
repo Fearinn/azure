@@ -7,15 +7,17 @@ class Utils {
     this.gamedatas = this.game.gamedatas;
   }
 
-  performAction(
+  public performAction(
     actionName: ActionName,
     args?: any,
     params?: { lock: boolean; checkAction: boolean }
   ) {
-    this.game.bgaPerformAction(actionName, args, params);
+    this.game.bgaPerformAction(actionName, args, params).catch(() => {
+      this.game.restoreServerGameState();
+    });
   }
 
-  addConfirmationButton(
+  public addConfirmationButton(
     label: string,
     callback: () => void,
     params?: {
@@ -36,7 +38,7 @@ class Utils {
     );
   }
 
-  removeConfirmationButton() {
+  public removeConfirmationButton() {
     document.getElementById(`azr_confirmationBtn`)?.remove();
   }
 
@@ -91,4 +93,8 @@ class Utils {
   }
 }
 
-type ActionName = "act_placeStone" | "act_placeGifted" | "act_birdDiscard";
+type ActionName =
+  | "act_placeStone"
+  | "act_placeGifted"
+  | "act_birdDiscard"
+  | "act_gatherBountiful";

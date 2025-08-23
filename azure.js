@@ -2660,7 +2660,10 @@ var Utils = /** @class */ (function () {
         this.gamedatas = this.game.gamedatas;
     }
     Utils.prototype.performAction = function (actionName, args, params) {
-        this.game.bgaPerformAction(actionName, args, params);
+        var _this = this;
+        this.game.bgaPerformAction(actionName, args, params).catch(function () {
+            _this.game.restoreServerGameState();
+        });
     };
     Utils.prototype.addConfirmationButton = function (label, callback, params) {
         this.game.statusBar.addActionButton(label, function () {
@@ -3492,6 +3495,9 @@ var StateManager = /** @class */ (function () {
             case "birdDiscard":
                 new StBirdDiscard(this.game).enter(args);
                 break;
+            case "gatherBountiful":
+                new StGatherBountiful(this.game).enter(args);
+                break;
             case "client_placeGifted":
                 new StPlaceGifted(this.game).enter(args);
                 break;
@@ -3508,6 +3514,9 @@ var StateManager = /** @class */ (function () {
             case "birdDiscard":
                 new StBirdDiscard(this.game).leave();
                 break;
+            case "gatherBountiful":
+                new StGatherBountiful(this.game).leave();
+                break;
             case "client_placeGifted":
                 new StPlaceGifted(this.game).leave();
                 break;
@@ -3521,7 +3530,6 @@ var StBirdDiscard = /** @class */ (function (_super) {
         return _super.call(this, game) || this;
     }
     StBirdDiscard.prototype.enter = function (args) {
-        console.log("BIRD DISCARD");
         var qiManager = new QiManager(this.game);
         qiManager.makeSelectable();
     };
@@ -3530,6 +3538,32 @@ var StBirdDiscard = /** @class */ (function (_super) {
         qiManager.makeUnselectable();
     };
     return StBirdDiscard;
+}(StateManager));
+var StGatherBountiful = /** @class */ (function (_super) {
+    __extends(StGatherBountiful, _super);
+    function StGatherBountiful(game) {
+        return _super.call(this, game) || this;
+    }
+    StGatherBountiful.prototype.enter = function (args) {
+        var giftedManager = new GiftedManager(this.game);
+        giftedManager.highlight(true);
+        var utils = new Utils(this.game);
+        this.game.statusBar.addActionButton(_("qi"), function () {
+            utils.performAction("act_gatherBountiful", {
+                boon: "qi",
+            });
+        });
+        this.game.statusBar.addActionButton(_("wisdom"), function () {
+            utils.performAction("act_gatherBountiful", {
+                boon: "wisdom",
+            });
+        });
+    };
+    StGatherBountiful.prototype.leave = function () {
+        var giftedManager = new GiftedManager(this.game);
+        giftedManager.highlight(false);
+    };
+    return StGatherBountiful;
 }(StateManager));
 var StPlayerTurn = /** @class */ (function (_super) {
     __extends(StPlayerTurn, _super);

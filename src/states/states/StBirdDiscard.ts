@@ -4,7 +4,6 @@ class StBirdDiscard extends StateManager {
   }
 
   enter(args: arg_birdDiscard) {
-    console.log("BIRD DISCARD");
     const qiManager = new QiManager(this.game);
     qiManager.makeSelectable();
   }

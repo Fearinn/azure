@@ -43,6 +43,16 @@ class ActPlaceStone extends ActionManager
             return;
         }
 
+        if ($this->globals->get(G_GIFTED_CARD) === 3) {
+            $giftedRelations = $this->globals->get(G_GIFTED_RELATIONS)[$this->player_id];
+
+            if (in_array($Space->id, $giftedRelations)) {
+                $this->globals->set(G_BOUNTIFUL_SPACE, $Space->id);
+                $this->game->gamestate->nextState(TR_GATHER_BOUNTIFUL);
+                return;
+            }
+        }
+
         $this->game->gamestate->nextState(TR_CHECK_BEASTS);
     }
 

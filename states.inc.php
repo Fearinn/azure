@@ -23,12 +23,14 @@ if (!defined("ST_PLAYER_TURN")) {
     define("ST_CHECK_BEASTS", 3);
     define("ST_BETWEEN_PLAYERS", 4);
     define("ST_BIRD_DISCARD", 5);
+    define("ST_GATHER_BOUNTIFUL", 6);
     define("ST_END_SCORE", 98);
     define("ST_END_GAME", 99);
 
     define("TR_CHECK_BEASTS", "TR_CHECK_BEASTS");
     define("TR_NEXT_PLAYER", "TR_NEXT_PLAYER");
     define("TR_BIRD_DISCARD", "TR_BIRD_DISCARD");
+    define("TR_GATHER_BOUNTIFUL", "TR_GATHER_BOUNTIFUL");
     define("TR_END_SCORE", "TR_END_SCORE");
     define("TR_END_GAME", "TR_END_GAME");
 }
@@ -47,6 +49,7 @@ $machinestates = [
         ])
         ->transitions([
             TR_CHECK_BEASTS => ST_CHECK_BEASTS,
+            TR_GATHER_BOUNTIFUL => ST_GATHER_BOUNTIFUL,
             TR_END_GAME => ST_END_SCORE,
         ])
         ->updateGameProgression(true)
@@ -76,6 +79,21 @@ $machinestates = [
         ])
         ->transitions([
             TR_NEXT_PLAYER => ST_BETWEEN_PLAYERS
+        ])
+        ->build(),
+
+    ST_GATHER_BOUNTIFUL => GameStateBuilder::create()
+        ->name("gatherBountiful")
+        ->description(clienttranslate('${actplayer} must pick an additional boon ${space_icon}'))
+        ->descriptionmyturn(clienttranslate('${you} must pick an additional boon ${space_icon}'))
+        ->type(StateType::ACTIVE_PLAYER)
+        ->args("arg_gatherBountiful")
+        ->action("st_gatherBountiful")
+        ->possibleactions([
+            "act_gatherBountiful",
+        ])
+        ->transitions([
+            TR_CHECK_BEASTS => ST_CHECK_BEASTS
         ])
         ->build(),
 

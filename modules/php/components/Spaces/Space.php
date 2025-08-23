@@ -171,10 +171,14 @@ class Space extends Subclass
 
     public function registerGiftedRelations(int $player_id): void
     {
+        //TEST 
+        $this->globals->set(G_GIFTED_CARD, 3);
+
         $space_ids = [];
         $x = $this->x;
         $y = $this->y;
         $gifted_id = $this->globals->get(G_GIFTED_CARD);
+
 
         if ($gifted_id === 1) {
             for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
@@ -274,6 +278,31 @@ class Space extends Subclass
                 }
 
                 $space_ids[] = $Space->id;
+            }
+        }
+
+        if ($gifted_id === 3) {
+            for ($offset_x = -1; $offset_x <= 1; $offset_x++) {
+                for ($offset_y = -1; $offset_y <= 1; $offset_y++) {
+                    if ($offset_x === 0 && $offset_y === 0) {
+                        continue;
+                    }
+
+                    $bond_x = $x + $offset_x;
+                    $bond_y = $y + $offset_y;
+
+                    if ($bond_x < 1 || $bond_x > 6 || $bond_y < 1 || $bond_y > 6) {
+                        continue;
+                    }
+
+                    $Space = new Space($this->game, $bond_x, $bond_y);
+
+                    if ($Space->isMountain) {
+                        continue;
+                    }
+
+                    $space_ids[] = $Space->id;
+                }
             }
         }
 

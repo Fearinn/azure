@@ -19,6 +19,10 @@ class StateManager {
         new StBirdDiscard(this.game).enter(args);
         break;
 
+      case "gatherBountiful":
+        new StGatherBountiful(this.game).enter(args);
+        break;
+
       case "client_placeGifted":
         new StPlaceGifted(this.game).enter(args);
         break;
@@ -39,6 +43,10 @@ class StateManager {
         new StBirdDiscard(this.game).leave();
         break;
 
+      case "gatherBountiful":
+        new StGatherBountiful(this.game).leave();
+        break;
+
       case "client_placeGifted":
         new StPlaceGifted(this.game).leave();
         break;
@@ -46,4 +54,8 @@ class StateManager {
   }
 }
 
-type StateName = "playerTurn" | "birdDiscard" | "client_placeGifted";
+type StateName =
+  | "playerTurn"
+  | "birdDiscard"
+  | "gatherBountiful"
+  | "client_placeGifted";
