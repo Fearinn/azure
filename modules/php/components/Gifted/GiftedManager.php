@@ -25,6 +25,13 @@ class GiftedManager extends Subclass
         }
 
         $this->globals->set(G_GIFTED_CARD, $gifted_id);
+
+        $players = $this->game->loadPlayersBasicInfos();
+        $giftedRelations = [];
+        foreach ($players as $player_id => $player) {
+            $giftedRelations[$player_id] = [];
+        }
+        $this->globals->set(G_GIFTED_RELATIONS, $giftedRelations);
     }
 
     public function getGiftedCard(): array | null

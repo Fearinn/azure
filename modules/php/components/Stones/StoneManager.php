@@ -161,14 +161,9 @@ class StoneManager extends CardManager
         return $space_id;
     }
 
-    public function hasPlayedGifted(int $player_id): bool
-    {
-        return $this->deck->countCardsInLocation("realm", $player_id) === 1;
-    }
-
     public function canPlayGifted(int $player_id): bool
     {
-        return $this->deck->countCardsInLocation("gifted", $player_id) === 1;
+        return (int) $this->deck->countCardsInLocation("gifted", $player_id) === 1;
     }
 
     public function placeGifted(
@@ -201,5 +196,7 @@ class StoneManager extends CardManager
 
         $StatManager = new StatManager($this->game);
         $StatManager->inc($player_id, STAT_STONES_PLACED);
+
+        $Space->registerGiftedRelations($player_id);
     }
 }

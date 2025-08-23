@@ -4,7 +4,6 @@ namespace Bga\Games\Azure\components\Beasts;
 
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
-use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
 
 class Tortoise extends Beast
@@ -60,7 +59,7 @@ class Tortoise extends Beast
     public function loseFavor(): void
     {
         parent::loseFavor();
-        
+
         $player_id = $this->getFavoredPlayer();
 
         if (!$player_id) {
