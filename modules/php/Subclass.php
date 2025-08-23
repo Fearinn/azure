@@ -7,15 +7,15 @@ use GameState;
 
 class Subclass
 {
-    public readonly Game $game;
-    public readonly Globals $globals;
-    public readonly array $QI;
-    public readonly array $DOMAINS;
-    public readonly array $BEASTS;
-    public readonly array $MOUNTAINS;
-    public readonly array $SPACES;
-    public readonly array $SERPENTS;
-    public readonly array $GIFTED_CARDS;
+    protected readonly Game $game;
+    protected readonly Globals $globals;
+    protected readonly array $QI;
+    protected readonly array $DOMAINS;
+    protected readonly array $BEASTS;
+    protected readonly array $MOUNTAINS;
+    protected readonly array $SPACES;
+    protected readonly array $SERPENTS;
+    protected readonly array $GIFTED_CARDS;
 
     public function __construct(Game $game)
     {

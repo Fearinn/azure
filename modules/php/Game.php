@@ -22,8 +22,10 @@ namespace Bga\Games\Azure;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\Actions\Types\JsonParam;
+use Bga\GameFramework\Actions\Types\StringParam;
 use Bga\GameFramework\Components\Deck;
 use Bga\Games\Azure\actions\ActBirdDiscard;
+use Bga\Games\Azure\actions\ActGatherBountiful;
 use Bga\Games\Azure\actions\ActPlaceGifted;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\BeastManager;
@@ -37,6 +39,7 @@ use Bga\Games\Azure\states\StBetweenPlayers;
 use Bga\Games\Azure\states\StBirdDiscard;
 use Bga\Games\Azure\states\StCheckBeasts;
 use Bga\Games\Azure\states\StEndScore;
+use Bga\Games\Azure\states\StGatherBountiful;
 use Bga\Games\Azure\states\StPlayerTurn;
 use Bga\Games\Azure\stats\StatManager;
 
@@ -114,15 +117,15 @@ class Game extends \Bga\GameFramework\Table
 
     public function arg_gatherBountiful(): array
     {
-        $args = [
-            "space_icon" => "",
-            "space_id" => $this->globals->get(G_BOUNTIFUL_SPACE),
-        ];
-
-        return $args;
+        $StGatherBountiful = new StGatherBountiful($this);
+        return $StGatherBountiful->getArgs();
     }
 
-    public function st_gatherBountiful(): void {}
+    public function st_gatherBountiful(): void
+    {
+        $StGatherBountiful = new StGatherBountiful($this);
+        $StGatherBountiful->act();
+    }
 
     public function st_betweenPlayers(): void
     {
@@ -159,6 +162,13 @@ class Game extends \Bga\GameFramework\Table
     ): void {
         $ActBirdDiscard = new ActBirdDiscard($this);
         $ActBirdDiscard->act($cards);
+    }
+
+    public function act_gatherBountiful(
+        #[StringParam(enum: ["qi", "wisdom"])] string $boon
+    ): void {
+        $ActGatherBountiful = new ActGatherBountiful($this);
+        $ActGatherBountiful->act($boon);
     }
 
     public function upgradeTableDb($from_version) {}

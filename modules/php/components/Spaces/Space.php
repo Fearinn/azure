@@ -171,9 +171,6 @@ class Space extends Subclass
 
     public function registerGiftedRelations(int $player_id): void
     {
-        //TEST 
-        $this->globals->set(G_GIFTED_CARD, 3);
-
         $space_ids = [];
         $x = $this->x;
         $y = $this->y;
