@@ -9,6 +9,7 @@ use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
 use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\score\ScoreManager;
 
 class ActGatherBountiful extends ActionManager
 {
@@ -41,6 +42,12 @@ class ActGatherBountiful extends ActionManager
         if ($boon === "wisdom") {
             $WisdomManager = new WisdomManager($this->game);
             $WisdomManager->inc($this->player_id, 1);
+
+            $ScoreManager = new ScoreManager($this->game);
+            if ($ScoreManager->getHigherScore() === 25) {
+                $this->game->gamestate->nextState(TR_END_GAME);
+                return;
+            }
         }
 
         $this->game->gamestate->nextState(TR_CHECK_BEASTS);
