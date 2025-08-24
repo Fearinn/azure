@@ -7,6 +7,7 @@ use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
+use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\score\ScoreManager;
 use Bga\Games\Azure\stats\StatManager;
 
@@ -47,6 +48,17 @@ class ActPlaceStone extends ActionManager
             $giftedRelations = $this->globals->get(G_GIFTED_RELATIONS)[$this->player_id];
 
             if (in_array($Space->id, $giftedRelations)) {
+                $Notify = new NotifManager($this->game);
+                $Notify->all(
+                    "message",
+                    '${player_name} triggers his ${gifted_label} stone',
+                    [
+                        "i18n" => ["gifted_label"],
+                        "gifted_label" => clienttranslate("Bountiful"),
+                    ],
+                    $this->player_id
+                );
+
                 $this->globals->set(G_BOUNTIFUL_SPACE, $Space->id);
                 $this->game->gamestate->nextState(TR_GATHER_BOUNTIFUL);
                 return;

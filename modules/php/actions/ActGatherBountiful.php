@@ -26,14 +26,6 @@ class ActGatherBountiful extends ActionManager
 
         $this->validate($Space, $boon);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
-            "message",
-            '${player_name} triggers his Bountiful stone',
-            [],
-            $this->player_id
-        );
-
         if ($boon === "qi") {
             $QiManager = new QiManager($this->game);
             $QiManager->gather($this->player_id, $Space->qi_color, 1);

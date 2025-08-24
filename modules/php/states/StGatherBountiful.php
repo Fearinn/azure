@@ -40,7 +40,5 @@ class StGatherBountiful extends StateManager
         if ($Space->wisdom === 0) {
             $ActGatherBountiful->act("qi");
         }
-
-        $this->game->gamestate->nextState(TR_CHECK_BEASTS);
     }
 }
