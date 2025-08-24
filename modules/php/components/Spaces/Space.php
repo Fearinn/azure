@@ -38,6 +38,12 @@ class Space extends Subclass
         $this->isMountain = $this->baseCost === 0;
     }
 
+    public function isSerpent(): bool
+    {
+        $serpents = $this->globals->get(G_SERPENTS);
+        return in_array($this->id, $serpents);
+    }
+
     public function isOccupied(int $player_id = null): bool
     {
         $StoneManager = new StoneManager($this->game);
@@ -159,6 +165,56 @@ class Space extends Subclass
         $WisdomManager->inc($player_id, $this->wisdom);
     }
 
+    public function getOrthogonalRelations(): array
+    {
+        $x = $this->x;
+        $y = $this->y;
+
+        $space_ids = [];
+
+        for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
+            $Space = new Space($this->game, $bond_x, $y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            $space_ids[] = $Space->id;
+        }
+
+        for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
+            $Space = new Space($this->game, $bond_x, $y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            $space_ids[] = $Space->id;
+        }
+
+        for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
+            $Space = new Space($this->game, $x, $bond_y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            $space_ids[] = $Space->id;
+        }
+
+        for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
+            $Space = new Space($this->game, $x, $bond_y);
+
+            if ($Space->isMountain) {
+                break;
+            }
+
+            $space_ids[] = $Space->id;
+        }
+
+        return $space_ids;
+    }
+
     public function isGifted(int $player_id): bool
     {
         if ($this->globals->get(G_GIFTED_CARD) === 0) {
@@ -176,48 +232,8 @@ class Space extends Subclass
         $y = $this->y;
         $gifted_id = $this->globals->get(G_GIFTED_CARD);
 
-
         if ($gifted_id === 1) {
-            for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
-                $Space = new Space($this->game, $bond_x, $y);
-
-                if ($Space->isMountain) {
-                    break;
-                }
-
-                $space_ids[] = $Space->id;
-            }
-
-            for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
-                $Space = new Space($this->game, $bond_x, $y);
-
-                if ($Space->isMountain) {
-                    break;
-                }
-
-
-                $space_ids[] = $Space->id;
-            }
-
-            for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
-                $Space = new Space($this->game, $x, $bond_y);
-
-                if ($Space->isMountain) {
-                    break;
-                }
-
-                $space_ids[] = $Space->id;
-            }
-
-            for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
-                $Space = new Space($this->game, $x, $bond_y);
-
-                if ($Space->isMountain) {
-                    break;
-                }
-
-                $space_ids[] = $Space->id;
-            }
+            $space_ids = $this->getOrthogonalRelations();
         }
 
         if ($gifted_id === 2) {

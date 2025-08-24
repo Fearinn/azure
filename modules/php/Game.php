@@ -175,6 +175,11 @@ class Game extends \Bga\GameFramework\Table
 
     protected function getAllDatas(): array
     {
+        if (!$this->globals->get(G_SERPENTS)) {
+            $SpaceManager = new SpaceManager($this);
+            $SpaceManager->setupSerpents();
+        }
+
         $current_player_id = (int) $this->getCurrentPlayerId();
 
         $BeastManager = new BeastManager($this);

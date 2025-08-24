@@ -17,15 +17,14 @@ class Tortoise extends Beast
     {
         if ($this->mustTakeFavor($player_id)) {
             $this->gainFavor($player_id);
-            return;
         }
     }
 
     private function mustTakeFavor(int $player_id): bool
     {
-        $favoredPlayer = $this->getFavoredPlayer();
+        $favored_player_id = $this->getFavoredPlayer();
 
-        if ($player_id === $favoredPlayer) {
+        if ($player_id === $favored_player_id) {
             return false;
         }
 
@@ -36,12 +35,45 @@ class Tortoise extends Beast
             return false;
         }
 
-        if (!$favoredPlayer) {
+        if (!$favored_player_id) {
             return true;
         }
 
-        $favoredBondCount = $SpaceManager->countOccupiedSerpents($favoredPlayer);
-        return $bondCount > $favoredBondCount;
+        $favored_bondCount = $SpaceManager->countOccupiedSerpents($favored_player_id);
+
+        if (
+            $bondCount === $favored_bondCount
+            && $this->checkFavoredStone($player_id, $favored_player_id)
+        ) {
+            return true;
+        }
+
+        return $bondCount > $favored_bondCount;
+    }
+
+    private function checkFavoredStone(int $player_id, int $opponent_id): bool
+    {
+        if ($this->globals->get(G_GIFTED_CARD) !== 4) {
+            return false;
+        }
+
+        $StoneManager = new StoneManager($this->game);
+        $space_id = $StoneManager->getGiftedSpace($player_id);
+        $opponent_space_id = $StoneManager->getGiftedSpace($opponent_id);
+
+        if (!$space_id) {
+            return false;
+        }
+
+        if ($space_id && !$opponent_space_id) {
+            return true;
+        }
+
+        $SpaceManager = new SpaceManager($this->game);
+        $Space = $SpaceManager->getById($space_id);
+        $opponent_Space = $SpaceManager->getById($opponent_space_id);
+
+        return $Space->isSerpent() && !$opponent_Space->isSerpent();
     }
 
     public function gainFavor(int $player_id): void

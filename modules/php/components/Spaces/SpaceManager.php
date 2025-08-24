@@ -72,9 +72,27 @@ class SpaceManager extends Subclass
         $this->globals->set(G_REALM, $realm);
     }
 
+    public function setupSerpents(): void
+    {
+        $domainsSides = $this->globals->get(G_DOMAINS_SIDES);
+
+        $serpents = [];
+        foreach ($this->DOMAINS as $domain_id => $domain) {
+            $side = $domainsSides[$domain_id];
+            $domainSerpents = $this->SERPENTS[$domain_id][$side];
+
+            foreach ($domainSerpents as $space_id) {
+                $serpents[] = $space_id;
+            }
+        }
+
+        $this->globals->set(G_SERPENTS, $serpents);
+    }
+
     public function setup(): void
     {
         $grids = [];
+
         $domainsSides = [];
         foreach ($this->DOMAINS as $domain_id => $domain) {
             $side = bga_rand(1, 2);
@@ -90,6 +108,7 @@ class SpaceManager extends Subclass
         $this->globals->set(G_DOMAINS_ORDER, $domain_ids);
 
         $this->placeGrids($grids, $domain_ids);
+        $this->setupSerpents();
     }
 
     public function getById(int $space_id): Space
@@ -110,18 +129,13 @@ class SpaceManager extends Subclass
     public function countOccupiedSerpents(int $player_id): int
     {
         $serpentCount = 0;
-        $domainSides = $this->globals->get(G_DOMAINS_SIDES);
+        $serpents = $this->globals->get(G_SERPENTS);
 
-        foreach ($this->DOMAINS as $domain_id => $beast) {
-            $side = $domainSides[$domain_id];
-            $serpents =  $this->SERPENTS[$domain_id][$side];
+        foreach ($serpents as $space_id) {
+            $Space = $this->getById($space_id);
 
-            foreach ($serpents as $space_id) {
-                $Space = $this->getById($space_id);
-
-                if ($Space->isOccupied($player_id)) {
-                    $serpentCount++;
-                }
+            if ($Space->isOccupied($player_id)) {
+                $serpentCount++;
             }
         }
 
@@ -176,7 +190,6 @@ class SpaceManager extends Subclass
         }
 
         $extraCost = $GiftedManager->getExtraCost();
-
         $selectableSpaces = $this->getSelectable($player_id, $extraCost);
 
         return $selectableSpaces;
