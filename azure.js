@@ -203,9 +203,23 @@ var ZoomManager = /** @class */ (function () {
      */
     ZoomManager.prototype.zoomOrDimensionChanged = function () {
         var _a, _b;
-        this.settings.element.style.width = "".concat(this.wrapper.offsetWidth / this._zoom, "px");
-        this.wrapper.style.height = "".concat(this.settings.element.offsetHeight * this._zoom, "px");
-        (_b = (_a = this.settings).onDimensionsChange) === null || _b === void 0 ? void 0 : _b.call(_a, this._zoom);
+        var targetElement = this.settings.element;
+        var wrapper = this.wrapper;
+        var currentZoom = this._zoom;
+        // --- Width ---
+        var expectedWidth = wrapper.offsetWidth / currentZoom;
+        var currentStyledWidth = parseFloat(targetElement.style.width);
+        if (isNaN(currentStyledWidth) || Math.abs(currentStyledWidth - expectedWidth) >= 0.5) {
+            targetElement.style.width = "".concat(expectedWidth, "px");
+        }
+        // --- Height ---
+        var expectedHeight = targetElement.offsetHeight * currentZoom;
+        var currentWrapperHeight = parseFloat(wrapper.style.height);
+        if (isNaN(currentWrapperHeight) || Math.abs(currentWrapperHeight - expectedHeight) >= 0.5) {
+            wrapper.style.height = "".concat(expectedHeight, "px");
+        }
+        // --- Callback ---
+        (_b = (_a = this.settings).onDimensionsChange) === null || _b === void 0 ? void 0 : _b.call(_a, currentZoom);
     };
     /**
      * Simulates a click on the Zoom-in button.
