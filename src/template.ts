@@ -155,7 +155,6 @@ class AzureTemplate {
         `azr_stoneCounter-${player_id}`,
         `<span class="azr_tooltip">
                 ${
-                  /* @ts-ignore */
                   this.game.format_string_recursive(
                     "${player_name}'s common stones",
                     { player_name }
@@ -168,7 +167,6 @@ class AzureTemplate {
         `azr_handCounter-${player_id}`,
         `<span class="azr_tooltip">
                 ${
-                  /* @ts-ignore */
                   this.game.format_string_recursive(
                     "${player_name}'s qi",
                     { player_name }

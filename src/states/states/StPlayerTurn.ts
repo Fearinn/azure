@@ -15,7 +15,6 @@ class StPlayerTurn extends StateManager {
         _("play gifted stone instead"),
         () => {
           this.game.setClientState("client_placeGifted", {
-            /* @ts-ignore */
             descriptionmyturn: _("${you} must place your gifted stone"),
           });
         },

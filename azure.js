@@ -2313,7 +2313,7 @@ function sortFunction() {
     };
 }
 // @ts-ignore
-Game = (function () {
+GameGui = (function () {
     // this hack required so we fake extend Game
     function Game() { }
     return Game;
@@ -2350,7 +2350,7 @@ var Azure = /** @class */ (function (_super) {
         return utils.bgaFormatText(log, args);
     };
     return Azure;
-}(Game));
+}(GameGui));
 define([
     "dojo",
     "dojo/_base/declare",
@@ -2594,12 +2594,8 @@ var AzureTemplate = /** @class */ (function () {
             var _c = this.gamedatas.players[player_id], player_color = _c.color, player_name = _c.name;
             var playerPanel = this.game.getPlayerPanelElement(player_id);
             playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_giftedStone-".concat(player_id, "\" class=\"azr_giftedStone\"></div>\n        <div id=\"azr_stoneCounter-").concat(player_id, "\" class=\"azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\" azr_counterIcon azr_stone azr_stone-").concat(player_color, " azr_stoneCounterIcon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counterIcon azr_handCounterIcon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>"));
-            this.game.addTooltipHtml("azr_stoneCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(
-            /* @ts-ignore */
-            this.game.format_string_recursive("${player_name}'s common stones", { player_name: player_name }), "\n        </span>"));
-            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(
-            /* @ts-ignore */
-            this.game.format_string_recursive("${player_name}'s qi", { player_name: player_name }), "\n        </span>"));
+            this.game.addTooltipHtml("azr_stoneCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s common stones", { player_name: player_name }), "\n        </span>"));
+            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s qi", { player_name: player_name }), "\n        </span>"));
             this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
                 hand: new ebg.counter(),
                 stones: new ebg.counter(),
@@ -3593,7 +3589,6 @@ var StPlayerTurn = /** @class */ (function (_super) {
         if (canPlayGifted) {
             this.game.statusBar.addActionButton(_("play gifted stone instead"), function () {
                 _this.game.setClientState("client_placeGifted", {
-                    /* @ts-ignore */
                     descriptionmyturn: _("${you} must place your gifted stone"),
                 });
             }, { color: "secondary" });
