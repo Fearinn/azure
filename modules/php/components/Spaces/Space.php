@@ -83,7 +83,7 @@ class Space extends Subclass
         return true;
     }
 
-    public function countBonds(int $player_id): int
+    public function countBonds(int $player_id, bool $isBeast = false): int
     {
         $x = $this->x;
         $y = $this->y;
@@ -113,13 +113,16 @@ class Space extends Subclass
             }
         }
 
-        $gifted_id = $this->globals->get(G_GIFTED_CARD);
-        $giftedRelations = $this->globals->get(G_GIFTED_RELATIONS)[$player_id];
-        if (
-            ($gifted_id === 1 || $gifted_id === 2)
-            && in_array($this->id, $giftedRelations)
-        ) {
-            $bondCount++;
+        if (!$isBeast) {
+            $gifted_id = $this->globals->get(G_GIFTED_CARD);
+            $giftedRelations = $this->globals->get(G_GIFTED_RELATIONS)[$player_id];
+
+            if (
+                ($gifted_id === 1 || $gifted_id === 2)
+                && in_array($this->id, $giftedRelations)
+            ) {
+                $bondCount++;
+            }
         }
 
         return $bondCount;
