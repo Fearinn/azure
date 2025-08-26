@@ -21,11 +21,12 @@ class ActPlaceStone extends ActionManager
     public function act(int $x, int $y): void
     {
         $Space = new Space($this->game, $x, $y);
-        $this->validate($Space);
+        $StoneManager = new StoneManager($this->game);
+
+        $this->validate($Space, $StoneManager);
 
         $domain_id = $Space->domain_id;
 
-        $StoneManager = new StoneManager($this->game);
         $StoneManager->place($this->player_id, $x, $y);
 
         $cost = $Space->getCost($this->player_id);
@@ -68,8 +69,12 @@ class ActPlaceStone extends ActionManager
         $this->game->gamestate->nextState(TR_CHECK_BEASTS);
     }
 
-    public function validate(Space $Space): void
+    public function validate(Space $Space, StoneManager $StoneManager): void
     {
+        if ($StoneManager->getHandCount($this->player_id) === 0) {
+            throw new \BgaVisibleSystemException("No stone in your hand");
+        }
+        
         if (!$Space->isSelectable($this->player_id)) {
             throw new \BgaVisibleSystemException("space unavailable");
         }

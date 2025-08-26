@@ -48,7 +48,7 @@ class StPlayerTurn extends StateManager
         $StoneManager = new StoneManager($this->game);
         $stoneHandCount = $StoneManager->getHandCount($player_id);
 
-        if (!$selectableSpaces && $stoneHandCount === 0) {
+        if (!$selectableSpaces || $stoneHandCount === 0) {
             $ScoreManager = new ScoreManager($this->game);
             $ScoreManager->setScore($player_id, -1);
 
