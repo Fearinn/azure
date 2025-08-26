@@ -74,6 +74,11 @@ var ZoomManager = /** @class */ (function () {
         var _this = this;
         var _a, _b, _c, _d, _e, _f;
         this.settings = settings;
+        /**
+         * Everytime the element dimensions changes, we update the style. And call the optional callback.
+         * Unsafe method as this is not protected by throttle. Surround with  `advThrottle(() => this.zoomOrDimensionChanged(), this.throttleTime, { leading: true, trailing: true, })` to avoid spamming recomputation.
+         */
+        this.zoomUpdateScheduled = false;
         if (!settings.element) {
             throw new DOMException('You need to set the element to wrap in the zoom element');
         }
@@ -197,10 +202,6 @@ var ZoomManager = /** @class */ (function () {
             this.zoomOrDimensionChanged();
         }
     };
-    /**
-     * Everytime the element dimensions changes, we update the style. And call the optional callback.
-     * Unsafe method as this is not protected by throttle. Surround with  `advThrottle(() => this.zoomOrDimensionChanged(), this.throttleTime, { leading: true, trailing: true, })` to avoid spamming recomputation.
-     */
     ZoomManager.prototype.zoomOrDimensionChanged = function () {
         var _a, _b;
         var targetElement = this.settings.element;
