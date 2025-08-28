@@ -62,21 +62,25 @@ class Bird extends Beast
 
         $StoneManager = new StoneManager($this->game);
         $space_id = $StoneManager->getGiftedSpace($player_id);
-        $opponent_space_id = $StoneManager->getGiftedSpace($opponent_id);
 
         if (!$space_id) {
             return false;
         }
 
-        if ($space_id && !$opponent_space_id) {
+        $SpaceManager = new SpaceManager($this->game);
+        $Space = $SpaceManager->getById($space_id);
+
+        if ($Space->domain_id !== 3) {
+            return false;
+        }
+
+        $opponent_space_id = $StoneManager->getGiftedSpace($opponent_id);
+        if (!$opponent_space_id) {
             return true;
         }
 
-        $SpaceManager = new SpaceManager($this->game);
-        $Space = $SpaceManager->getById($space_id);
         $opponent_Space = $SpaceManager->getById($opponent_space_id);
-
-        return $Space->domain_id === 3 && $opponent_Space->domain_id !== 3;
+        return $opponent_Space->domain_id !== 3;
     }
 
     public function bird_gainFavor(int $player_id): bool

@@ -63,22 +63,25 @@ class Tiger extends Beast
 
         $StoneManager = new StoneManager($this->game);
         $space_id = $StoneManager->getGiftedSpace($player_id);
-        $opponent_space_id = $StoneManager->getGiftedSpace($opponent_id);
 
         if (!$space_id) {
             return false;
-        }
-
-        if ($space_id && !$opponent_space_id) {
-            return true;
         }
 
         $SpaceManager = new SpaceManager($this->game);
         $Space = $SpaceManager->getById($this->space_id);
         $orthogonalRelations = $Space->getOrthogonalRelations();
 
-        return in_array($space_id, $orthogonalRelations)
-            && !in_array($opponent_space_id, $orthogonalRelations);
+        if (!in_array($space_id, $orthogonalRelations)) {
+            return false;
+        }
+
+        $opponent_space_id = $StoneManager->getGiftedSpace($opponent_id);
+        if (!$opponent_space_id) {
+            return true;
+        }
+
+        return !in_array($opponent_space_id, $orthogonalRelations);
     }
 
     public function gainFavor(int $player_id): void
