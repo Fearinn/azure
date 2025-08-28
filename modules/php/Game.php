@@ -175,8 +175,8 @@ class Game extends \Bga\GameFramework\Table
 
     protected function getAllDatas(): array
     {
+        $SpaceManager = new SpaceManager($this);
         if (!$this->globals->get(G_SERPENTS)) {
-            $SpaceManager = new SpaceManager($this);
             $SpaceManager->setupSerpents();
         }
 
@@ -203,6 +203,7 @@ class Game extends \Bga\GameFramework\Table
             "stoneCounts" => $StoneManager->getHandsCounts(),
             "giftedCard" => $GiftedManager->getGiftedCard(),
             "giftedStones" => $StoneManager->getGifted(),
+            "bonds" => $SpaceManager->getPlayersBonds(),
         ];
 
         if (!$this->isSpectator()) {

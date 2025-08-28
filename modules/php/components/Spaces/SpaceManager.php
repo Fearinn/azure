@@ -214,7 +214,6 @@ class SpaceManager extends Subclass
         $bonds = [];
         $players = $this->game->loadPlayersBasicInfos();
 
-
         $realm = $this->globals->get(G_REALM);
         foreach ($realm as $x => $column) {
             foreach ($column as $y => $space_id) {
