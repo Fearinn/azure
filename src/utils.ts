@@ -22,8 +22,8 @@ class Utils {
     callback: () => void,
     params?: {
       color: "primary" | "secondary" | "alert";
-      destination: HTMLElement;
-      classes: string[];
+      destination?: HTMLElement;
+      classes?: string[];
     }
   ) {
     this.game.statusBar.addActionButton(
@@ -67,7 +67,7 @@ class Utils {
       if (log && args && !args.processed) {
         if (args.space_icon !== undefined && args.space_id !== undefined) {
           const backgroundImage = `url(${g_gamethemeurl}img/spaces/space_${args.space_id}.jpg)`;
-          args.space_icon = `<div class="azr_logIcon azr_spaceIcon" style="background-image: ${backgroundImage};"></div>`;
+          args.space_icon = `<span class="azr_logIcon azr_spaceIcon" style="background-image: ${backgroundImage};"></span>`;
         }
 
         if (args.qi_icon !== undefined && args.domain_id !== undefined) {

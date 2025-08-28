@@ -58,3 +58,33 @@
     opacity: 1;
   }
 }
+
+#pagemaintitletext {
+  &:has(.azr_spaceIcon) {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+
+    span {
+      line-height: normal;
+      align-self: center !important;
+    }
+  }
+
+  .azr_spaceIcon {
+    display: inline-block;
+    margin: 0 0 0 4px;
+    width: 40px;
+  }
+}
+
+.bgabutton {
+  &:has(.azr_spaceIcon) {
+    padding: 4px;
+  }
+
+  .azr_spaceIcon {
+    margin: 0;
+    width: 40px;
+  }
+}

@@ -19,22 +19,3 @@
   aspect-ratio: 1 / 1.52;
   width: 50px;
 }
-
-#pagemaintitletext:has(.azr_logIcon) {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-
-  span {
-    line-height: normal;
-    align-self: center !important;
-  }
-}
-
-#pagemaintitletext {
-  .azr_spaceIcon {
-    display: inline-block;
-    margin: 0 0 0 4px;
-    width: 40px;
-  }
-}

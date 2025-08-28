@@ -2706,7 +2706,7 @@ var Utils = /** @class */ (function () {
             if (log && args && !args.processed) {
                 if (args.space_icon !== undefined && args.space_id !== undefined) {
                     var backgroundImage = "url(".concat(g_gamethemeurl, "img/spaces/space_").concat(args.space_id, ".jpg)");
-                    args.space_icon = "<div class=\"azr_logIcon azr_spaceIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
+                    args.space_icon = "<span class=\"azr_logIcon azr_spaceIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></span>");
                 }
                 if (args.qi_icon !== undefined && args.domain_id !== undefined) {
                     var backgroundImage = "url(".concat(g_gamethemeurl, "img/qi_").concat(args.domain_id, ".jpg)");
@@ -3267,12 +3267,15 @@ var SpaceManager = /** @class */ (function () {
             if (selection.length === 0) {
                 return;
             }
-            var x = card.x, y = card.y;
+            var x = card.x, y = card.y, space_id = card.id;
             if (_this.game.getGameUserPreference(101) === 0) {
                 utils.performAction(action, { x: x, y: y });
                 return;
             }
-            utils.addConfirmationButton(_("confirm placement"), function () {
+            utils.addConfirmationButton(_this.game.format_string_recursive("${space_icon}", {
+                space_icon: "",
+                space_id: space_id,
+            }), function () {
                 utils.performAction(action, { x: x, y: y });
             });
         };

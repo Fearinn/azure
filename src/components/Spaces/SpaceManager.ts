@@ -87,16 +87,22 @@ class SpaceManager {
         return;
       }
 
-      const { x, y } = card;
+      const { x, y, id: space_id } = card;
 
       if (this.game.getGameUserPreference(101) === 0) {
         utils.performAction(action, { x, y });
         return;
       }
 
-      utils.addConfirmationButton(_("confirm placement"), () => {
-        utils.performAction(action, { x, y });
-      });
+      utils.addConfirmationButton(
+        this.game.format_string_recursive("${space_icon}", {
+          space_icon: "",
+          space_id,
+        }),
+        () => {
+          utils.performAction(action, { x, y });
+        }
+      );
     };
   }
 
