@@ -56,6 +56,7 @@ interface AzureGamedatas extends Gamedatas<AzurePlayer> {
   placedStones: StoneCard[];
   giftedCard: GiftedCard;
   giftedStones: StoneCard[];
+  bonds: Bonds;
 }
 
 interface AzureGui extends GameGui {

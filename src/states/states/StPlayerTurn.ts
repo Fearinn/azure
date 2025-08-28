@@ -4,10 +4,17 @@ class StPlayerTurn extends StateManager {
   }
 
   enter(args: arg_playerTurn) {
-    const { _private } = args;
+    const { _private, bonds } = args;
+    this.game.gamedatas.bonds = bonds;
+
+    const spaceManager = new SpaceManager(this.game);
+    spaceManager.highlightBonds();
+
+    if (!this.game.isCurrentPlayerActive()) {
+      return;
+    }
 
     const { selectableSpaces, canPlayGifted } = _private;
-    const spaceManager = new SpaceManager(this.game);
     spaceManager.makeSelectable(selectableSpaces);
 
     if (canPlayGifted) {
@@ -34,4 +41,9 @@ interface arg_playerTurn {
     selectableSpaces: SpaceCard[];
     canPlayGifted: boolean;
   };
+  bonds: Bonds;
+}
+
+interface Bonds {
+  [space_id: number]: { [player_id: number]: number[] };
 }

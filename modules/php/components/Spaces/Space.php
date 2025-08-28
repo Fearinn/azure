@@ -50,15 +50,16 @@ class Space extends Subclass
         return $StoneManager->checkBySpace($this->id, $player_id);
     }
 
-    public function isTortoiseFavor(int $player_id): bool
+    private function isTortoise(): bool
     {
-        if (!$this->isOccupied($player_id)) {
-            return false;
-        }
-
         $domainSides = $this->globals->get(G_DOMAINS_SIDES);
         $side = $domainSides[4];
         return $this->MOUNTAINS[4][$side] === $this->id;
+    }
+
+    public function isTortoiseFavor(int $player_id): bool
+    {
+        return $this->isTortoise() && $this->isOccupied($player_id);
     }
 
     public function addBonds(
@@ -128,6 +129,32 @@ class Space extends Subclass
         return $bondCount;
     }
 
+    public function getBonds(int $player_id): array
+    {
+        $bonds = [];
+
+        $orthogonalRelations = $this->getOrthogonalRelations(true);
+        $SpaceManager = new SpaceManager($this->game);
+
+        foreach ($orthogonalRelations as $space_id) {
+            $Space = $SpaceManager->getById($space_id);
+
+            if ($Space->isTortoiseFavor($player_id)) {
+                $bonds[] = $Space->id;
+            }
+
+            if ($Space->isMountain) {
+                continue;
+            }
+
+            if ($Space->isOccupied($player_id)) {
+                $bonds[] = $Space->id;
+            }
+        }
+
+        return $bonds;
+    }
+
     public function getCost(int $player_id, int $extraCost = 0): int
     {
         $bondCount = $this->countBonds($player_id);
@@ -168,7 +195,7 @@ class Space extends Subclass
         $WisdomManager->inc($player_id, $this->wisdom);
     }
 
-    public function getOrthogonalRelations(): array
+    public function getOrthogonalRelations(bool $includeTortoise = false): array
     {
         $x = $this->x;
         $y = $this->y;
@@ -177,6 +204,11 @@ class Space extends Subclass
 
         for ($bond_x = $x - 1; $bond_x >= 1; $bond_x--) {
             $Space = new Space($this->game, $bond_x, $y);
+
+            if ($includeTortoise && $Space->isTortoise()) {
+                $space_ids[] = $Space->id;
+                break;
+            }
 
             if ($Space->isMountain) {
                 break;
@@ -188,6 +220,11 @@ class Space extends Subclass
         for ($bond_x = $x + 1; $bond_x <= 6; $bond_x++) {
             $Space = new Space($this->game, $bond_x, $y);
 
+            if ($includeTortoise && $Space->isTortoise()) {
+                $space_ids[] = $Space->id;
+                break;
+            }
+
             if ($Space->isMountain) {
                 break;
             }
@@ -197,6 +234,11 @@ class Space extends Subclass
 
         for ($bond_y = $y - 1; $bond_y >= 1; $bond_y--) {
             $Space = new Space($this->game, $x, $bond_y);
+
+            if ($includeTortoise && $Space->isTortoise()) {
+                $space_ids[] = $Space->id;
+                break;
+            }
 
             if ($Space->isMountain) {
                 break;

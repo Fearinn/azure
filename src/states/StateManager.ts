@@ -6,15 +6,16 @@ class StateManager {
   }
 
   onEntering(stateName: StateName, args: any): void {
+    if (stateName === "playerTurn") {
+      new StPlayerTurn(this.game).enter(args);
+      return;
+    }
+
     if (!this.game.isCurrentPlayerActive()) {
       return;
     }
 
     switch (stateName) {
-      case "playerTurn":
-        new StPlayerTurn(this.game).enter(args);
-        break;
-
       case "birdDiscard":
         new StBirdDiscard(this.game).enter(args);
         break;

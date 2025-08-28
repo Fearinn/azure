@@ -23,5 +23,17 @@
       }
     },
     "default": 1
+  },
+  "102": {
+    "name": "Highlight bonds on hover",
+    "values": {
+      "0": {
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes"
+      }
+    },
+    "default": 1
   }
 }

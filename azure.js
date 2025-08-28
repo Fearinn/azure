@@ -3211,8 +3211,10 @@ var SpaceManager = /** @class */ (function () {
         this.gamedatas = this.game.gamedatas;
         this.manager = this.gamedatas.managers.spaces;
         this.stocks = this.gamedatas.stocks.spaces;
+        this.bonds = this.gamedatas.bonds;
     }
     SpaceManager.prototype.create = function () {
+        var _this = this;
         var manager = new CardManager(this.game, {
             getId: function (_a) {
                 var id = _a.id;
@@ -3221,11 +3223,13 @@ var SpaceManager = /** @class */ (function () {
             selectedCardClass: "azr_selected",
             selectableCardClass: "azr_selectable",
             unselectableCardClass: "azr_unselectable",
-            setupDiv: function (_a, element) {
-                var x = _a.x, y = _a.y;
+            setupDiv: function (card, element) {
+                var x = card.x, y = card.y;
                 element.classList.add("azr_space");
                 element.style.setProperty("--x", x.toString());
                 element.style.setProperty("--y", y.toString());
+                var space = new Space(_this.game, card);
+                space.highlightBonds();
             },
         });
         this.gamedatas.stocks.spaces = {
@@ -3276,6 +3280,13 @@ var SpaceManager = /** @class */ (function () {
     SpaceManager.prototype.makeUnselectable = function () {
         this.stocks.realm.setSelectionMode("none");
     };
+    SpaceManager.prototype.highlightBonds = function () {
+        for (var sp_id in this.bonds) {
+            var space_id = Number(sp_id);
+            var space = new Space(this.game, { id: space_id });
+            space.highlightBonds();
+        }
+    };
     return SpaceManager;
 }());
 var Space = /** @class */ (function (_super) {
@@ -3284,10 +3295,71 @@ var Space = /** @class */ (function (_super) {
         var _this = _super.call(this, game) || this;
         _this.card = card;
         _this.id = _this.card.id;
+        _this.timeout = null;
         return _this;
     }
     Space.prototype.setup = function () {
         this.stocks.realm.addCard(this.card, {}, {});
+    };
+    Space.prototype.enterHover = function () {
+        var _this = this;
+        if (this.game.getGameUserPreference(102) === 0) {
+            return;
+        }
+        clearTimeout(this.timeout);
+        var bonds = this.bonds[this.id];
+        this.timeout = setTimeout(function () {
+            var _loop_4 = function (p_id) {
+                var player_id = Number(p_id);
+                bonds[player_id].forEach(function (space_id) {
+                    var card = { id: space_id };
+                    var element = _this.manager.getCardElement(card);
+                    var className = player_id === _this.game.player_id
+                        ? "azr_space-bonded"
+                        : "azr_space-opponent";
+                    element.classList.add(className);
+                });
+            };
+            for (var p_id in bonds) {
+                _loop_4(p_id);
+            }
+        }, 500);
+    };
+    Space.prototype.leaveHover = function () {
+        var _this = this;
+        if (this.game.getGameUserPreference(102) === 0) {
+            return;
+        }
+        clearTimeout(this.timeout);
+        this.timeout = null;
+        var bonds = this.bonds[this.id];
+        for (var p_id in bonds) {
+            var player_id = Number(p_id);
+            bonds[player_id].forEach(function (space_id) {
+                var card = { id: space_id };
+                var element = _this.manager.getCardElement(card);
+                element.classList.remove("azr_space-bonded", "azr_space-opponent");
+            });
+        }
+    };
+    Space.prototype.highlightBonds = function () {
+        var _this = this;
+        var cardElement = this.manager.getCardElement(this.card);
+        cardElement.addEventListener("mouseover", function () {
+            _this.enterHover();
+        });
+        cardElement.addEventListener("mouseout", function () {
+            _this.leaveHover();
+        });
+        cardElement.addEventListener("touchstart", function () {
+            _this.enterHover();
+        }, { passive: true });
+        cardElement.addEventListener("touchend", function () {
+            _this.leaveHover();
+        }, { passive: true });
+        cardElement.addEventListener("touchcancel", function () {
+            _this.leaveHover();
+        }, { passive: true });
     };
     return Space;
 }(SpaceManager));
@@ -3496,13 +3568,14 @@ var StateManager = /** @class */ (function () {
         this.game = game;
     }
     StateManager.prototype.onEntering = function (stateName, args) {
+        if (stateName === "playerTurn") {
+            new StPlayerTurn(this.game).enter(args);
+            return;
+        }
         if (!this.game.isCurrentPlayerActive()) {
             return;
         }
         switch (stateName) {
-            case "playerTurn":
-                new StPlayerTurn(this.game).enter(args);
-                break;
             case "birdDiscard":
                 new StBirdDiscard(this.game).enter(args);
                 break;
@@ -3583,9 +3656,14 @@ var StPlayerTurn = /** @class */ (function (_super) {
     }
     StPlayerTurn.prototype.enter = function (args) {
         var _this = this;
-        var _private = args._private;
-        var selectableSpaces = _private.selectableSpaces, canPlayGifted = _private.canPlayGifted;
+        var _private = args._private, bonds = args.bonds;
+        this.game.gamedatas.bonds = bonds;
         var spaceManager = new SpaceManager(this.game);
+        spaceManager.highlightBonds();
+        if (!this.game.isCurrentPlayerActive()) {
+            return;
+        }
+        var selectableSpaces = _private.selectableSpaces, canPlayGifted = _private.canPlayGifted;
         spaceManager.makeSelectable(selectableSpaces);
         if (canPlayGifted) {
             this.game.statusBar.addActionButton(_("play gifted stone instead"), function () {

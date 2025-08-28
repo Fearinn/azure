@@ -32,7 +32,8 @@ class StPlayerTurn extends StateManager
                     "selectableGifted" => $selectableGifted,
                     "canPlayGifted" => $GiftedManager->canPlay($player_id),
                 ],
-            ]
+            ],
+            "bonds" => $SpaceManager->getPlayersBonds($player_id),
         ];
 
         return $args;

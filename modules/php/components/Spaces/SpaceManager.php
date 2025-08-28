@@ -194,4 +194,27 @@ class SpaceManager extends Subclass
 
         return $selectableSpaces;
     }
+
+    public function getPlayersBonds(): array
+    {
+        $bonds = [];
+        $players = $this->game->loadPlayersBasicInfos();
+
+
+        $realm = $this->globals->get(G_REALM);
+        foreach ($realm as $x => $column) {
+            foreach ($column as $y => $space_id) {
+                if (!isset($bonds[$space_id])) {
+                    $bonds[$space_id] = [];
+                }
+
+                $Space = new Space($this->game, $x, $y);
+                foreach ($players as $player_id => $player) {
+                    $bonds[$space_id][$player_id] = $Space->getBonds($player_id);
+                }
+            }
+        }
+
+        return $bonds;
+    }
 }

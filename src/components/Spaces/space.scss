@@ -13,6 +13,7 @@
   justify-content: center;
   aspect-ratio: 1;
   width: var(--space-width);
+  transition: 1s;
 
   .card-side {
     box-shadow: none !important;
@@ -28,6 +29,14 @@
   }
 
   &.azr_selected {
-    background-color: #00640088;
+    background-color: #ffb823bb;
+  }
+
+  &.azr_space-bonded {
+    background-color: #0d4715dd;
+  }
+
+  &.azr_space-opponent {
+    background-color: #690b22dd;
   }
 }

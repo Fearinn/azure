@@ -706,6 +706,7 @@ body > .card {
   justify-content: center;
   aspect-ratio: 1;
   width: var(--space-width);
+  transition: 1s;
 }
 .azr_space .card-side {
   box-shadow: none !important;
@@ -718,7 +719,13 @@ body > .card {
   background-color: rgba(0, 0, 0, 0.4666666667);
 }
 .azr_space.azr_selected {
-  background-color: rgba(0, 100, 0, 0.5333333333);
+  background-color: rgba(255, 184, 35, 0.7333333333);
+}
+.azr_space.azr_space-bonded {
+  background-color: rgba(13, 71, 21, 0.8666666667);
+}
+.azr_space.azr_space-opponent {
+  background-color: rgba(105, 11, 34, 0.8666666667);
 }
 
 :root {

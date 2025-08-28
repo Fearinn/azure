@@ -1,20 +1,22 @@
 interface SpaceCard {
   id: number;
-  x: number;
-  y: number;
+  x?: number;
+  y?: number;
 }
 
 class SpaceManager {
-  private game: Azure;
-  private gamedatas: AzureGamedatas;
-  public readonly manager: CardManager<SpaceCard>;
-  public readonly stocks: { realm: CardStock<SpaceCard> };
+  protected game: Azure;
+  protected gamedatas: AzureGamedatas;
+  protected readonly manager: CardManager<SpaceCard>;
+  protected readonly stocks: { realm: CardStock<SpaceCard> };
+  protected readonly bonds: Bonds;
 
   constructor(game: Azure) {
     this.game = game;
     this.gamedatas = this.game.gamedatas;
     this.manager = this.gamedatas.managers.spaces;
     this.stocks = this.gamedatas.stocks.spaces;
+    this.bonds = this.gamedatas.bonds;
   }
 
   private create(): void {
@@ -25,10 +27,14 @@ class SpaceManager {
       selectedCardClass: `azr_selected`,
       selectableCardClass: `azr_selectable`,
       unselectableCardClass: `azr_unselectable`,
-      setupDiv: ({ x, y }, element) => {
+      setupDiv: (card, element) => {
+        const { x, y } = card;
         element.classList.add(`azr_space`);
         element.style.setProperty("--x", x.toString());
         element.style.setProperty("--y", y.toString());
+
+        const space = new Space(this.game, card);
+        space.highlightBonds();
       },
     });
 
@@ -96,5 +102,13 @@ class SpaceManager {
 
   makeUnselectable(): void {
     this.stocks.realm.setSelectionMode("none");
+  }
+
+  highlightBonds(): void {
+    for (const sp_id in this.bonds) {
+      const space_id = Number(sp_id);
+      const space = new Space(this.game, { id: space_id });
+      space.highlightBonds();
+    }
   }
 }
