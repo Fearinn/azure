@@ -52,9 +52,7 @@ class Space extends Subclass
 
     private function isTortoise(): bool
     {
-        $domainSides = $this->globals->get(G_DOMAINS_SIDES);
-        $side = $domainSides[4];
-        return $this->MOUNTAINS[4][$side] === $this->id;
+        return $this->isMountain && $this->domain_id === 4;
     }
 
     public function isTortoiseFavor(int $player_id): bool
@@ -136,11 +134,38 @@ class Space extends Subclass
         $orthogonalRelations = $this->getOrthogonalRelations(true);
         $SpaceManager = new SpaceManager($this->game);
 
+        if ($this->isMountain) {
+            if ($this->domain_id === 3) {
+                $space_ids = $SpaceManager->getByDomain(3);
+                foreach ($space_ids as $space_id) {
+                    $Space = $SpaceManager->getById($space_id);
+
+                    if ($Space->isOccupied($player_id)) {
+                        $bonds[] = $space_id;
+                    }
+                }
+            }
+
+            if ($this->domain_id === 4) {
+                $serpents = $this->globals->get(G_SERPENTS);
+
+                foreach ($serpents as $space_id) {
+                    $Space = $SpaceManager->getByID($space_id);
+
+                    if ($Space->isOccupied($player_id)) {
+                        $bonds[] = $space_id;
+                    }
+                }
+
+                return $bonds;
+            }
+        }
+
         foreach ($orthogonalRelations as $space_id) {
             $Space = $SpaceManager->getById($space_id);
 
             if ($Space->isTortoiseFavor($player_id)) {
-                $bonds[] = $Space->id;
+                $bonds[] = $space_id;
             }
 
             if ($Space->isMountain) {
@@ -148,7 +173,7 @@ class Space extends Subclass
             }
 
             if ($Space->isOccupied($player_id)) {
-                $bonds[] = $Space->id;
+                $bonds[] = $space_id;
             }
         }
 

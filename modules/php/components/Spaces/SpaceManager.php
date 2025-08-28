@@ -142,9 +142,9 @@ class SpaceManager extends Subclass
         return $serpentCount;
     }
 
-    public function countOccupiedByDomain(int $player_id, int $domain_id): int
+    public function getByDomain(int $domain_id): array
     {
-        $count = 0;
+        $space_ids = [];
 
         $domainSides = $this->globals->get(G_DOMAINS_SIDES);
         $side = $domainSides[$domain_id];
@@ -153,10 +153,24 @@ class SpaceManager extends Subclass
 
         foreach ($domain as $column) {
             foreach ($column as $space_id) {
-                $Space = $this->getById($space_id);
-                if ($Space->isOccupied($player_id)) {
-                    $count++;
-                }
+                $space_ids[] = $space_id;
+            }
+        }
+
+        return $space_ids;
+    }
+
+    public function countOccupiedByDomain(int $player_id, int $domain_id): int
+    {
+        $count = 0;
+
+        $space_ids = $this->getByDomain($domain_id);
+
+        foreach ($space_ids as $space_id) {
+            $Space = $this->getById($space_id);
+
+            if ($Space->isOccupied($player_id)) {
+                $count++;
             }
         }
 

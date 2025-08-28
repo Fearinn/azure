@@ -1,11 +1,12 @@
 :root {
-  --beast-width: calc(var(--space-width) * 0.8);
+  --beast-width: calc(var(--space-width) * 0.7);
 }
 
 .azr_beast {
   position: relative;
-  aspect-ratio: 1;
   background-size: cover;
+  background-position: center;
+  aspect-ratio: 1 / 1.5;
   width: var(--beast-width);
   filter: drop-shadow(0 0 8px #000000);
 
