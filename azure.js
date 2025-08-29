@@ -2476,8 +2476,12 @@ var NotifManager = /** @class */ (function () {
                     case 0:
                         card = args.card, player_id = args.player_id;
                         beast = new Beast(this.game, card);
+                        beast.playSound();
                         return [4 /*yield*/, beast.gainFavor(player_id)];
                     case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -2843,20 +2847,23 @@ var Beast = /** @class */ (function (_super) {
     };
     Beast.prototype.gainFavor = function (player_id) {
         return __awaiter(this, void 0, void 0, function () {
-            var utils;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0:
-                        utils = new Utils(this.game);
-                        utils.playSound("beast_".concat(this.id));
-                        return [4 /*yield*/, this.stocks[player_id].favors.addCard(this.card)];
+                    case 0: return [4 /*yield*/, this.stocks[player_id].favors.addCard(this.card)];
                     case 1:
-                        _a.sent();
-                        return [4 /*yield*/, this.game.wait(1000)];
-                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }
+            });
+        });
+    };
+    Beast.prototype.playSound = function () {
+        return __awaiter(this, void 0, void 0, function () {
+            var utils;
+            return __generator(this, function (_a) {
+                utils = new Utils(this.game);
+                utils.playSound("beast_".concat(this.id));
+                return [2 /*return*/];
             });
         });
     };

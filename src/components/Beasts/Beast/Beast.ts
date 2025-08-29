@@ -45,11 +45,12 @@ class Beast extends BeastManager implements Beast {
   }
 
   public async gainFavor(player_id: number): Promise<void> {
+    await this.stocks[player_id].favors.addCard(this.card);
+  }
+
+  public async playSound(): Promise<void> {
     const utils = new Utils(this.game);
     utils.playSound(`beast_${this.id}`);
-
-    await this.stocks[player_id].favors.addCard(this.card);
-    await this.game.wait(1000);
   }
 
   public buildTooltip(): string {

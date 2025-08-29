@@ -68,7 +68,9 @@ class NotifManager {
     const { card, player_id } = args;
     const beast = new Beast(this.game, card);
 
+    beast.playSound();
     await beast.gainFavor(player_id);
+    await this.game.wait(1000);
   }
 
   notif_setScore(
