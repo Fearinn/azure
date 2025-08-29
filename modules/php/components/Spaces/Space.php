@@ -144,6 +144,7 @@ class Space extends Subclass
                         $bonds[] = $space_id;
                     }
                 }
+                return $bonds;
             }
 
             if ($this->domain_id === 4) {
