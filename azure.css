@@ -948,7 +948,7 @@ body > .card {
   border-radius: 8px;
   box-shadow: 0 0 8px var(--color);
   margin: 0;
-  padding: 4px;
+  padding: 0 4px;
   width: max-content;
   transform: translate(-50%, 50%);
   z-index: 1;
@@ -978,6 +978,7 @@ body > .card {
 .azr_favorBeasts {
   display: grid;
   grid-template-columns: repeat(4, var(--beast-width));
+  margin-top: 28px;
 }
 
 .player-board {

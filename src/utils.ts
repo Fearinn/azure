@@ -91,6 +91,21 @@ class Utils {
 
     return { log, args };
   }
+
+  public playSound(id: string): void {
+    console.log(typeof g_replayFrom, g_archive_mode);
+
+    if (
+      this.game.getGameUserPreference(103) === 0 ||
+      typeof g_replayFrom !== "undefined" ||
+      g_archive_mode
+    ) {
+      return;
+    }
+
+    this.game.disableNextMoveSound();
+    this.game.sounds.play(id);
+  }
 }
 
 type ActionName =

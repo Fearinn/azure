@@ -28,6 +28,7 @@ use Bga\Games\Azure\actions\ActBirdDiscard;
 use Bga\Games\Azure\actions\ActGatherBountiful;
 use Bga\Games\Azure\actions\ActPlaceGifted;
 use Bga\Games\Azure\actions\ActPlaceStone;
+use Bga\Games\Azure\components\Beasts\Beast;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Gifted\GiftedCard;
 use Bga\Games\Azure\components\Gifted\GiftedManager;
@@ -261,5 +262,12 @@ class Game extends \Bga\GameFramework\Table
     {
         $state_name = $state["name"];
         $this->gamestate->jumpToState(ST_END_GAME);
+    }
+
+    public function debug_gainFavor(int $domain_id): void
+    {
+        $player_id = (int) $this->getCurrentPlayerId();
+        $Beast = new Beast($this, $domain_id);
+        $Beast->gainFavor($player_id);
     }
 }

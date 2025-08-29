@@ -2596,7 +2596,9 @@ var AzureTemplate = /** @class */ (function () {
             var playerPanel = this.game.getPlayerPanelElement(player_id);
             playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_giftedStone-".concat(player_id, "\" class=\"azr_giftedStone\"></div>\n        <div id=\"azr_stoneCounter-").concat(player_id, "\" class=\"azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\" azr_counterIcon azr_stone azr_stone-").concat(player_color, " azr_stoneCounterIcon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counterIcon azr_handCounterIcon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>"));
             this.game.addTooltipHtml("azr_stoneCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s common stones", { player_name: player_name }), "\n        </span>"));
-            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s qi", { player_name: player_name }), "\n        </span>"));
+            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s qi", {
+                player_name: player_name,
+            }), "\n        </span>"));
             this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
                 hand: new ebg.counter(),
                 stones: new ebg.counter(),
@@ -2643,7 +2645,7 @@ var AzureTemplate = /** @class */ (function () {
             });
         });
     };
-    AzureTemplate.prototype.setup = function () {
+    AzureTemplate.prototype.setupColors = function () {
         var color = this.game.isSpectator
             ? "003a4f"
             : this.gamedatas.players[this.game.player_id].color;
@@ -2653,6 +2655,15 @@ var AzureTemplate = /** @class */ (function () {
         html.style.setProperty("--opp-color", "#".concat(opp_color));
         html.style.setProperty("--color-transparent", "#".concat(color, "aa"));
         html.style.setProperty("--opp-color-transparent", "#".concat(opp_color, "aa"));
+    };
+    AzureTemplate.prototype.loadSounds = function () {
+        for (var domain_id in this.gamedatas.BEASTS) {
+            this.game.sounds.load("beast_".concat(domain_id), "sounds/beast_".concat(domain_id));
+        }
+    };
+    AzureTemplate.prototype.setup = function () {
+        this.setupColors();
+        this.loadSounds();
         this.setupZoom();
         this.setupRealm();
         this.setupHand();
@@ -2726,6 +2737,16 @@ var Utils = /** @class */ (function () {
             console.error(log, args, "Exception thrown", e.stack);
         }
         return { log: log, args: args };
+    };
+    Utils.prototype.playSound = function (id) {
+        console.log(typeof g_replayFrom, g_archive_mode);
+        if (this.game.getGameUserPreference(103) === 0 ||
+            typeof g_replayFrom !== "undefined" ||
+            g_archive_mode) {
+            return;
+        }
+        this.game.disableNextMoveSound();
+        this.game.sounds.play(id);
     };
     return Utils;
 }());
@@ -2822,10 +2843,17 @@ var Beast = /** @class */ (function (_super) {
     };
     Beast.prototype.gainFavor = function (player_id) {
         return __awaiter(this, void 0, void 0, function () {
+            var utils;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, this.stocks[player_id].favors.addCard(this.card)];
+                    case 0:
+                        utils = new Utils(this.game);
+                        utils.playSound("beast_".concat(this.id));
+                        return [4 /*yield*/, this.stocks[player_id].favors.addCard(this.card)];
                     case 1:
+                        _a.sent();
+                        return [4 /*yield*/, this.game.wait(1000)];
+                    case 2:
                         _a.sent();
                         return [2 /*return*/];
                 }

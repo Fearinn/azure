@@ -154,24 +154,19 @@ class AzureTemplate {
       this.game.addTooltipHtml(
         `azr_stoneCounter-${player_id}`,
         `<span class="azr_tooltip">
-                ${
-                  this.game.format_string_recursive(
-                    "${player_name}'s common stones",
-                    { player_name }
-                  )
-                }
+                ${this.game.format_string_recursive(
+                  "${player_name}'s common stones",
+                  { player_name }
+                )}
         </span>`
       );
 
       this.game.addTooltipHtml(
         `azr_handCounter-${player_id}`,
         `<span class="azr_tooltip">
-                ${
-                  this.game.format_string_recursive(
-                    "${player_name}'s qi",
-                    { player_name }
-                  )
-                }
+                ${this.game.format_string_recursive("${player_name}'s qi", {
+                  player_name,
+                })}
         </span>`
       );
 
@@ -235,7 +230,7 @@ class AzureTemplate {
     });
   }
 
-  public setup() {
+  private setupColors(): void {
     const color = this.game.isSpectator
       ? "003a4f"
       : this.gamedatas.players[this.game.player_id].color;
@@ -246,7 +241,17 @@ class AzureTemplate {
     html.style.setProperty("--opp-color", `#${opp_color}`);
     html.style.setProperty("--color-transparent", `#${color}aa`);
     html.style.setProperty("--opp-color-transparent", `#${opp_color}aa`);
+  }
 
+  private loadSounds(): void {
+    for (const domain_id in this.gamedatas.BEASTS) {
+      this.game.sounds.load(`beast_${domain_id}`, `sounds/beast_${domain_id}`);
+    }
+  }
+
+  public setup() {
+    this.setupColors();
+    this.loadSounds();
     this.setupZoom();
     this.setupRealm();
     this.setupHand();

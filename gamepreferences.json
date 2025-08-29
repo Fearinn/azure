@@ -35,5 +35,17 @@
       }
     },
     "default": 1
+  },
+  "103": {
+    "name": "Sound effects",
+    "values": {
+      "0": {
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes"
+      }
+    },
+    "default": 1
   }
 }
