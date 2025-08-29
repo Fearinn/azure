@@ -39,7 +39,7 @@ class Space extends SpaceManager implements Space {
           element.classList.add(className);
         });
       }
-    }, 500);
+    }, 100);
   }
 
   leaveHover(): void {
@@ -66,36 +66,20 @@ class Space extends SpaceManager implements Space {
   highlightBonds(): void {
     const cardElement = this.manager.getCardElement(this.card);
 
-    cardElement.addEventListener("mouseover", () => {
+    cardElement.addEventListener("pointerdown", () => {
       this.enterHover();
     });
 
-    cardElement.addEventListener("mouseout", () => {
+    cardElement.addEventListener("pointerenter", () => {
+      this.enterHover();
+    });
+
+    cardElement.addEventListener("pointerup", () => {
       this.leaveHover();
     });
 
-    cardElement.addEventListener(
-      "touchstart",
-      () => {
-        this.enterHover();
-      },
-      { passive: true }
-    );
-
-    cardElement.addEventListener(
-      "touchend",
-      () => {
-        this.leaveHover();
-      },
-      { passive: true }
-    );
-
-    cardElement.addEventListener(
-      "touchcancel",
-      () => {
-        this.leaveHover();
-      },
-      { passive: true }
-    );
+    cardElement.addEventListener("pointerleave", () => {
+      this.leaveHover();
+    });
   }
 }

@@ -3354,7 +3354,7 @@ var Space = /** @class */ (function (_super) {
             for (var p_id in bonds) {
                 _loop_4(p_id);
             }
-        }, 500);
+        }, 100);
     };
     Space.prototype.leaveHover = function () {
         var _this = this;
@@ -3376,21 +3376,18 @@ var Space = /** @class */ (function (_super) {
     Space.prototype.highlightBonds = function () {
         var _this = this;
         var cardElement = this.manager.getCardElement(this.card);
-        cardElement.addEventListener("mouseover", function () {
+        cardElement.addEventListener("pointerdown", function () {
             _this.enterHover();
         });
-        cardElement.addEventListener("mouseout", function () {
+        cardElement.addEventListener("pointerenter", function () {
+            _this.enterHover();
+        });
+        cardElement.addEventListener("pointerup", function () {
             _this.leaveHover();
         });
-        cardElement.addEventListener("touchstart", function () {
-            _this.enterHover();
-        }, { passive: true });
-        cardElement.addEventListener("touchend", function () {
+        cardElement.addEventListener("pointerleave", function () {
             _this.leaveHover();
-        }, { passive: true });
-        cardElement.addEventListener("touchcancel", function () {
-            _this.leaveHover();
-        }, { passive: true });
+        });
     };
     return Space;
 }(SpaceManager));
