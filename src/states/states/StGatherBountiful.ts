@@ -15,7 +15,7 @@ class StGatherBountiful extends StateManager {
       });
     });
 
-    this.game.statusBar.addActionButton(_("wisdom"), () => {
+    this.game.statusBar.addActionButton(_("point"), () => {
       utils.performAction("act_gatherBountiful", {
         boon: "wisdom",
       });

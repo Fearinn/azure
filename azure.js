@@ -3668,7 +3668,7 @@ var StGatherBountiful = /** @class */ (function (_super) {
                 boon: "qi",
             });
         });
-        this.game.statusBar.addActionButton(_("wisdom"), function () {
+        this.game.statusBar.addActionButton(_("point"), function () {
             utils.performAction("act_gatherBountiful", {
                 boon: "wisdom",
             });
