@@ -9,7 +9,7 @@ class StGatherBountiful extends StateManager {
 
     const utils = new Utils(this.game);
 
-    this.game.statusBar.addActionButton(_("qi"), () => {
+    this.game.statusBar.addActionButton(_("card"), () => {
       utils.performAction("act_gatherBountiful", {
         boon: "qi",
       });

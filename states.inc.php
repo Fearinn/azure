@@ -70,8 +70,8 @@ $machinestates = [
 
     ST_BIRD_DISCARD => GameStateBuilder::create()
         ->name("birdDiscard")
-        ->description(clienttranslate('${actplayer} must discard 2 qi from his hand'))
-        ->descriptionmyturn(clienttranslate('${you} must discard 2 qi from your hand'))
+        ->description(clienttranslate('${actplayer} must discard 2 cards from his hand'))
+        ->descriptionmyturn(clienttranslate('${you} must discard 2 cards from your hand'))
         ->type(StateType::ACTIVE_PLAYER)
         ->action("st_birdDiscard")
         ->possibleactions([

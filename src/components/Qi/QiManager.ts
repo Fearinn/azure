@@ -184,7 +184,7 @@ class QiManager {
       utils.removeConfirmationButton();
 
       if (selection.length === 2) {
-        utils.addConfirmationButton(_("confirm qi"), () => {
+        utils.addConfirmationButton(_("confirm cards"), () => {
           utils.performAction("act_birdDiscard", {
             cards: JSON.stringify(selection),
           });
@@ -194,7 +194,7 @@ class QiManager {
       }
 
       if (selection.length > 2) {
-        this.game.showMessage(_("You must discard exactly 2 qi"), "error");
+        this.game.showMessage(_("You must discard exactly 2 cards"), "error");
         return;
       }
     };

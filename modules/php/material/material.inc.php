@@ -36,7 +36,7 @@ $this->BEASTS = [
         "animal" => "bird",
         "label" => clienttranslate("Vermillion Bird"),
         "guard" => clienttranslate("all stones in the Vermillion domain."),
-        "favor" => clienttranslate("draw 2 qi from the hidden deck."),
+        "favor" => clienttranslate("draw 2 cards from the hidden deck."),
     ],
     4 => [
         "animal" => "tortoise",

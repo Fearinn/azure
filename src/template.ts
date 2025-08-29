@@ -164,7 +164,7 @@ class AzureTemplate {
       this.game.addTooltipHtml(
         `azr_handCounter-${player_id}`,
         `<span class="azr_tooltip">
-                ${this.game.format_string_recursive("${player_name}'s qi", {
+                ${this.game.format_string_recursive("${player_name}'s cards", {
                   player_name,
                 })}
         </span>`

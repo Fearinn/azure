@@ -116,7 +116,7 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "discardQi",
-            clienttranslate('${player_name} pays ${nbr_log} ${qi_label} qi ${qi_icon}'),
+            clienttranslate('${player_name} pays ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
             [
                 "i18n" => ["qi_label"],
                 "preserve" => ["domain_id"],
@@ -162,7 +162,7 @@ class QiManager extends CardManager
             $Notify = new NotifManager($this->game);
             $Notify->all(
                 "discardQi",
-                clienttranslate('${player_name} discards ${nbr_log} ${qi_label} qi ${qi_icon}'),
+                clienttranslate('${player_name} discards ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
                 [
                     "i18n" => ["qi_label"],
                     "preserve" => ["domain_id"],
@@ -193,7 +193,7 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "gatherQi",
-            clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} qi ${qi_icon}'),
+            clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
             [
                 "i18n" => ["qi_label"],
                 "preserve" => ["domain_id"],
@@ -216,7 +216,7 @@ class QiManager extends CardManager
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "drawQi",
-            clienttranslate('${player_name} draws ${nbr_log} qi from the hidden deck'),
+            clienttranslate('${player_name} draws ${nbr_log} card(s) from the hidden deck'),
             [
                 "nbr_log" => $nbr,
                 "nbr" => $nbr,
@@ -232,7 +232,7 @@ class QiManager extends CardManager
             $Notify->player(
                 $player_id,
                 "drawQiPrivate",
-                clienttranslate('You draw a ${qi_label} qi from the hidden deck ${qi_icon}'),
+                clienttranslate('You draw a ${qi_label} card from the hidden deck ${qi_icon}'),
                 [
                     "i18n" => ["qi_label"],
                     "preserve" => ["domain_id"],

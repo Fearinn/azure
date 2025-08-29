@@ -59,7 +59,7 @@ class Qi extends QiManager {
     const label =
       this.domain_id === 0
         ? _("Hidden deck")
-        : this.game.format_string_recursive(_("${qi_label} qi"), {
+        : this.game.format_string_recursive(_("${qi_label} card"), {
             i18n: "qi_label",
             qi_label: this.info.label,
           });

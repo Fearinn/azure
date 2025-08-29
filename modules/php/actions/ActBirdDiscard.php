@@ -26,7 +26,7 @@ class ActBirdDiscard extends ActionManager
     public function validate(array $cards): void
     {
         if (count($cards) !== 2) {
-            throw new \BgaVisibleSystemException("You must discard exactly 2 qi");
+            throw new \BgaVisibleSystemException("You must discard exactly 2 cards");
         }
 
         $QiManager = new QiManager($this->game);

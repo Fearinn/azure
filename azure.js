@@ -2596,7 +2596,7 @@ var AzureTemplate = /** @class */ (function () {
             var playerPanel = this.game.getPlayerPanelElement(player_id);
             playerPanel.insertAdjacentHTML("beforeend", "<div id=\"azr_giftedStone-".concat(player_id, "\" class=\"azr_giftedStone\"></div>\n        <div id=\"azr_stoneCounter-").concat(player_id, "\" class=\"azr_counter azr_stoneCounter\">\n          <div id=\"azr_stoneIcon-").concat(player_id, "\" class=\" azr_counterIcon azr_stone azr_stone-").concat(player_color, " azr_stoneCounterIcon\" \n          style=\"--color: #").concat(player_color, ";\"></div>\n          <span id=\"azr_stoneCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>\n        <div id=\"azr_handCounter-").concat(player_id, "\" class=\"azr_counter azr_handCounter\">\n          <div id=\"azr_handIcon-").concat(player_id, "\" class=\"azr_qi azr_counterIcon azr_handCounterIcon\"></div>\n          <span id=\"azr_handCount-").concat(player_id, "\" class=\"azr_customFont-title azr_counterCount\">0</span>\n        </div>"));
             this.game.addTooltipHtml("azr_stoneCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s common stones", { player_name: player_name }), "\n        </span>"));
-            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s qi", {
+            this.game.addTooltipHtml("azr_handCounter-".concat(player_id), "<span class=\"azr_tooltip\">\n                ".concat(this.game.format_string_recursive("${player_name}'s cards", {
                 player_name: player_name,
             }), "\n        </span>"));
             this.gamedatas.counters = __assign(__assign({}, this.gamedatas.counters), (_a = {}, _a[player_id] = {
@@ -3131,7 +3131,7 @@ var QiManager = /** @class */ (function () {
             var utils = new Utils(_this.game);
             utils.removeConfirmationButton();
             if (selection.length === 2) {
-                utils.addConfirmationButton(_("confirm qi"), function () {
+                utils.addConfirmationButton(_("confirm cards"), function () {
                     utils.performAction("act_birdDiscard", {
                         cards: JSON.stringify(selection),
                     });
@@ -3139,7 +3139,7 @@ var QiManager = /** @class */ (function () {
                 return;
             }
             if (selection.length > 2) {
-                _this.game.showMessage(_("You must discard exactly 2 qi"), "error");
+                _this.game.showMessage(_("You must discard exactly 2 cards"), "error");
                 return;
             }
         };
@@ -3224,7 +3224,7 @@ var Qi = /** @class */ (function (_super) {
         }
         var label = this.domain_id === 0
             ? _("Hidden deck")
-            : this.game.format_string_recursive(_("${qi_label} qi"), {
+            : this.game.format_string_recursive(_("${qi_label} card"), {
                 i18n: "qi_label",
                 qi_label: this.info.label,
             });
@@ -3663,7 +3663,7 @@ var StGatherBountiful = /** @class */ (function (_super) {
         var giftedManager = new GiftedManager(this.game);
         giftedManager.highlight(true);
         var utils = new Utils(this.game);
-        this.game.statusBar.addActionButton(_("qi"), function () {
+        this.game.statusBar.addActionButton(_("card"), function () {
             utils.performAction("act_gatherBountiful", {
                 boon: "qi",
             });
