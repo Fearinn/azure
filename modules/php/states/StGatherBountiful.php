@@ -17,9 +17,22 @@ class StGatherBountiful extends StateManager
 
     public function getArgs(): array
     {
+        $space_id = $this->globals->get(G_BOUNTIFUL_SPACE);
+        $SpaceManager = new SpaceManager($this->game);
+        $Space = $SpaceManager->getById($space_id);
+
+        $no_notify = $Space->qi === 0 || $Space->wisdom === 0;
+
+        $boon = "mixed";
+        if ($no_notify) {
+            $boon = $Space->qi === 0 ? "wisdom" : "qi";
+        }
+
         $args = [
             "space_icon" => "",
             "space_id" => $this->globals->get(G_BOUNTIFUL_SPACE),
+            "boon" => $boon,
+            "no_notify" => $no_notify,
         ];
 
         return $args;
@@ -27,18 +40,12 @@ class StGatherBountiful extends StateManager
 
     public function act(): void
     {
-        $space_id = $this->globals->get(G_BOUNTIFUL_SPACE);
-        $SpaceManager = new SpaceManager($this->game);
-        $Space = $SpaceManager->getById($space_id);
+        $args = $this->getArgs();
 
-        $ActGatherBountiful = new ActGatherBountiful($this->game);
-
-        if ($Space->qi === 0) {
-            $ActGatherBountiful->act("wisdom");
-        }
-
-        if ($Space->wisdom === 0) {
-            $ActGatherBountiful->act("qi");
+        if ($args["no_notify"]) {
+            $ActGatherBountiful = new ActGatherBountiful($this->game);
+            $ActGatherBountiful->act($args["boon"]);
+            return;
         }
     }
 }
