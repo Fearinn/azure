@@ -76,7 +76,10 @@ class Utils {
         }
 
         for (const key in args) {
-          if (key.includes("_label") || key.includes("_log")) {
+          if (
+            key.includes("_label") ||
+            (key.includes("_log") && key !== "change_log")
+          ) {
             const value = (args.i18n as string[] | undefined)?.includes("key")
               ? _(args[key])
               : args[key];
@@ -93,8 +96,6 @@ class Utils {
   }
 
   public playSound(id: string): void {
-    console.log(typeof g_replayFrom, g_archive_mode);
-
     if (
       this.game.getGameUserPreference(103) === 0 ||
       typeof g_replayFrom !== "undefined" ||

@@ -1094,6 +1094,6 @@ body > .card {
   justify-items: center;
   grid-template-areas: "hand hand" "realm favors" "realm wisdom" "decks gifted";
   gap: 16px;
-  padding: 8px;
+  padding: 16px 8px 8px 8px;
   user-select: none;
 }

@@ -2726,7 +2726,8 @@ var Utils = /** @class */ (function () {
                     args.qi_icon = "<div class=\"azr_logIcon azr_qiIcon\" style=\"background-image: ".concat(backgroundImage, ";\"></div>");
                 }
                 for (var key in args) {
-                    if (key.includes("_label") || key.includes("_log")) {
+                    if (key.includes("_label") ||
+                        (key.includes("_log") && key !== "change_log")) {
                         var value = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes("key"))
                             ? _(args[key])
                             : args[key];
@@ -2741,7 +2742,6 @@ var Utils = /** @class */ (function () {
         return { log: log, args: args };
     };
     Utils.prototype.playSound = function (id) {
-        console.log(typeof g_replayFrom, g_archive_mode);
         if (this.game.getGameUserPreference(103) === 0 ||
             typeof g_replayFrom !== "undefined" ||
             g_archive_mode) {

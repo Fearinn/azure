@@ -30,7 +30,6 @@ use Bga\Games\Azure\actions\ActPlaceGifted;
 use Bga\Games\Azure\actions\ActPlaceStone;
 use Bga\Games\Azure\components\Beasts\Beast;
 use Bga\Games\Azure\components\Beasts\BeastManager;
-use Bga\Games\Azure\components\Gifted\GiftedCard;
 use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
@@ -42,6 +41,7 @@ use Bga\Games\Azure\states\StCheckBeasts;
 use Bga\Games\Azure\states\StEndScore;
 use Bga\Games\Azure\states\StGatherBountiful;
 use Bga\Games\Azure\states\StPlayerTurn;
+use Bga\Games\Azure\states\StZombieTurn;
 use Bga\Games\Azure\stats\StatManager;
 
 class Game extends \Bga\GameFramework\Table
@@ -260,8 +260,11 @@ class Game extends \Bga\GameFramework\Table
 
     protected function zombieTurn(array $state, int $active_player): void
     {
-        $state_name = $state["name"];
-        $this->gamestate->jumpToState(ST_END_GAME);
+        if ($state["type"] === "activeplayer") {
+            $StZombieTurn = new StZombieTurn($this, $active_player);
+            $stateName = $state["name"];
+            $StZombieTurn->act($stateName);
+        }
     }
 
     public function debug_gainFavor(int $domain_id): void

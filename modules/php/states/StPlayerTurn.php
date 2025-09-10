@@ -16,9 +16,11 @@ class StPlayerTurn extends StateManager
         parent::__construct($game);
     }
 
-    public function getArgs(): array
+    public function getArgs(?int $player_id = null): array
     {
-        $player_id = (int) $this->game->getActivePlayerId();
+        if (!$player_id) {
+            $player_id = (int) $this->game->getActivePlayerId();
+        }
 
         $SpaceManager = new SpaceManager($this->game);
         $selectableSpaces = $SpaceManager->getSelectable($player_id);

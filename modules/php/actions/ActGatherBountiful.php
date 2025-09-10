@@ -8,14 +8,17 @@ use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Wisdom\WisdomManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\score\ScoreManager;
 
 class ActGatherBountiful extends ActionManager
 {
-    public function __construct(Game $game)
+    public function __construct(Game $game, ?int $player_id = null)
     {
         parent::__construct($game);
+
+        if ($player_id) {
+            $this->player_id = $player_id;
+        }
     }
 
     public function act(string $boon): void

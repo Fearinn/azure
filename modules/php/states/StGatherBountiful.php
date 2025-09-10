@@ -3,8 +3,6 @@
 namespace Bga\Games\Azure\states;
 
 use Bga\Games\Azure\actions\ActGatherBountiful;
-use Bga\Games\Azure\actions\ActPlaceStone;
-use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\Game;
 

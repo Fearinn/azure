@@ -13,9 +13,12 @@ use Bga\Games\Azure\stats\StatManager;
 
 class ActPlaceStone extends ActionManager
 {
-    public function __construct(Game $game)
+    public function __construct(Game $game, int $player_id = null)
     {
         parent::__construct($game);
+        if ($player_id) {
+            $this->player_id = $player_id;
+        }
     }
 
     public function act(int $x, int $y): void
