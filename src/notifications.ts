@@ -84,10 +84,18 @@ class NotifManager {
 
   async notif_gatherWisdom(
     args: NotifArgs & { initialWisdom: number; finalWisdom: number }
-  ) {
+  ): Promise<void> {
     const { player_id, initialWisdom, finalWisdom } = args;
     const wisdomManager = new WisdomManager(this.game);
     await wisdomManager.set(player_id, initialWisdom, finalWisdom);
+  }
+
+  async notif_reshuffleQi(args: {
+    cardCounts: { [domain_id: number]: number };
+  }): Promise<void> {
+    const { cardCounts } = args;
+    const qiManager = new QiManager(this.game);
+    await qiManager.reshuffle(cardCounts);
   }
 }
 

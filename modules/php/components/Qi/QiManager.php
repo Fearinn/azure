@@ -21,7 +21,8 @@ class QiManager extends CardManager
     public function setupVisibleDecks(): void
     {
         foreach ($this->QI as $domain_id => $qi) {
-            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='deck-{$domain_id}' WHERE card_type_arg={$domain_id} AND card_location='deck-0' LIMIT 9");
+            $this->game->DbQuery("UPDATE {$this->dbTable} SET card_location='deck-{$domain_id}' 
+            WHERE card_type_arg={$domain_id} AND card_location='deck-0' LIMIT 9");
         }
     }
 
@@ -244,5 +245,25 @@ class QiManager extends CardManager
                 ]
             );
         }
+    }
+
+    public function autoreshuffle(): void
+    {
+        $cardCounts = [];
+        foreach ($this->DOMAINS as $domain_id => $domain) {
+            $picked = $this->deck->pickCardsForLocation(2, "deck-{$domain_id}", "deck-0");
+            $cardCounts[$domain_id] = count($picked);
+        }
+
+        $this->deck->shuffle("deck-0");
+
+        $Notify = new NotifManager($this->game);
+        $Notify->all(
+            "reshuffleQi",
+            clienttranslate('The hidden deck is depleted. 2 cards of each visible deck are shuffled back to it'),
+            [
+                "cardCounts" => $cardCounts,
+            ]
+        );
     }
 }

@@ -51,13 +51,14 @@ class Qi extends QiManager {
     });
   }
 
-  buildTooltip(): string {
-    if (Number.isNaN(this.domain_id)) {
-      return;
+  public buildTooltip(): string {
+    let domain_id = this.domain_id;
+    if (Number.isNaN(domain_id)) {
+      domain_id = 0;
     }
 
     const label =
-      this.domain_id === 0
+      domain_id === 0
         ? _("Hidden deck")
         : this.game.format_string_recursive(_("${qi_label} card"), {
             i18n: "qi_label",

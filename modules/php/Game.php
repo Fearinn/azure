@@ -62,12 +62,17 @@ class Game extends \Bga\GameFramework\Table
     {
         parent::__construct();
 
-        require "material/material.inc.php";
-        require "material/domains.inc.php";
-        require "material/constants.inc.php";
+        require "_material/material.inc.php";
 
         $this->qi_cards = $this->getNew("module.common.deck");
         $this->qi_cards->init("qi");
+
+        $QiManager = new QiManager($this);
+        $this->qi_cards->autoreshuffle = true;
+        $this->qi_cards->autoreshuffle_trigger = [
+            "obj" => $QiManager,
+            "method" => "autoreshuffle",
+        ];
 
         $this->stone_cards = $this->getNew("module.common.deck");
         $this->stone_cards->init("stone");
@@ -267,10 +272,16 @@ class Game extends \Bga\GameFramework\Table
         }
     }
 
-    public function debug_gainFavor(int $domain_id): void
+    // public function debug_gainFavor(int $domain_id): void
+    // {
+    //     $player_id = (int) $this->getCurrentPlayerId();
+    //     $Beast = new Beast($this, $domain_id);
+    //     $Beast->gainFavor($player_id);
+    // }
+
+    public function debug_autoreshuffle(): void
     {
-        $player_id = (int) $this->getCurrentPlayerId();
-        $Beast = new Beast($this, $domain_id);
-        $Beast->gainFavor($player_id);
+        $QiManager = new QiManager($this);
+        $QiManager->autoreshuffle();
     }
 }

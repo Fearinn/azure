@@ -9,10 +9,10 @@ interface QiStocks {
 }
 
 class QiManager {
-  public readonly game: Azure;
-  public readonly gamedatas: AzureGamedatas;
-  public manager: CardManager<QiCard>;
-  public stocks: QiStocks;
+  protected readonly game: Azure;
+  protected readonly gamedatas: AzureGamedatas;
+  protected manager: CardManager<QiCard>;
+  protected stocks: QiStocks;
 
   constructor(game: Azure) {
     this.game = game;
@@ -125,7 +125,7 @@ class QiManager {
     this.setupStocks();
   }
 
-  async gather(
+  public async gather(
     player_id: number,
     cards: QiCard[],
     handCount: number
@@ -142,7 +142,11 @@ class QiManager {
     this.gamedatas.counters[player_id].hand.toValue(handCount);
   }
 
-  async draw(player_id: number, nbr: number, handCount: number): Promise<void> {
+  public async draw(
+    player_id: number,
+    nbr: number,
+    handCount: number
+  ): Promise<void> {
     for (let i = 1; i <= nbr; i++) {
       const fakeCard = this.manager.getFakeCardGenerator()(`fake-${i}`);
 
@@ -154,7 +158,7 @@ class QiManager {
     this.updateHandCounter(player_id, handCount);
   }
 
-  async drawPrivate(
+  public async drawPrivate(
     player_id: number,
     cards: QiCard[],
     handCount: number
@@ -167,7 +171,7 @@ class QiManager {
     this.updateHandCounter(player_id, handCount);
   }
 
-  async discard(player_id: number, cards: QiCard[], handCount: number) {
+  public async discard(player_id: number, cards: QiCard[], handCount: number) {
     for (const card of cards) {
       const qi = new Qi(this.game, card);
       await qi.discard(player_id);
@@ -176,7 +180,7 @@ class QiManager {
     this.updateHandCounter(player_id, handCount);
   }
 
-  makeSelectable(): void {
+  public makeSelectable(): void {
     this.stocks.hand.setSelectionMode("multiple");
 
     this.stocks.hand.onSelectionChange = (selection) => {
@@ -200,7 +204,25 @@ class QiManager {
     };
   }
 
-  makeUnselectable(): void {
+  public makeUnselectable(): void {
     this.stocks.hand.setSelectionMode("none");
+  }
+
+  public async reshuffle(cardCounts: {
+    [domain_id: number]: number;
+  }): Promise<void> {
+    for (const domain_id in cardCounts) {
+      const cardCount = cardCounts[domain_id];
+
+      for (let i = 1; i <= cardCount; i++) {
+        const fakeCard = this.manager.getFakeCardGenerator()(
+          `deck-${domain_id}-${i}`
+        );
+
+        await this.stocks.decks["deck-0"].addCard(fakeCard, {
+          fromStock: this.stocks.decks[`deck-${domain_id}`],
+        });
+      }
+    }
   }
 }

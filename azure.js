@@ -2508,6 +2508,22 @@ var NotifManager = /** @class */ (function () {
             });
         });
     };
+    NotifManager.prototype.notif_reshuffleQi = function (args) {
+        return __awaiter(this, void 0, void 0, function () {
+            var cardCounts, qiManager;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0:
+                        cardCounts = args.cardCounts;
+                        qiManager = new QiManager(this.game);
+                        return [4 /*yield*/, qiManager.reshuffle(cardCounts)];
+                    case 1:
+                        _a.sent();
+                        return [2 /*return*/];
+                }
+            });
+        });
+    };
     return NotifManager;
 }());
 var AzureTemplate = /** @class */ (function () {
@@ -3152,6 +3168,46 @@ var QiManager = /** @class */ (function () {
     QiManager.prototype.makeUnselectable = function () {
         this.stocks.hand.setSelectionMode("none");
     };
+    QiManager.prototype.reshuffle = function (cardCounts) {
+        return __awaiter(this, void 0, void 0, function () {
+            var _a, _b, _c, _i, domain_id, cardCount, i, fakeCard;
+            return __generator(this, function (_d) {
+                switch (_d.label) {
+                    case 0:
+                        _a = cardCounts;
+                        _b = [];
+                        for (_c in _a)
+                            _b.push(_c);
+                        _i = 0;
+                        _d.label = 1;
+                    case 1:
+                        if (!(_i < _b.length)) return [3 /*break*/, 6];
+                        _c = _b[_i];
+                        if (!(_c in _a)) return [3 /*break*/, 5];
+                        domain_id = _c;
+                        cardCount = cardCounts[domain_id];
+                        i = 1;
+                        _d.label = 2;
+                    case 2:
+                        if (!(i <= cardCount)) return [3 /*break*/, 5];
+                        fakeCard = this.manager.getFakeCardGenerator()("deck-".concat(domain_id, "-").concat(i));
+                        return [4 /*yield*/, this.stocks.decks["deck-0"].addCard(fakeCard, {
+                                fromStock: this.stocks.decks["deck-".concat(domain_id)],
+                            })];
+                    case 3:
+                        _d.sent();
+                        _d.label = 4;
+                    case 4:
+                        i++;
+                        return [3 /*break*/, 2];
+                    case 5:
+                        _i++;
+                        return [3 /*break*/, 1];
+                    case 6: return [2 /*return*/];
+                }
+            });
+        });
+    };
     return QiManager;
 }());
 var Qi = /** @class */ (function (_super) {
@@ -3224,10 +3280,11 @@ var Qi = /** @class */ (function (_super) {
         });
     };
     Qi.prototype.buildTooltip = function () {
-        if (Number.isNaN(this.domain_id)) {
-            return;
+        var domain_id = this.domain_id;
+        if (Number.isNaN(domain_id)) {
+            domain_id = 0;
         }
-        var label = this.domain_id === 0
+        var label = domain_id === 0
             ? _("Hidden deck")
             : this.game.format_string_recursive(_("${qi_label} card"), {
                 i18n: "qi_label",

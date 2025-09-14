@@ -1,5 +1,8 @@
 <?php
 
+require "domains.inc.php";
+require "constants.inc.php";
+
 $this->QI = [
     1 => [
         "name" => "azure",
