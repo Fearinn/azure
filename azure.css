@@ -464,7 +464,7 @@ body > .card {
   background-color: var(--opp-color);
   border-radius: 4px;
   box-shadow: 0 0 4px var(--color);
-  padding: 2px;
+  padding: 0 2px;
 }
 
 .azr_customFont-title {
@@ -475,14 +475,6 @@ body > .card {
 .dijitTooltipContainer:has(.azr_tooltip) {
   box-shadow: 0 4px 12px var(--color) !important;
   padding: 0;
-}
-
-.dijitTooltipConnector {
-  width: 0 !important;
-  height: 0 !important;
-  border-left: 8px solid transparent !important; /* half of width */
-  border-right: 8px solid transparent !important; /* half of width */
-  border-top: 14px solid var(--opp-color) !important;
 }
 
 .azr_tooltip {
@@ -653,11 +645,11 @@ body > .card {
   position: relative;
   bottom: 24px;
   border-radius: 8px;
-  font-size: 36px;
+  font-size: 32px;
   background-color: var(--opp-color);
   box-shadow: 0 0 8px var(--color);
   margin: 0;
-  padding: 4px;
+  padding: 0 4px;
 }
 
 .azr_hand {
@@ -948,7 +940,7 @@ body > .card {
 
 .azr_favorsTitle {
   color: var(--color);
-  font-size: 36px;
+  font-size: 32px;
   position: absolute;
   top: -10%;
   left: 50%;
@@ -973,14 +965,19 @@ body > .card {
   width: 100%;
 }
 .azr_favors .playername {
+  display: inline-block;
   font-size: 24px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   position: absolute;
   bottom: -2%;
   right: -2%;
   border-radius: 8px;
-  padding: 4px;
+  padding: 0 4px;
   margin: 0;
-  width: fit-content;
+  max-width: 100%;
+  width: max-content;
+  overflow: hidden;
 }
 
 .azr_favorBeasts {

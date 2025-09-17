@@ -2535,7 +2535,9 @@ var AzureTemplate = /** @class */ (function () {
         new ZoomManager({
             element: document.getElementById("azr_gameArea"),
             localStorageZoomKey: "azr-zoom",
-            zoomLevels: [0.35, 0.4, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5],
+            zoomLevels: [
+                0.35, 0.4, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
+            ],
             zoomControls: {
                 color: "white",
             },
@@ -2577,11 +2579,7 @@ var AzureTemplate = /** @class */ (function () {
         for (var p_id in this.gamedatas.players) {
             var player_id = Number(p_id);
             var _a = this.gamedatas.players[player_id], color = _a.color, name_1 = _a.name;
-            var title = player_id === this.game.player_id
-                ? this.game.format_string("You (${player_name})", {
-                    player_name: name_1,
-                })
-                : name_1;
+            var title = player_id === this.game.player_id ? _("You") : name_1;
             var opp_color = utils.getOppColor(color);
             var order = player_id === this.game.player_id ? 0 : 1;
             if (player_id === this.game.player_id) {
