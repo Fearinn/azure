@@ -178,7 +178,76 @@ class Space extends Subclass
             }
         }
 
-        return $bonds;
+        if (!$this->isMountain && $this->globals->get(G_GIFTED_CARD) === 2) {
+            $x = $this->x;
+            $y = $this->y;
+
+            for (
+                $bond_x = $x - 1, $bond_y = $y - 1;
+                $bond_x >= 1 && $bond_y >= 1;
+                $bond_x--, $bond_y--
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bonds[] = $Space->id;
+                }
+            }
+
+            for (
+                $bond_x = $x + 1, $bond_y = $y - 1;
+                $bond_x <= 6 && $bond_y >= 1;
+                $bond_x++, $bond_y--
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bonds[] = $Space->id;
+                }
+            }
+
+            for (
+                $bond_x = $x - 1, $bond_y = $y + 1;
+                $bond_x >= 1 && $bond_y <= 6;
+                $bond_x--, $bond_y++
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bonds[] = $Space->id;
+                }
+            }
+
+            for (
+                $bond_x = $x + 1, $bond_y = $y + 1;
+                $bond_x <= 6 && $bond_y <= 6;
+                $bond_x++, $bond_y++
+            ) {
+                $Space = new Space($this->game, $bond_x, $bond_y);
+
+                if ($Space->isMountain) {
+                    break;
+                }
+
+                if ($Space->isGifted($player_id)) {
+                    $bonds[] = $Space->id;
+                }
+            }
+        }
+
+        return array_unique($bonds);
     }
 
     public function getCost(int $player_id, int $extraCost = 0): int
