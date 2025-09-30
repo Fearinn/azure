@@ -10,14 +10,14 @@ class AzureTemplate {
   private setupZoom(): void {
     new ZoomManager({
       element: document.getElementById(`azr_gameArea`),
-      localStorageZoomKey: "azr-zoom",
+      localStorageZoomKey: "bga-zoom_azure",
       zoomLevels: [
         0.35, 0.4, 0.5, 0.625, 0.75, 0.875, 1, 1.125, 1.25, 1.375, 1.5,
       ],
       zoomControls: {
         color: "white",
       },
-      defaultZoom: 0.5,
+      defaultZoom: window.innerWidth <= 400 ? 0.35 : 1,
     });
   }
 
