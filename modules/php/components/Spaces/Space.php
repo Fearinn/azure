@@ -151,7 +151,7 @@ class Space extends Subclass
                 $serpents = $this->globals->get(G_SERPENTS);
 
                 foreach ($serpents as $space_id) {
-                    $Space = $SpaceManager->getByID($space_id);
+                    $Space = $SpaceManager->getById($space_id);
 
                     if ($Space->isOccupied($player_id)) {
                         $bonds[] = $space_id;
@@ -344,6 +344,11 @@ class Space extends Subclass
 
         for ($bond_y = $y + 1; $bond_y <= 6; $bond_y++) {
             $Space = new Space($this->game, $x, $bond_y);
+
+            if ($includeTortoise && $Space->isTortoise()) {
+                $space_ids[] = $Space->id;
+                break;
+            }
 
             if ($Space->isMountain) {
                 break;
