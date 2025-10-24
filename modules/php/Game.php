@@ -28,7 +28,6 @@ use Bga\Games\Azure\actions\ActBirdDiscard;
 use Bga\Games\Azure\actions\ActGatherBountiful;
 use Bga\Games\Azure\actions\ActPlaceGifted;
 use Bga\Games\Azure\actions\ActPlaceStone;
-use Bga\Games\Azure\components\Beasts\Beast;
 use Bga\Games\Azure\components\Beasts\BeastManager;
 use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Qi\QiManager;
@@ -210,6 +209,7 @@ class Game extends \Bga\GameFramework\Table
             "giftedCard" => $GiftedManager->getGiftedCard(),
             "giftedStones" => $StoneManager->getGifted(),
             "bonds" => $SpaceManager->getPlayersBonds(),
+            "lastPlaced" => $this->globals->get(G_LAST_PLACED),
         ];
 
         if (!$this->isSpectator()) {

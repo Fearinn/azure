@@ -67,6 +67,8 @@ class StoneManager extends CardManager
 
         $this->deck->moveCard($card_id, "realm", $space_id);
 
+        $card = $this->deck->getCard($card_id);
+
         $Notify = new NotifManager($this->game);
         $Notify->all(
             "placeStone",
@@ -77,11 +79,16 @@ class StoneManager extends CardManager
                 "x" => $x,
                 "y" => $y,
                 "space_id" => $space_id,
-                "card" => $this->deck->getCard($card_id),
+                "card" => $card,
+                "lastPlaced" => !$Space->isMountain
 
             ],
             $player_id
         );
+
+        if (!$Space->isMountain) {
+            $this->globals->set(G_LAST_PLACED, $card);
+        }
 
         $StatManager = new StatManager($this->game);
         $StatManager->inc($player_id, STAT_STONES_PLACED);

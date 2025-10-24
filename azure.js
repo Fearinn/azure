@@ -2438,13 +2438,13 @@ var NotifManager = /** @class */ (function () {
     };
     NotifManager.prototype.notif_placeStone = function (args) {
         return __awaiter(this, void 0, void 0, function () {
-            var player_id, space_id, card, stone;
+            var player_id, space_id, card, lastPlaced, stone;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        player_id = args.player_id, space_id = args.space_id, card = args.card;
+                        player_id = args.player_id, space_id = args.space_id, card = args.card, lastPlaced = args.lastPlaced;
                         stone = new Stone(this.game, card);
-                        return [4 /*yield*/, stone.place(player_id, space_id)];
+                        return [4 /*yield*/, stone.place(player_id, space_id, lastPlaced)];
                     case 1:
                         _a.sent();
                         return [2 /*return*/];
@@ -3487,7 +3487,7 @@ var StoneManager = /** @class */ (function () {
             },
         });
         var stocks = {
-            realm: new CardStock(manager, document.getElementById("azr_stones"), {}),
+            realm: new CardStock(manager, document.getElementById("azr_stones")),
             void: new VoidStock(manager, document.getElementById("azr_stonesVoid")),
         };
         for (var player_id in this.gamedatas.players) {
@@ -3531,13 +3531,19 @@ var Stone = /** @class */ (function (_super) {
             this.stocks.realm.addCard(this.card, {}, {
                 forceToElement: document.getElementById("azr_space-".concat(space_id)),
             });
-            return;
         }
-        this.stocks[this.player_id].gifted.addCard(this.card);
+        else {
+            this.stocks[this.player_id].gifted.addCard(this.card);
+        }
+        var lastPlaced = this.game.gamedatas.lastPlaced;
+        if ((lastPlaced === null || lastPlaced === void 0 ? void 0 : lastPlaced.id) == this.card.id) {
+            this.setLastPlaced();
+        }
     };
-    Stone.prototype.place = function (player_id, space_id) {
-        return __awaiter(this, void 0, void 0, function () {
+    Stone.prototype.place = function (player_id_1, space_id_1) {
+        return __awaiter(this, arguments, void 0, function (player_id, space_id, lastPlaced) {
             var isGifted, fromElement;
+            if (lastPlaced === void 0) { lastPlaced = true; }
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -3551,6 +3557,9 @@ var Stone = /** @class */ (function (_super) {
                         return [4 /*yield*/, this.stocks.realm.addCard(this.card, { fromElement: fromElement }, { forceToElement: document.getElementById("azr_space-".concat(space_id)) })];
                     case 1:
                         _a.sent();
+                        if (lastPlaced) {
+                            this.setLastPlaced();
+                        }
                         return [2 /*return*/];
                 }
             });
@@ -3580,6 +3589,14 @@ var Stone = /** @class */ (function (_super) {
         var opp_color = utils.getOppColor(color);
         var tooltip = "<div class=\"azr_tooltip azr_stoneTooltip\" style=\"--color: #".concat(color, "; --opp-color: #").concat(opp_color, "\">\n    <span>").concat(label, "</span></div>");
         return tooltip;
+    };
+    Stone.prototype.setLastPlaced = function () {
+        var _a;
+        var lastPlacedClass = "azr_stone-lastPlaced";
+        (_a = document
+            .querySelector(".".concat(lastPlacedClass))) === null || _a === void 0 ? void 0 : _a.classList.remove(lastPlacedClass);
+        var cardElement = this.stocks.realm.getCardElement(this.card);
+        cardElement.classList.add(lastPlacedClass);
     };
     return Stone;
 }(StoneManager));

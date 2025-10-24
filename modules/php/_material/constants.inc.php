@@ -10,4 +10,5 @@ if (!defined("G_REALM")) {
     define("G_GIFTED_CARD", "G_GIFTED_CARD");
     define("G_GIFTED_RELATIONS", "G_GIFTED_RELATIONS");
     define("G_BOUNTIFUL_SPACE", "G_BOUNTIFUL_SPACE");
+    define("G_LAST_PLACED", "G_LAST_PLACED");
 }

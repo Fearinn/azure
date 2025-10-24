@@ -49,11 +49,11 @@ class NotifManager {
   }
 
   async notif_placeStone(
-    args: NotifArgs & { card: StoneCard; space_id: number }
+    args: NotifArgs & { card: StoneCard; space_id: number; lastPlaced: boolean }
   ): Promise<void> {
-    const { player_id, space_id, card } = args;
+    const { player_id, space_id, card, lastPlaced } = args;
     const stone = new Stone(this.game, card);
-    await stone.place(player_id, space_id);
+    await stone.place(player_id, space_id, lastPlaced);
   }
 
   async notif_removeStone(

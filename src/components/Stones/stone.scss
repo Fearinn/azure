@@ -18,6 +18,7 @@
   }
 
   &-003a4f {
+    --opp-color: #c1e8fb;
     background: radial-gradient(
       circle at 80% 20%,
       rgb(0, 109, 138) 0%,
@@ -28,6 +29,8 @@
   }
 
   &-c1e8fb {
+    --opp-color: #003a4f;
+
     background: radial-gradient(
       circle at 80% 20%,
       #ffffff 0%,
@@ -74,4 +77,21 @@
 .azr_stonesVoid {
   top: -100%;
   right: -200%;
+}
+
+.azr_pref-lastPlaced {
+  .azr_stone-lastPlaced {
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: var(--opp-color);
+      opacity: 90%;
+      aspect-ratio: 1;
+      width: calc(var(--stone-width) * 0.25);
+      z-index: 2;
+    }
+  }
 }

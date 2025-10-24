@@ -47,5 +47,18 @@
       }
     },
     "default": 1
+  },
+  "104": {
+    "name": "Highlight last placed stone",
+    "values": {
+      "0": {
+        "name": "No"
+      },
+      "1": {
+        "name": "Yes",
+        "cssPref": "azr_pref-lastPlaced"
+      }
+    },
+    "default": 1
   }
 }

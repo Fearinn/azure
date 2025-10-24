@@ -63,7 +63,6 @@ class StoneManager {
       realm: new CardStock<StoneCard>(
         manager,
         document.getElementById(`azr_stones`),
-        {}
       ),
       void: new VoidStock<StoneCard>(
         manager,
