@@ -30,7 +30,7 @@ class StGatherBountiful extends StateManager
             "space_icon" => "",
             "space_id" => $this->globals->get(G_BOUNTIFUL_SPACE),
             "boon" => $boon,
-            "no_notify" => $no_notify,
+            "_no_notify" => $no_notify,
         ];
 
         return $args;
@@ -40,7 +40,7 @@ class StGatherBountiful extends StateManager
     {
         $args = $this->getArgs();
 
-        if ($args["no_notify"]) {
+        if ($args["_no_notify"]) {
             $ActGatherBountiful = new ActGatherBountiful($this->game);
             $ActGatherBountiful->act($args["boon"]);
             return;

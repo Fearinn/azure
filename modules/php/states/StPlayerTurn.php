@@ -40,7 +40,7 @@ class StPlayerTurn extends StateManager
                     "canPlayGifted" => $GiftedManager->canPlay($player_id),
                 ],
             ],
-            "no_notify" => $loseGame,
+            "_no_notify" => $loseGame,
             "bonds" => $SpaceManager->getPlayersBonds($player_id),
         ];
 
@@ -52,7 +52,7 @@ class StPlayerTurn extends StateManager
         $player_id = (int) $this->game->getActivePlayerId();
         $args = $this->getArgs();
 
-        if ($args["no_notify"]) {
+        if ($args["_no_notify"]) {
             $ScoreManager = new ScoreManager($this->game);
             $ScoreManager->setScore($player_id, -1);
 
