@@ -97,9 +97,7 @@ class AzureTemplate {
         `<div id="azr_favors-${player_id}" class="azr_favors" 
         style="--color: #${color}; --opp-color: #${opp_color}; --color-transparent: #${color}aa; order: ${order}">
         <div id="azr_favorBeasts-${player_id}" class="azr_favorBeasts"></div>
-        <h4 class="playername">
-        ${title}
-        </h4>
+        <h4 class="playername">${title}</h4>
         </div>`
       );
     }

@@ -4,10 +4,8 @@
 .playername {
   font-family: "Montserrat", Roboto;
   color: var(--color);
-  background-color: var(--opp-color);
-  border-radius: 4px;
-  box-shadow: 0 0 4px var(--color);
-  padding: 0 2px;
+  text-shadow: 0 0 2px var(--opp-color), 0 0 2px var(--opp-color),
+    0 0 2px var(--opp-color), 0 0 2px var(--opp-color);
 }
 
 .azr_customFont-title {

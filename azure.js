@@ -2588,7 +2588,7 @@ var AzureTemplate = /** @class */ (function () {
                 titleElement.style.setProperty("--color", "#".concat(color));
                 titleElement.style.setProperty("--opp-color", "#".concat(opp_color));
             }
-            favorsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_favors-".concat(player_id, "\" class=\"azr_favors\" \n        style=\"--color: #").concat(color, "; --opp-color: #").concat(opp_color, "; --color-transparent: #").concat(color, "aa; order: ").concat(order, "\">\n        <div id=\"azr_favorBeasts-").concat(player_id, "\" class=\"azr_favorBeasts\"></div>\n        <h4 class=\"playername\">\n        ").concat(title, "\n        </h4>\n        </div>"));
+            favorsElement.insertAdjacentHTML("beforeend", "<div id=\"azr_favors-".concat(player_id, "\" class=\"azr_favors\" \n        style=\"--color: #").concat(color, "; --opp-color: #").concat(opp_color, "; --color-transparent: #").concat(color, "aa; order: ").concat(order, "\">\n        <div id=\"azr_favorBeasts-").concat(player_id, "\" class=\"azr_favorBeasts\"></div>\n        <h4 class=\"playername\">").concat(title, "</h4>\n        </div>"));
         }
     };
     AzureTemplate.prototype.setupStocks = function () {

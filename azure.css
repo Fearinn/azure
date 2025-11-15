@@ -461,10 +461,7 @@ body > .card {
 .playername {
   font-family: "Montserrat", Roboto;
   color: var(--color);
-  background-color: var(--opp-color);
-  border-radius: 4px;
-  box-shadow: 0 0 4px var(--color);
-  padding: 0 2px;
+  text-shadow: 0 0 2px var(--opp-color), 0 0 2px var(--opp-color), 0 0 2px var(--opp-color), 0 0 2px var(--opp-color);
 }
 
 .azr_customFont-title {
@@ -986,8 +983,8 @@ body > .card {
   text-overflow: ellipsis;
   white-space: nowrap;
   position: absolute;
-  bottom: -2%;
-  right: -2%;
+  bottom: 0;
+  right: 0;
   border-radius: 8px;
   padding: 0 4px;
   margin: 0;
