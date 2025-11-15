@@ -3363,7 +3363,7 @@ var SpaceManager = /** @class */ (function () {
                 utils.performAction(action, { x: x, y: y });
                 return;
             }
-            utils.addConfirmationButton(_this.game.format_string_recursive("${space_icon}", {
+            utils.addConfirmationButton(_this.game.format_string_recursive("confirm ${space_icon}", {
                 space_icon: "",
                 space_id: space_id,
             }), function () {

@@ -97,7 +97,7 @@ class SpaceManager {
       }
 
       utils.addConfirmationButton(
-        this.game.format_string_recursive("${space_icon}", {
+        this.game.format_string_recursive("confirm ${space_icon}", {
           space_icon: "",
           space_id,
         }),

@@ -507,27 +507,16 @@ body > .card {
     opacity: 1;
   }
 }
-#pagemaintitletext:has(.azr_spaceIcon) {
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-}
-#pagemaintitletext:has(.azr_spaceIcon) span {
-  line-height: normal;
-  align-self: center !important;
-}
-#pagemaintitletext .azr_spaceIcon {
+#pagemaintitletext .azr_spaceIcon,
+.bgabutton .azr_spaceIcon {
   display: inline-block;
+  vertical-align: middle;
   margin: 0 0 0 4px;
-  width: 40px;
+  width: 36px;
 }
 
 .bgabutton:has(.azr_spaceIcon) {
-  padding: 4px;
-}
-.bgabutton .azr_spaceIcon {
-  margin: 0;
-  width: 40px;
+  padding: 4px 6px;
 }
 
 :root {
