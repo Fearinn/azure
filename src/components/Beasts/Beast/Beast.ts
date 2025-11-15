@@ -12,6 +12,7 @@ interface BeastInfo {
 }
 
 class Beast extends BeastManager implements Beast {
+  protected utils: Utils;
   constructor(game: Azure, card: BeastCard) {
     super(game);
     this.card = new AzureCard(card) as BeastCard;
@@ -24,6 +25,7 @@ class Beast extends BeastManager implements Beast {
     info.favor = _(info.favor);
 
     this.info = info;
+    this.utils = new Utils(this.game);
   }
 
   public setup(): void {
@@ -49,8 +51,7 @@ class Beast extends BeastManager implements Beast {
   }
 
   public async playSound(): Promise<void> {
-    const utils = new Utils(this.game);
-    utils.playSound(`beast_${this.id}`);
+    this.utils.playSound(`beast_${this.id}`);
   }
 
   public buildTooltip(): string {

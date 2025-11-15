@@ -1,10 +1,12 @@
 class AzureTemplate {
   private game: Azure;
   private gamedatas: AzureGamedatas;
+  private utils: Utils;
 
   constructor(game: Azure, gamedatas: AzureGamedatas) {
     this.game = game;
     this.gamedatas = gamedatas;
+    this.utils = new Utils(this.game);
   }
 
   private setupZoom(): void {
@@ -74,7 +76,7 @@ class AzureTemplate {
     const titleElement = document.getElementById(`azr_favorsTitle`);
     titleElement.textContent = _("active favors");
 
-    const utils = new Utils(this.game);
+    const utils = this.utils;
 
     for (const p_id in this.gamedatas.players) {
       const player_id = Number(p_id);
@@ -183,7 +185,7 @@ class AzureTemplate {
       const playerNameElement = document
         .getElementById(`player_name_${player_id}`)
         .querySelector("a") as HTMLElement;
-      new Utils(this.game).stylePlayerName(playerNameElement);
+      this.utils.stylePlayerName(playerNameElement);
     }
   }
 
@@ -197,7 +199,7 @@ class AzureTemplate {
             return;
           }
 
-          const utils = new Utils(this.game);
+          const utils = this.utils;
 
           if (target.classList.contains("playername")) {
             utils.stylePlayerName(target);
@@ -229,7 +231,7 @@ class AzureTemplate {
     const color = this.game.isSpectator
       ? "003a4f"
       : this.gamedatas.players[this.game.player_id].color;
-    const opp_color = new Utils(this.game).getOppColor(color);
+    const opp_color = this.utils.getOppColor(color);
 
     const html = document.querySelector("html");
     html.style.setProperty("--color", `#${color}`);

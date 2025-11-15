@@ -8,8 +8,12 @@ GameGui = (function () {
 // Note: it does not really extend it in es6 way, you cannot call super you have to use dojo way
 class Azure extends GameGui<AzureGamedatas> implements AzureGui {
   notifqueue: AzureGui["notifqueue"];
+  protected utils: Utils;
   // @ts-ignore
-  constructor() {}
+  constructor() {
+    // @ts-ignore
+    this.utils = new Utils(this);
+  }
 
   public setup(gamedatas: AzureGamedatas) {
     const template = new AzureTemplate(this, gamedatas);
@@ -34,7 +38,6 @@ class Azure extends GameGui<AzureGamedatas> implements AzureGui {
   }
 
   public bgaFormatText(log: string, args: any): { log: string; args: any } {
-    const utils = new Utils(this);
-    return utils.bgaFormatText(log, args);
+    return this.utils.bgaFormatText(log, args);
   }
 }

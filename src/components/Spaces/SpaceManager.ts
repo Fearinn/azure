@@ -10,6 +10,7 @@ class SpaceManager {
   protected readonly manager: CardManager<SpaceCard>;
   protected readonly stocks: { realm: CardStock<SpaceCard> };
   protected readonly bonds: Bonds;
+  protected utils: Utils;
 
   constructor(game: Azure) {
     this.game = game;
@@ -17,6 +18,7 @@ class SpaceManager {
     this.manager = this.gamedatas.managers.spaces;
     this.stocks = this.gamedatas.stocks.spaces;
     this.bonds = this.gamedatas.bonds;
+    this.utils = new Utils(this.game);
   }
 
   private create(): void {
@@ -79,7 +81,7 @@ class SpaceManager {
     this.stocks.realm.setSelectableCards(selectableSpaces);
 
     this.stocks.realm.onSelectionChange = (selection, card) => {
-      const utils = new Utils(this.game);
+      const utils = this.utils;
 
       utils.removeConfirmationButton();
 

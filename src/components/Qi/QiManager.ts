@@ -13,12 +13,14 @@ class QiManager {
   protected readonly gamedatas: AzureGamedatas;
   protected manager: CardManager<QiCard>;
   protected stocks: QiStocks;
+  protected utils: Utils;
 
   constructor(game: Azure) {
     this.game = game;
     this.gamedatas = this.game.gamedatas;
     this.stocks = this.gamedatas.stocks.qi;
     this.manager = this.gamedatas.managers.qi;
+    this.utils = new Utils(this.game);
   }
 
   public create(): void {
@@ -184,7 +186,7 @@ class QiManager {
     this.stocks.hand.setSelectionMode("multiple");
 
     this.stocks.hand.onSelectionChange = (selection) => {
-      const utils = new Utils(this.game);
+      const utils = this.utils;
       utils.removeConfirmationButton();
 
       if (selection.length === 2) {

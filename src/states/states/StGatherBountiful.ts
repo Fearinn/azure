@@ -1,13 +1,16 @@
 class StGatherBountiful extends StateManager {
+  protected utils: Utils;
+
   constructor(game: Azure) {
     super(game);
+    this.utils = new Utils(this.game);
   }
 
   enter(args: arg_gatherBountiful) {
     const giftedManager = new GiftedManager(this.game);
     giftedManager.highlight(true);
 
-    const utils = new Utils(this.game);
+    const utils = this.utils;
 
     this.game.statusBar.addActionButton(_("card"), () => {
       utils.performAction("act_gatherBountiful", {

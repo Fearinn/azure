@@ -1,11 +1,13 @@
 class Stone extends StoneManager implements Stone {
   readonly card: StoneCard;
   private readonly player_id: number;
+  protected utils: Utils;
 
   constructor(game: Azure, card: StoneCard) {
     super(game);
     this.card = new AzureCard(card) as StoneCard;
     this.player_id = this.card.type_arg;
+    this.utils = new Utils(this.game);
   }
 
   public setup(): void {
@@ -72,8 +74,7 @@ class Stone extends StoneManager implements Stone {
       }
     );
 
-    const utils = new Utils(this.game);
-    const opp_color = utils.getOppColor(color);
+    const opp_color = this.utils.getOppColor(color);
 
     const tooltip = `<div class="azr_tooltip azr_stoneTooltip" style="--color: #${color}; --opp-color: #${opp_color}">
     <span>${label}</span></div>`;

@@ -2325,6 +2325,8 @@ var Azure = /** @class */ (function (_super) {
     // @ts-ignore
     function Azure() {
         var _this = this;
+        // @ts-ignore
+        _this.utils = new Utils(_this);
         return _this;
     }
     Azure.prototype.setup = function (gamedatas) {
@@ -2347,8 +2349,7 @@ var Azure = /** @class */ (function (_super) {
         this.bgaSetupPromiseNotifications({ handlers: [new NotifManager(this)] });
     };
     Azure.prototype.bgaFormatText = function (log, args) {
-        var utils = new Utils(this);
-        return utils.bgaFormatText(log, args);
+        return this.utils.bgaFormatText(log, args);
     };
     return Azure;
 }(GameGui));
@@ -2530,6 +2531,7 @@ var AzureTemplate = /** @class */ (function () {
     function AzureTemplate(game, gamedatas) {
         this.game = game;
         this.gamedatas = gamedatas;
+        this.utils = new Utils(this.game);
     }
     AzureTemplate.prototype.setupZoom = function () {
         new ZoomManager({
@@ -2575,7 +2577,7 @@ var AzureTemplate = /** @class */ (function () {
         var favorsElement = document.getElementById("azr_favorsContainer");
         var titleElement = document.getElementById("azr_favorsTitle");
         titleElement.textContent = _("active favors");
-        var utils = new Utils(this.game);
+        var utils = this.utils;
         for (var p_id in this.gamedatas.players) {
             var player_id = Number(p_id);
             var _a = this.gamedatas.players[player_id], color = _a.color, name_1 = _a.name;
@@ -2627,7 +2629,7 @@ var AzureTemplate = /** @class */ (function () {
             var playerNameElement = document
                 .getElementById("player_name_".concat(player_id))
                 .querySelector("a");
-            new Utils(this.game).stylePlayerName(playerNameElement);
+            this.utils.stylePlayerName(playerNameElement);
         }
     };
     AzureTemplate.prototype.initObserver = function () {
@@ -2639,7 +2641,7 @@ var AzureTemplate = /** @class */ (function () {
                     if (target.nodeType !== 1) {
                         return;
                     }
-                    var utils = new Utils(_this.game);
+                    var utils = _this.utils;
                     if (target.classList.contains("playername")) {
                         utils.stylePlayerName(target);
                         return;
@@ -2665,7 +2667,7 @@ var AzureTemplate = /** @class */ (function () {
         var color = this.game.isSpectator
             ? "003a4f"
             : this.gamedatas.players[this.game.player_id].color;
-        var opp_color = new Utils(this.game).getOppColor(color);
+        var opp_color = this.utils.getOppColor(color);
         var html = document.querySelector("html");
         html.style.setProperty("--color", "#".concat(color));
         html.style.setProperty("--opp-color", "#".concat(opp_color));
@@ -2843,6 +2845,7 @@ var Beast = /** @class */ (function (_super) {
         info.guard = _(info.guard);
         info.favor = _(info.favor);
         _this.info = info;
+        _this.utils = new Utils(_this.game);
         return _this;
     }
     Beast.prototype.setup = function () {
@@ -2871,10 +2874,8 @@ var Beast = /** @class */ (function (_super) {
     };
     Beast.prototype.playSound = function () {
         return __awaiter(this, void 0, void 0, function () {
-            var utils;
             return __generator(this, function (_a) {
-                utils = new Utils(this.game);
-                utils.playSound("beast_".concat(this.id));
+                this.utils.playSound("beast_".concat(this.id));
                 return [2 /*return*/];
             });
         });
@@ -2949,6 +2950,7 @@ var QiManager = /** @class */ (function () {
         this.gamedatas = this.game.gamedatas;
         this.stocks = this.gamedatas.stocks.qi;
         this.manager = this.gamedatas.managers.qi;
+        this.utils = new Utils(this.game);
     }
     QiManager.prototype.create = function () {
         var _a;
@@ -3147,7 +3149,7 @@ var QiManager = /** @class */ (function () {
         var _this = this;
         this.stocks.hand.setSelectionMode("multiple");
         this.stocks.hand.onSelectionChange = function (selection) {
-            var utils = new Utils(_this.game);
+            var utils = _this.utils;
             utils.removeConfirmationButton();
             if (selection.length === 2) {
                 utils.addConfirmationButton(_("confirm cards"), function () {
@@ -3300,6 +3302,7 @@ var SpaceManager = /** @class */ (function () {
         this.manager = this.gamedatas.managers.spaces;
         this.stocks = this.gamedatas.stocks.spaces;
         this.bonds = this.gamedatas.bonds;
+        this.utils = new Utils(this.game);
     }
     SpaceManager.prototype.create = function () {
         var _this = this;
@@ -3350,7 +3353,7 @@ var SpaceManager = /** @class */ (function () {
         this.stocks.realm.setSelectionMode("single");
         this.stocks.realm.setSelectableCards(selectableSpaces);
         this.stocks.realm.onSelectionChange = function (selection, card) {
-            var utils = new Utils(_this.game);
+            var utils = _this.utils;
             utils.removeConfirmationButton();
             if (selection.length === 0) {
                 return;
@@ -3523,6 +3526,7 @@ var Stone = /** @class */ (function (_super) {
         var _this = _super.call(this, game) || this;
         _this.card = new AzureCard(card);
         _this.player_id = _this.card.type_arg;
+        _this.utils = new Utils(_this.game);
         return _this;
     }
     Stone.prototype.setup = function () {
@@ -3585,8 +3589,7 @@ var Stone = /** @class */ (function (_super) {
             common_or_gifted: this.card.type === "common" ? _("common") : _("gifted"),
             player_name: name,
         });
-        var utils = new Utils(this.game);
-        var opp_color = utils.getOppColor(color);
+        var opp_color = this.utils.getOppColor(color);
         var tooltip = "<div class=\"azr_tooltip azr_stoneTooltip\" style=\"--color: #".concat(color, "; --opp-color: #").concat(opp_color, "\">\n    <span>").concat(label, "</span></div>");
         return tooltip;
     };
@@ -3731,12 +3734,14 @@ var StBirdDiscard = /** @class */ (function (_super) {
 var StGatherBountiful = /** @class */ (function (_super) {
     __extends(StGatherBountiful, _super);
     function StGatherBountiful(game) {
-        return _super.call(this, game) || this;
+        var _this = _super.call(this, game) || this;
+        _this.utils = new Utils(_this.game);
+        return _this;
     }
     StGatherBountiful.prototype.enter = function (args) {
         var giftedManager = new GiftedManager(this.game);
         giftedManager.highlight(true);
-        var utils = new Utils(this.game);
+        var utils = this.utils;
         this.game.statusBar.addActionButton(_("card"), function () {
             utils.performAction("act_gatherBountiful", {
                 boon: "qi",
