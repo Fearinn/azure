@@ -3,11 +3,12 @@
 namespace Bga\Games\Azure\components\Beasts;
 
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\Notif;
 use Bga\Games\Azure\stats\StatManager;
 
 class Beast extends BeastManager
 {
+    use Notif;
     public int $id;
     public string $label;
     public int $space_id;
@@ -30,8 +31,7 @@ class Beast extends BeastManager
     {
         $this->deck->moveCard($this->card_id, "favors", $player_id);
 
-        $Notif = new NotifManager($this->game);
-        $Notif->all(
+        $this->notifAll(
             "gainFavor",
             clienttranslate('${player_name} gains the favor of the ${beast_label}'),
             [
@@ -54,8 +54,8 @@ class Beast extends BeastManager
             return;
         }
 
-        $Notif = new NotifManager($this->game);
-        $Notif->all(
+
+        $this->notifAll(
             "loseFavor",
             clienttranslate('${player_name} loses the favor of the ${beast_label}'),
             [

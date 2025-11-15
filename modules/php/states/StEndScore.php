@@ -8,23 +8,25 @@ use Bga\Games\Azure\stats\StatManager;
 
 class StEndScore extends StateManager
 {
+    private QiManager $qiManager;
+    private StatManager $statManager;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        $this->qiManager = new QiManager($game);
+        $this->statManager = new StatManager($game);
     }
 
     public function act(): void
     {
         $players = $this->game->loadPlayersBasicInfos();
 
-        $QiManager = new QiManager($this->game);
-
-        $StatManager = new StatManager($this->game);
-        $StatManager->initEndExclusive();
+        $this->statManager->initEndExclusive();
 
         foreach ($players as $player_id => $player) {
-            $handCount = $QiManager->getHandCount($player_id);
-            $StatManager->inc($player_id, STAT_REMAINING_QI, $handCount);
+            $handCount = $this->qiManager->getHandCount($player_id);
+            $this->statManager->inc($player_id, STAT_REMAINING_QI, $handCount);
         }
 
         $this->game->gamestate->nextState();

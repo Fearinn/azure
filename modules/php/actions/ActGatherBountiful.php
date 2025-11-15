@@ -12,6 +12,11 @@ use Bga\Games\Azure\score\ScoreManager;
 
 class ActGatherBountiful extends ActionManager
 {
+    private SpaceManager $spaceManager;
+    private QiManager $qiManager;
+    private WisdomManager $wisdomManager;
+    private ScoreManager $scoreManager;
+
     public function __construct(Game $game, ?int $player_id = null)
     {
         parent::__construct($game);
@@ -19,27 +24,27 @@ class ActGatherBountiful extends ActionManager
         if ($player_id) {
             $this->player_id = $player_id;
         }
+        $this->spaceManager = new SpaceManager($game);
+        $this->qiManager = new QiManager($game);
+        $this->wisdomManager = new WisdomManager($game);
+        $this->scoreManager = new ScoreManager($game);
     }
 
     public function act(string $boon): void
     {
         $space_id = $this->globals->get(G_BOUNTIFUL_SPACE);
-        $SpaceManager = new SpaceManager($this->game);
-        $Space = $SpaceManager->getById($space_id);
+        $Space = $this->spaceManager->getById($space_id);
 
         $this->validate($Space, $boon);
 
         if ($boon === "qi") {
-            $QiManager = new QiManager($this->game);
-            $QiManager->gather($this->player_id, $Space->qi_color, 1);
+            $this->qiManager->gather($this->player_id, $Space->qi_color, 1);
         }
 
         if ($boon === "wisdom") {
-            $WisdomManager = new WisdomManager($this->game);
-            $WisdomManager->inc($this->player_id, 1);
+            $this->wisdomManager->inc($this->player_id, 1);
 
-            $ScoreManager = new ScoreManager($this->game);
-            if ($ScoreManager->getHigherScore() === 25) {
+            if ($this->scoreManager->getHigherScore() === 25) {
                 $this->game->gamestate->nextState(TR_END_GAME);
                 return;
             }

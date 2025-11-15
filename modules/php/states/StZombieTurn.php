@@ -15,22 +15,37 @@ use Bga\Games\Azure\Game;
 class StZombieTurn extends StateManager
 {
     private readonly int $player_id;
+    private SpaceManager $spaceManager;
+    private QiManager $qiManager;
+    private StPlayerTurn $stPlayerTurn;
+    private ActPlaceGifted $actPlaceGifted;
+    private ActPlaceStone $actPlaceStone;
+    private ActBirdDiscard $actBirdDiscard;
+    private StGatherBountiful $stGatherBountiful;
+    private ActGatherBountiful $actGatherBountiful;
+
     public function __construct(Game $game, int $player_id)
     {
         parent::__construct($game);
         $this->player_id = $player_id;
+        $this->spaceManager = new SpaceManager($game);
+        $this->qiManager = new QiManager($game);
+        $this->stPlayerTurn = new StPlayerTurn($game);
+        $this->actPlaceGifted = new ActPlaceGifted($game);
+        $this->actPlaceStone = new ActPlaceStone($game, $player_id);
+        $this->actBirdDiscard = new ActBirdDiscard($game);
+        $this->stGatherBountiful = new StGatherBountiful($game);
+        $this->actGatherBountiful = new ActGatherBountiful($game, $player_id);
     }
 
     private function getGreedySpace($spaces): Space
     {
-        $SpaceManager = new SpaceManager($this->game);
-
         $greedy_space_id = (int) $spaces[0]["id"];
-        $GreedySpace = $SpaceManager->getById($greedy_space_id);
+        $GreedySpace = $this->spaceManager->getById($greedy_space_id);
 
         foreach ($spaces as $space) {
             $space_id = (int) $space["id"];
-            $Space = $SpaceManager->getById($space_id);
+            $Space = $this->spaceManager->getById($space_id);
 
             $spaceBoons = $Space->qi + $Space->wisdom;
             $greedyBoons = $GreedySpace->qi + $GreedySpace->wisdom;
@@ -51,14 +66,12 @@ class StZombieTurn extends StateManager
     public function act(string $stateName): void
     {
         if ($stateName === "playerTurn") {
-            $StPlayerTurn = new StPlayerTurn($this->game);
-            $args = $StPlayerTurn->getArgs($this->player_id);
+            $args = $this->stPlayerTurn->getArgs($this->player_id);
 
             $selectableGifted = $args["_private"]["active"]["selectableGifted"];
             if ($selectableGifted) {
                 $Space = $this->getGreedySpace($selectableGifted);
-                $ActPlaceGifted = new ActPlaceGifted($this->game, $this->player_id);
-                $ActPlaceGifted->act($Space->x, $Space->y);
+                $this->actPlaceGifted->act($Space->x, $Space->y);
                 return;
             }
 
@@ -66,29 +79,23 @@ class StZombieTurn extends StateManager
 
             if ($selectableSpaces) {
                 $Space = $this->getGreedySpace($selectableSpaces);
-                $ActPlaceStone = new ActPlaceStone($this->game, $this->player_id);
-                $ActPlaceStone->act($Space->x, $Space->y);
+                $this->actPlaceStone->act($Space->x, $Space->y);
             }
             return;
         }
 
         if ($stateName === "birdDiscard") {
-            $ActBirdDiscard = new ActBirdDiscard($this->game);
-            $QiManager = new QiManager($this->game);
-
-            $qi = $QiManager->getHand($this->player_id);
+            $qi = $this->qiManager->getHand($this->player_id);
             $qi = array_slice($qi, 0, 2);
-            $ActBirdDiscard->act($qi);
+            $this->actBirdDiscard->act($qi);
             return;
         }
 
         if ($stateName === "gatherBountiful") {
-            $StGatherBountiful = new StGatherBountiful($this->game);
-            $args = $StGatherBountiful->getArgs();
+            $args = $this->stGatherBountiful->getArgs();
 
             if ($args["boon"] === "mixed") {
-                $ActGatherBountiful = new ActGatherBountiful($this->game, $this->player_id);
-                $ActGatherBountiful->act("wisdom");
+                $this->actGatherBountiful->act("wisdom");
             }
             return;
         }

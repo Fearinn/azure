@@ -4,15 +4,21 @@ namespace Bga\Games\Azure\components\Wisdom;
 
 
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\score\ScoreManager;
 use Bga\Games\Azure\Subclass;
+use Bga\Games\Azure\Notif;
 
 class WisdomManager extends Subclass
 {
+    use Notif;
+
+    private ScoreManager $scoreManager;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        
+        $this->scoreManager = new ScoreManager($game);
     }
 
     public function inc(int $player_id, int $wisdom): void
@@ -21,18 +27,16 @@ class WisdomManager extends Subclass
             return;
         }
 
-        $ScoreManager = new ScoreManager($this->game);
-        $initialWisdom = $ScoreManager->getScore($player_id);
+        $initialWisdom = $this->scoreManager->getScore($player_id);
         $finalWisdom = $initialWisdom + $wisdom;
 
         if ($finalWisdom > 25) {
             $finalWisdom = 25;
         }
 
-        $ScoreManager->setScore($player_id, $finalWisdom);
+        $this->scoreManager->setScore($player_id, $finalWisdom);
 
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
+        $this->notifAll(
             "gatherWisdom",
             clienttranslate('${player_name} gathers ${wisdom_log} point(s)'),
             [
@@ -51,19 +55,16 @@ class WisdomManager extends Subclass
 
     public function dec(int $player_id, int $wisdom): void
     {
-        $ScoreManager = new ScoreManager($this->game);
-
-        $initialWisdom = $ScoreManager->getScore($player_id);
+        $initialWisdom = $this->scoreManager->getScore($player_id);
         $finalWisdom = $initialWisdom - $wisdom;
 
         if ($finalWisdom < 0) {
             $finalWisdom = 0;
         }
 
-        $ScoreManager->setScore($player_id, $finalWisdom);
+        $this->scoreManager->setScore($player_id, $finalWisdom);
 
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
+        $this->notifAll(
             "gatherWisdom",
             clienttranslate('${player_name} loses ${log_wisdom} point(s)'),
             [

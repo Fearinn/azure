@@ -7,11 +7,16 @@ use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Spaces\Space;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\stats\StatManager;
+use Bga\Games\Azure\Notif;
 
 class StoneManager extends CardManager
 {
+    use Notif;
+
+    private StatManager $statManager;
+    private GiftedManager $giftedManager;
+
     public function __construct(Game $game)
     {
         parent::__construct(
@@ -19,6 +24,9 @@ class StoneManager extends CardManager
             $game->stone_cards,
             "stone"
         );
+        
+        $this->statManager = new StatManager($game);
+        $this->giftedManager = new GiftedManager($game);
     }
 
     public function setup(): void
@@ -69,8 +77,7 @@ class StoneManager extends CardManager
 
         $card = $this->deck->getCard($card_id);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "placeStone",
             clienttranslate('${player_name} places a common stone (${x}, ${y}) ${space_icon}'),
             [
@@ -90,8 +97,7 @@ class StoneManager extends CardManager
             $this->globals->set(G_LAST_PLACED, $card);
         }
 
-        $StatManager = new StatManager($this->game);
-        $StatManager->inc($player_id, STAT_STONES_PLACED);
+        $this->statManager->inc($player_id, STAT_STONES_PLACED);
     }
 
     public function remove(
@@ -106,8 +112,7 @@ class StoneManager extends CardManager
 
         $this->deck->moveCard($card_id, "hand", $player_id);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "removeStone",
             clienttranslate('${player_name} removes a stone (${x}, ${y}) ${space_icon}'),
             [
@@ -131,8 +136,7 @@ class StoneManager extends CardManager
 
     private function setupGifted(): void
     {
-        $GiftedManager = new GiftedManager($this->game);
-        if (!$GiftedManager->isEnabled()) {
+        if (!$this->giftedManager->isEnabled()) {
             return;
         }
 
@@ -186,8 +190,7 @@ class StoneManager extends CardManager
 
         $this->deck->moveCard($card_id, "realm", $space_id);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "placeStone",
             clienttranslate('${player_name} places a gifted stone (${x}, ${y}) ${space_icon}'),
             [
@@ -201,8 +204,7 @@ class StoneManager extends CardManager
             $player_id
         );
 
-        $StatManager = new StatManager($this->game);
-        $StatManager->inc($player_id, STAT_STONES_PLACED);
+        $this->statManager->inc($player_id, STAT_STONES_PLACED);
 
         $Space->registerGiftedRelations($player_id);
     }

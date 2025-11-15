@@ -13,36 +13,42 @@ use Bga\Games\Azure\stats\StatManager;
 
 class ActPlaceGifted extends ActionManager
 {
+    private GiftedManager $giftedManager;
+    private StoneManager $stoneManager;
+    private QiManager $qiManager;
+    private StatManager $statManager;
+    private ScoreManager $scoreManager;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        $this->giftedManager = new GiftedManager($game);
+        $this->stoneManager = new StoneManager($game);
+        $this->qiManager = new QiManager($game);
+        $this->statManager = new StatManager($game);
+        $this->scoreManager = new ScoreManager($game);
     }
 
     public function act(int $x, int $y): void
     {
-        $GiftedManager = new GiftedManager($this->game);
         $Space = new Space($this->game, $x, $y);
-        $this->validate($Space, $GiftedManager);
+        $this->validate($Space, $this->giftedManager);
 
         $domain_id = $Space->domain_id;
 
-        $StoneManager = new StoneManager($this->game);
-        $StoneManager->placeGifted($this->player_id, $x, $y);
+        $this->stoneManager->placeGifted($this->player_id, $x, $y);
 
-        $extraCost = $GiftedManager->getExtraCost();
+        $extraCost = $this->giftedManager->getExtraCost();
         $cost = $Space->getCost($this->player_id, $extraCost);
 
-        $QiManager = new QiManager($this->game);
-        $QiManager->discardByDomain($this->player_id, $cost, $domain_id);
+        $this->qiManager->discardByDomain($this->player_id, $cost, $domain_id);
 
         $Space->gatherBoons($this->player_id);
 
         $discount = $Space->baseCost + $extraCost - $cost;
-        $StatManager = new StatManager($this->game);
-        $StatManager->inc($this->player_id, STAT_DISCOUNTS_GAINED, $discount);
+        $this->statManager->inc($this->player_id, STAT_DISCOUNTS_GAINED, $discount);
 
-        $ScoreManager = new ScoreManager($this->game);
-        if ($ScoreManager->getHigherScore() === 25) {
+        if ($this->scoreManager->getHigherScore() === 25) {
             $this->game->gamestate->nextState(TR_END_GAME);
             return;
         }

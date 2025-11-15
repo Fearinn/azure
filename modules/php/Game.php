@@ -33,7 +33,7 @@ use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Qi\QiManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
-use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\Notif;
 use Bga\Games\Azure\states\StBetweenPlayers;
 use Bga\Games\Azure\states\StBirdDiscard;
 use Bga\Games\Azure\states\StCheckBeasts;
@@ -57,6 +57,8 @@ class Game extends \Bga\GameFramework\Table
     public Deck $stone_cards;
     public Deck $beast_cards;
 
+    use Notif;
+
     public function __construct()
     {
         parent::__construct();
@@ -79,8 +81,7 @@ class Game extends \Bga\GameFramework\Table
         $this->beast_cards = $this->getNew("module.common.deck");
         $this->beast_cards->init("beast");
 
-        $Notify = new NotifManager($this);
-        $Notify->addDecorators();
+        $this->addDecorators();
 
         $this->initGameStateLabels([]);
     }

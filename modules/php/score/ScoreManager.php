@@ -3,14 +3,17 @@
 namespace Bga\Games\Azure\score;
 
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
 use Bga\Games\Azure\Subclass;
+use Bga\Games\Azure\Notif;
 
 class ScoreManager extends Subclass
 {
+    use Notif;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        
     }
 
     public function getScore(int $player_id): int
@@ -22,8 +25,7 @@ class ScoreManager extends Subclass
     {
         $this->game->DbQuery("UPDATE player SET player_score={$score} WHERE player_id={$player_id}");
 
-        $NotifManager = new NotifManager($this->game);
-        $NotifManager->all(
+        $this->notifAll(
             "setScore",
             "",
             [

@@ -4,11 +4,13 @@ namespace Bga\Games\Azure\components\Qi;
 
 use Bga\Games\Azure\components\CardManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\Notif;
 use Bga\Games\Azure\stats\StatManager;
 
 class QiManager extends CardManager
 {
+    use Notif;
+
     public function __construct(Game $game)
     {
         parent::__construct(
@@ -25,7 +27,6 @@ class QiManager extends CardManager
             WHERE card_type_arg={$domain_id} AND card_location='deck-0' LIMIT 9");
         }
     }
-
 
     public function setupHands(): void
     {
@@ -114,8 +115,7 @@ class QiManager extends CardManager
 
         $cards = $this->deck->getCards($card_ids);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "discardQi",
             clienttranslate('${player_name} pays ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
             [
@@ -160,8 +160,8 @@ class QiManager extends CardManager
 
             $nbr = count($cards);
 
-            $Notify = new NotifManager($this->game);
-            $Notify->all(
+
+            $this->notifAll(
                 "discardQi",
                 clienttranslate('${player_name} discards ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
                 [
@@ -191,8 +191,7 @@ class QiManager extends CardManager
 
         $cards = $this->deck->pickCards($nbr, "deck-{$domain_id}", $player_id);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "gatherQi",
             clienttranslate('${player_name} gathers ${nbr_log} ${qi_label} card(s) ${qi_icon}'),
             [
@@ -214,8 +213,7 @@ class QiManager extends CardManager
     {
         $cards = $this->deck->pickCards($nbr, "deck-0", $player_id);
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "drawQi",
             clienttranslate('${player_name} draws ${nbr_log} card(s) from the hidden deck'),
             [
@@ -229,8 +227,7 @@ class QiManager extends CardManager
         foreach ($cards as $card_id => $card) {
             $domain_id = (int) $card["type_arg"];
 
-            $Notify = new NotifManager($this->game);
-            $Notify->player(
+            $this->notifPlayer(
                 $player_id,
                 "drawQiPrivate",
                 clienttranslate('You draw a ${qi_label} card from the hidden deck ${qi_icon}'),
@@ -257,8 +254,7 @@ class QiManager extends CardManager
 
         $this->deck->shuffle("deck-0");
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "reshuffleQi",
             clienttranslate('The hidden deck is depleted. 2 cards of each visible deck are shuffled back to it'),
             [

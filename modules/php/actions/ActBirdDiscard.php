@@ -8,17 +8,19 @@ use Bga\Games\Azure\Game;
 
 class ActBirdDiscard extends ActionManager
 {
+    private QiManager $qiManager;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        $this->qiManager = new QiManager($game);
     }
 
     public function act(array $cards): void
     {
         $this->validate($cards);
 
-        $QiManager = new QiManager($this->game);
-        $QiManager->discardCards($this->player_id, $cards);
+        $this->qiManager->discardCards($this->player_id, $cards);
 
         $this->game->gamestate->nextState(TR_NEXT_PLAYER);
     }
@@ -29,8 +31,7 @@ class ActBirdDiscard extends ActionManager
             throw new \BgaVisibleSystemException("You must discard exactly 2 cards");
         }
 
-        $QiManager = new QiManager($this->game);
-        $hand = $QiManager->deck->getCardsInLocation("hand", $this->player_id);
+        $hand = $this->qiManager->deck->getCardsInLocation("hand", $this->player_id);
 
         foreach ($cards as $card) {
             $card_id = (int) $card["id"];

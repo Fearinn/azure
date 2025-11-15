@@ -6,14 +6,25 @@ use Bga\Games\Azure\components\Gifted\GiftedManager;
 use Bga\Games\Azure\components\Spaces\SpaceManager;
 use Bga\Games\Azure\components\Stones\StoneManager;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\Notif;
+
 use Bga\Games\Azure\score\ScoreManager;
 
 class StPlayerTurn extends StateManager
 {
+    private SpaceManager $spaceManager;
+    private GiftedManager $giftedManager;
+    private StoneManager $stoneManager;
+    private ScoreManager $scoreManager;
+    use Notif;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        $this->spaceManager = new SpaceManager($game);
+        $this->giftedManager = new GiftedManager($game);
+        $this->stoneManager = new StoneManager($game);
+        $this->scoreManager = new ScoreManager($game);
     }
 
     public function getArgs(?int $player_id = null): array
@@ -22,26 +33,23 @@ class StPlayerTurn extends StateManager
             $player_id = (int) $this->game->getActivePlayerId();
         }
 
-        $SpaceManager = new SpaceManager($this->game);
-        $selectableSpaces = $SpaceManager->getSelectable($player_id);
-        $selectableGifted = $SpaceManager->getSelectableGifted($player_id);
-        $GiftedManager = new GiftedManager($this->game);
+        $selectableSpaces = $this->spaceManager->getSelectable($player_id);
+        $selectableGifted = $this->spaceManager->getSelectableGifted($player_id);
 
-        $StoneManager = new StoneManager($this->game);
-        $stoneHandCount = $StoneManager->getHandCount($player_id);
+        $stoneHandCount = $this->stoneManager->getHandCount($player_id);
 
-        $loseGame = !$GiftedManager->canPlay($player_id) && ($stoneHandCount === 0 || !$selectableSpaces);
+        $loseGame = !$this->giftedManager->canPlay($player_id) && ($stoneHandCount === 0 || !$selectableSpaces);
 
         $args = [
             "_private" => [
                 "active" => [
                     "selectableSpaces" => $selectableSpaces,
                     "selectableGifted" => $selectableGifted,
-                    "canPlayGifted" => $GiftedManager->canPlay($player_id),
+                    "canPlayGifted" => $this->giftedManager->canPlay($player_id),
                 ],
             ],
             "_no_notify" => $loseGame,
-            "bonds" => $SpaceManager->getPlayersBonds($player_id),
+            "bonds" => $this->spaceManager->getPlayersBonds($player_id),
         ];
 
         return $args;
@@ -53,11 +61,9 @@ class StPlayerTurn extends StateManager
         $args = $this->getArgs();
 
         if ($args["_no_notify"]) {
-            $ScoreManager = new ScoreManager($this->game);
-            $ScoreManager->setScore($player_id, -1);
+            $this->scoreManager->setScore($player_id, -1);
 
-            $Notify = new NotifManager($this->game);
-            $Notify->all(
+            $this->notifAll(
                 "message",
                 clienttranslate('${player_name} could not play a stone'),
                 [],

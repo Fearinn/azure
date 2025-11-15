@@ -4,13 +4,16 @@ namespace Bga\Games\Azure\states;
 
 use Bga\Games\Azure\components\Beasts\Bird;
 use Bga\Games\Azure\Game;
-use Bga\Games\Azure\notifications\NotifManager;
+use Bga\Games\Azure\Notif;
 
 class StBetweenPlayers extends StateManager
 {
+    use Notif;
+
     public function __construct(Game $game)
     {
         parent::__construct($game);
+        
     }
 
     public function act(): void
@@ -27,8 +30,7 @@ class StBetweenPlayers extends StateManager
             $this->game->activeNextPlayer();
         }
 
-        $Notify = new NotifManager($this->game);
-        $Notify->all(
+        $this->notifAll(
             "message",
             clienttranslate('${player_name} ends his turn'),
             [],
