@@ -36,6 +36,8 @@ class Utils {
         ...params,
       }
     );
+
+    document.getElementById("generalactions").appendChild(document.getElementById("azr_giftedStoneBtn"));
   }
 
   public removeConfirmationButton() {

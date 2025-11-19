@@ -2709,6 +2709,7 @@ var Utils = /** @class */ (function () {
         this.game.statusBar.addActionButton(label, function () {
             callback();
         }, __assign({ id: "azr_confirmationBtn" }, params));
+        document.getElementById("generalactions").appendChild(document.getElementById("azr_giftedStoneBtn"));
     };
     Utils.prototype.removeConfirmationButton = function () {
         var _a;
@@ -3780,7 +3781,7 @@ var StPlayerTurn = /** @class */ (function (_super) {
                 _this.game.setClientState("client_placeGifted", {
                     descriptionmyturn: _("${you} must place your gifted stone"),
                 });
-            }, { color: "secondary" });
+            }, { color: "secondary", id: "azr_giftedStoneBtn" });
         }
     };
     StPlayerTurn.prototype.leave = function () {

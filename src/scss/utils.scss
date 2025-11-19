@@ -37,12 +37,6 @@
   }
 }
 
-.azr_button {
-  &-hidden {
-    display: none !important;
-  }
-}
-
 @keyframes blink {
   0% {
     opacity: 1;

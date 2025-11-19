@@ -25,7 +25,7 @@ class StPlayerTurn extends StateManager {
             descriptionmyturn: _("${you} must place your gifted stone"),
           });
         },
-        { color: "secondary" }
+        { color: "secondary", id: "azr_giftedStoneBtn" }
       );
     }
   }
