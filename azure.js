@@ -2744,7 +2744,7 @@ var Utils = /** @class */ (function () {
                 for (var key in args) {
                     if (key.includes("_label") ||
                         (key.includes("_log") && key !== "change_log")) {
-                        var value = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes("key"))
+                        var value = ((_a = args.i18n) === null || _a === void 0 ? void 0 : _a.includes(key))
                             ? _(args[key])
                             : args[key];
                         args[key] = "<span class=\"azr_logHighlight\">".concat(value, "</span>");

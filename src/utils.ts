@@ -80,7 +80,7 @@ class Utils {
             key.includes("_label") ||
             (key.includes("_log") && key !== "change_log")
           ) {
-            const value = (args.i18n as string[] | undefined)?.includes("key")
+            const value = (args.i18n as string[] | undefined)?.includes(key)
               ? _(args[key])
               : args[key];
 
