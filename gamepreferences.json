@@ -1,13 +1,13 @@
 {
   "100": {
-    "name": "Thematic background",
+    "name": "Themed background",
     "values": {
       "0": {
         "name": "Disabled"
       },
       "1": {
         "name": "Enabled",
-        "cssPref": "azr_pref-thematicBg"
+        "cssPref": "azr_pref-themedBg"
       }
     },
     "default": 1

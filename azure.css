@@ -1039,17 +1039,17 @@ body > .card {
   width: var(--stone-width);
 }
 
-.azr_pref-thematicBg {
+.azr_pref-themedBg {
   background-image: url("img/background.jpg");
   background-size: 100%;
 }
-.azr_pref-thematicBg .player-board {
+.azr_pref-themedBg .player-board {
   color: #ffffff;
   background-image: url("img/background.jpg");
   background-size: cover;
   background-position: bottom;
 }
-.azr_pref-thematicBg .player-board.spectator-mode div {
+.azr_pref-themedBg .player-board.spectator-mode div {
   background-image: url("img/background.jpg");
 }
 
