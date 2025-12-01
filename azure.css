@@ -1041,7 +1041,8 @@ body > .card {
 
 .azr_pref-themedBg {
   background-image: url("img/background.jpg");
-  background-size: 100%;
+  background-size: contain;
+  background-attachment: fixed;
 }
 .azr_pref-themedBg .player-board {
   color: #ffffff;

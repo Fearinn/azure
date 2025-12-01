@@ -1,6 +1,7 @@
 .azr_pref-themedBg {
   background-image: url("img/background.jpg");
-  background-size: 100%;
+  background-size: contain;
+  background-attachment: fixed;
 
   .player-board {
     color: #ffffff;
