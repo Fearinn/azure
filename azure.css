@@ -887,8 +887,10 @@ body > .card {
 .azr_giftedCard {
   font-weight: bold;
   color: #ffffff;
-  aspect-ratio: 1/1.52;
+  aspect-ratio: 338/521;
   width: var(--qi-width);
+  overflow-x: hidden;
+  box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
 }
 .azr_giftedCardTitle {
   font-family: "The Slavic", Roboto;
@@ -907,7 +909,7 @@ body > .card {
   font-size: 6px;
   text-align: center;
   position: absolute;
-  bottom: 3%;
+  bottom: 4%;
   left: 50%;
   transform: translateX(-50%);
   height: calc(var(--qi-width) * 0.3);
