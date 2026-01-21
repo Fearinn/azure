@@ -12,7 +12,7 @@
     },
     "STAT_QI_USED": {
       "id": 12,
-      "name": "qi used",
+      "name": "cards used",
       "type": "int"
     },
     "STAT_DISCOUNTS_GAINED": {
@@ -22,7 +22,7 @@
     },
     "STAT_REMAINING_QI": {
       "id": 14,
-      "name": "remaining qi",
+      "name": "remaining cards",
       "type": "int"
     }
   }

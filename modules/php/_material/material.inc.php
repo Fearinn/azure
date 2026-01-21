@@ -27,13 +27,13 @@ $this->BEASTS = [
         "animal" => "dragon",
         "label" => clienttranslate("Azure Dragon"),
         "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain."),
-        "favor" => clienttranslate("gain 3 wisdom."),
+        "favor" => clienttranslate("gain 3 points."),
     ],
     2 => [
         "animal" => "tiger",
         "label" => clienttranslate("White Tiger"),
         "guard" => clienttranslate("all stones horizontally and vertically in line with it, unless blocked by another mountain."),
-        "favor" => clienttranslate("gain 2 wisdom."),
+        "favor" => clienttranslate("gain 2 points."),
     ],
     3 => [
         "animal" => "bird",
