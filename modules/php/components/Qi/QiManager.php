@@ -32,7 +32,7 @@ class QiManager extends CardManager
     {
         $players = $this->game->loadPlayersBasicInfos();
 
-        $active_player_id = $this->game->getActivePlayerId();
+        $active_player_id = (int) $this->game->getActivePlayerId();
 
         foreach ($players as $player_id => $player) {
             $cardsNbr = $active_player_id === $player_id ? 2 : 3;

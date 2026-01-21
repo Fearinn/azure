@@ -12,6 +12,6 @@ class ActionManager extends Subclass
     public function __construct(Game $game, ?int $player_id = null)
     {
         parent::__construct($game);
-        $this->player_id = $player_id ? $player_id : $this->game->getActivePlayerId();
+        $this->player_id = $player_id ? $player_id : (int) $this->game->getActivePlayerId();
     }
 }
